@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useBooking } from '@/contexts/BookingContext';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { openModal } = useBooking();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 24);
@@ -61,10 +63,8 @@ export default function Navbar() {
 
           {/* CTA */}
           <div className="hidden md:block">
-            <a
-              href="https://nxtapexai.com/ai-clarity-session"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={openModal}
               className="inline-flex items-center px-5 py-2.5 rounded-lg text-white text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
               style={{
                 backgroundColor: '#C6A62C',
@@ -72,7 +72,7 @@ export default function Navbar() {
               }}
             >
               Book Assessment
-            </a>
+            </button>
           </div>
 
           {/* Mobile toggle */}
@@ -109,16 +109,13 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <a
-                href="https://nxtapexai.com/ai-clarity-session"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => { openModal(); setMobileOpen(false); }}
                 className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-white text-sm font-semibold mt-2"
                 style={{ backgroundColor: '#C6A62C' }}
-                onClick={() => setMobileOpen(false)}
               >
                 Book Assessment
-              </a>
+              </button>
             </div>
           </motion.div>
         )}

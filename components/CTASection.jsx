@@ -2,10 +2,12 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useBooking } from '@/contexts/BookingContext';
 
 export default function CTASection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const { openModal } = useBooking();
 
   return (
     <section ref={ref} className="py-28 bg-[#111111] relative overflow-hidden">
@@ -68,10 +70,8 @@ export default function CTASection() {
             to build, what to automate, and what to train your team on.
           </p>
 
-          <a
-            href="https://nxtapexai.com/ai-clarity-session"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={openModal}
             className="inline-flex items-center justify-center px-10 py-5 rounded-xl font-semibold text-lg text-white transition-all duration-300 hover:-translate-y-1"
             style={{
               backgroundColor: '#C6A62C',
@@ -79,7 +79,7 @@ export default function CTASection() {
             }}
           >
             Book Your Assessment →
-          </a>
+          </button>
 
           <p className="mt-8 text-sm text-gray-600">
             Or call us at{' '}

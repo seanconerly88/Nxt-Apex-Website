@@ -1,3 +1,4 @@
+import ClientLayout from '@/components/ClientLayout';
 import Navbar from '@/components/Navbar';
 import HeroGeometric from '@/components/HeroGeometric';
 import ProblemSection from '@/components/ProblemSection';
@@ -10,16 +11,18 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <main>
-      <Navbar />
-      <HeroGeometric />
-      <ProblemSection />
-      <ProcessSection />
-      <TrainingSection />
-      <AssessmentSection />
-      <TestimonialsSection />
-      <CTASection />
-      <Footer />
-    </main>
+    <ClientLayout>
+      <main>
+        <Navbar />
+        <HeroGeometric />
+        <ProblemSection />
+        <ProcessSection />
+        <TrainingSection />
+        <AssessmentSection />
+        <TestimonialsSection />
+        <CTASection />
+        <Footer />
+      </main>
+    </ClientLayout>
   );
 }

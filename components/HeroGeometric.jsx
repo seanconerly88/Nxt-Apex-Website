@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useBooking } from '@/contexts/BookingContext';
 
 function FloatingCapsule({ width, height, gradient, top, right, left, bottom, rotate, delay, opacity = 1, blur = '0px', glow }) {
   return (
@@ -44,6 +45,8 @@ const fadeUp = {
 };
 
 export default function HeroGeometric() {
+  const { openModal } = useBooking();
+
   return (
     <section className="relative min-h-screen bg-white overflow-hidden flex items-center pt-20">
       {/* Ambient radial warm tint */}
@@ -118,7 +121,7 @@ export default function HeroGeometric() {
             style={{ boxShadow: '0 0 8px rgba(198,166,44,0.9)' }}
           />
           <span className="text-[11px] font-bold text-gray-500 tracking-[0.14em] uppercase">
-            AI Readiness Assessment
+            Where AI Subscriptions Become Business Results
           </span>
         </motion.div>
 
@@ -165,10 +168,8 @@ export default function HeroGeometric() {
           custom={0.36}
           className="flex flex-col sm:flex-row gap-4 mb-24"
         >
-          <a
-            href="https://nxtapexai.com/ai-clarity-session"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={openModal}
             className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-lg text-white transition-all duration-300 hover:-translate-y-1"
             style={{
               backgroundColor: '#C6A62C',
@@ -176,7 +177,7 @@ export default function HeroGeometric() {
             }}
           >
             Start Your Assessment →
-          </a>
+          </button>
           <a
             href="#process"
             className="inline-flex items-center justify-center px-8 py-4 rounded-xl border border-gray-200 text-gray-700 font-semibold text-lg hover:border-[#C6A62C] hover:text-[#C6A62C] transition-all duration-300 bg-white/60 backdrop-blur-sm"

@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useBooking } from '@/contexts/BookingContext';
 
 const uncovered = [
   'Current tools and how your team actually uses them',
@@ -15,6 +16,7 @@ const uncovered = [
 export default function AssessmentSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const { openModal } = useBooking();
 
   return (
     <section ref={ref} id="assessment" className="py-28 bg-white">
@@ -44,10 +46,8 @@ export default function AssessmentSection() {
               The AI Readiness Assessment is a structured 60–90 minute discovery session.
               By the end, we have everything we need to build your custom AI Opportunity Report.
             </p>
-            <a
-              href="https://nxtapexai.com/ai-clarity-session"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={openModal}
               className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-semibold text-lg text-white transition-all duration-300 hover:-translate-y-1"
               style={{
                 backgroundColor: '#C6A62C',
@@ -55,7 +55,7 @@ export default function AssessmentSection() {
               }}
             >
               Book Your Assessment →
-            </a>
+            </button>
           </motion.div>
 
           {/* Right: checklist card */}
