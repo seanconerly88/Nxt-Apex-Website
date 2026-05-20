@@ -10,7 +10,7 @@ const inter = Inter({
 export const metadata = {
   title: 'Nxt Apex AI — Train Your Team. Multiply Output.',
   description:
-    'We assess your business, identify every AI opportunity, and train your team on Claude Cowork and OpenAI Teams — so AI actually gets used.',
+    'We assess your business, identify every AI opportunity, and train your team on Claude Cowork and OpenAI for Business — so AI actually gets used.',
   openGraph: {
     title: 'Nxt Apex AI',
     description: 'Find where AI fits in your business. Then put it to work.',

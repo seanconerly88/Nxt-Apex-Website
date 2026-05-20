@@ -153,7 +153,7 @@ export default function HeroGeometric() {
           team on{' '}
           <strong className="text-gray-800 font-semibold">Claude Cowork</strong>{' '}
           and{' '}
-          <strong className="text-gray-800 font-semibold">OpenAI Teams</strong>{' '}
+          <strong className="text-gray-800 font-semibold">OpenAI for Business</strong>{' '}
           — so AI actually gets used.
         </motion.p>
 
@@ -195,7 +195,7 @@ export default function HeroGeometric() {
           {[
             { value: '48 hrs', label: 'Report delivered' },
             { value: '100%', label: 'Custom to your business' },
-            { value: '2 tools', label: 'Claude Cowork + OpenAI Teams' },
+            { value: '2 tools', label: 'Claude Cowork + OpenAI for Business' },
           ].map((stat) => (
             <div key={stat.label}>
               <div className="text-3xl font-extrabold text-gray-900">{stat.value}</div>

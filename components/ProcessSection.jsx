@@ -45,7 +45,7 @@ const steps = [
     tag: 'Implementation',
     title: 'Train or Deploy',
     description:
-      'Take the report and implement it yourself — or bring us in. We\'ll train your team directly on Claude Cowork and OpenAI Teams, building the exact workflows from your report into your daily operations.',
+      'Take the report and implement it yourself — or bring us in. We\'ll train your team directly on Claude Cowork and OpenAI for Business, building the exact workflows from your report into your daily operations.',
     detail: 'Your choice',
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

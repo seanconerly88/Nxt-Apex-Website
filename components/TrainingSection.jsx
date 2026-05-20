@@ -21,7 +21,7 @@ const tools = [
     dotColor: '#C6A62C',
   },
   {
-    name: 'OpenAI Teams',
+    name: 'OpenAI for Business',
     by: 'by OpenAI',
     description:
       'ChatGPT with enterprise-grade privacy and team management. We configure it for your business and train every team member to get real output — not just experimentation.',
