@@ -80,14 +80,16 @@ export default function BookingModal() {
               </div>
 
               {/* GHL Calendar iframe */}
-              <div className="overflow-y-auto" style={{ maxHeight: 'calc(92vh - 80px)' }}>
+              <div
+                className="overflow-y-auto overscroll-contain"
+                style={{ maxHeight: 'calc(90vh - 82px)', WebkitOverflowScrolling: 'touch' }}
+              >
                 <iframe
                   src="https://api.leadconnectorhq.com/widget/booking/skLPTNg3PVxukFM8OQHW"
                   style={{
                     width: '100%',
-                    minHeight: '700px',
+                    height: '880px',
                     border: 'none',
-                    overflow: 'hidden',
                     display: 'block',
                   }}
                   scrolling="no"

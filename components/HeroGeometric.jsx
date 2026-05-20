@@ -121,14 +121,14 @@ export default function HeroGeometric() {
             style={{ boxShadow: '0 0 8px rgba(198,166,44,0.9)' }}
           />
           <span className="text-[11px] font-bold text-gray-500 tracking-[0.14em] uppercase">
-            Where AI Subscriptions Become Business Results
+            Your AI &amp; Automation Partner
           </span>
         </motion.div>
 
         {/* Headline */}
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0.12}>
           <h1 className="text-[clamp(52px,8vw,92px)] font-extrabold tracking-tight leading-[1.03] mb-8">
-            <span className="block text-gray-900">Train Your Team.</span>
+            <span className="block text-gray-900">You Bought the Tools.</span>
             <span
               className="block"
               style={{
@@ -139,7 +139,7 @@ export default function HeroGeometric() {
                 backgroundClip: 'text',
               }}
             >
-              Multiply Output.
+              We'll Make Them Work.
             </span>
           </h1>
         </motion.div>
