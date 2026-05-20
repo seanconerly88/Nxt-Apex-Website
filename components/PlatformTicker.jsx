@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-
+// slug: null = text-only (not available on SimpleIcons)
 const platforms = [
-  { name: 'GoHighLevel',      slug: 'gohighlevel' },
+  { name: 'GoHighLevel',      slug: null },
   { name: 'Zapier',           slug: 'zapier' },
   { name: 'Make',             slug: 'make' },
   { name: 'Slack',            slug: 'slack' },
@@ -13,7 +12,7 @@ const platforms = [
   { name: 'OpenAI',           slug: 'openai' },
   { name: 'Anthropic',        slug: 'anthropic' },
   { name: 'Canva',            slug: 'canva' },
-  { name: 'Instantly',        slug: 'instantly' },
+  { name: 'Instantly',        slug: null },
   { name: 'Zoom',             slug: 'zoom' },
   { name: 'Loom',             slug: 'loom' },
   { name: 'Outlook',          slug: 'microsoftoutlook' },
@@ -28,60 +27,67 @@ const platforms = [
   { name: 'Microsoft Teams',  slug: 'microsoftteams' },
 ];
 
-// Duplicate for seamless infinite loop
 const doubled = [...platforms, ...platforms];
 
 function PlatformItem({ platform }) {
-  const [imgFailed, setImgFailed] = useState(false);
-
   return (
-    <div className="flex items-center gap-2.5 flex-shrink-0 px-6">
-      {!imgFailed ? (
+    <div className="flex items-center gap-2.5 flex-shrink-0 px-7">
+      {platform.slug && (
         <img
-          src={`https://cdn.simpleicons.org/${platform.slug}/ffffff`}
-          alt={platform.name}
-          width={20}
-          height={20}
-          onError={() => setImgFailed(true)}
-          className="w-5 h-5 object-contain opacity-80"
+          src={`https://cdn.simpleicons.org/${platform.slug}/1a1a1a`}
+          alt=""
+          style={{
+            width: '18px',
+            height: '18px',
+            objectFit: 'contain',
+            opacity: 0.35,
+            display: 'inline-block',
+          }}
+          onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
-      ) : (
-        // Fallback dot if icon doesn't exist on SimpleIcons
-        <span className="w-2 h-2 rounded-full bg-[#C6A62C] flex-shrink-0" />
       )}
-      <span className="text-sm font-medium text-white/70 whitespace-nowrap">
+      <span
+        className="text-sm font-semibold whitespace-nowrap"
+        style={{ color: 'rgba(26,26,26,0.4)', letterSpacing: '0.01em' }}
+      >
         {platform.name}
       </span>
-      {/* Separator */}
-      <span className="ml-4 text-white/15 text-lg select-none">·</span>
+      <span style={{ color: 'rgba(198,166,44,0.4)', marginLeft: '12px', fontSize: '16px', lineHeight: 1 }}>
+        ·
+      </span>
     </div>
   );
 }
 
 export default function PlatformTicker() {
   return (
-    <section className="bg-[#111111] py-8 border-y border-white/5 overflow-hidden">
-      {/* Eyebrow label */}
-      <p className="text-center text-[10px] font-bold text-white/30 tracking-[0.2em] uppercase mb-6">
-        Platforms We Integrate With
+    <section style={{
+      backgroundColor: '#ffffff',
+      borderTop: '1px solid rgba(0,0,0,0.06)',
+      borderBottom: '1px solid rgba(0,0,0,0.06)',
+    }}>
+      {/* Label */}
+      <p
+        className="text-center pt-6 pb-4"
+        style={{ fontSize: '10px', fontWeight: 700, color: 'rgba(0,0,0,0.25)', letterSpacing: '0.18em', textTransform: 'uppercase' }}
+      >
+        Platforms We Work With
       </p>
 
-      {/* Ticker */}
+      {/* Scrolling track */}
       <div
-        className="relative w-full overflow-hidden"
+        className="relative w-full overflow-hidden pb-6"
         style={{
-          WebkitMaskImage:
-            'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
-          maskImage:
-            'linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%)',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%)',
         }}
       >
         <div
-          className="flex animate-scroll-ticker"
+          className="flex items-center animate-scroll-ticker"
           style={{ width: 'fit-content' }}
         >
           {doubled.map((platform, i) => (
-            <PlatformItem key={`${platform.slug}-${i}`} platform={platform} />
+            <PlatformItem key={`${platform.name}-${i}`} platform={platform} />
           ))}
         </div>
       </div>
