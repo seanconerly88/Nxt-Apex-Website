@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #ffffff;
+  color: #1a1a1a;
+  font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Gold gradient text utility */
+.gradient-text-gold {
+  background-image: linear-gradient(90deg, #C6A62C 0%, #e8c84a 45%, #a08020 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Testimonials scroll animation */
+@keyframes scroll-testimonials {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-testimonials {
+  animation: scroll-testimonials 44s linear infinite;
+}
+
+.animate-scroll-testimonials:hover {
+  animation-play-state: paused;
+}
