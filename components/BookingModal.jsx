@@ -64,7 +64,7 @@ export default function BookingModal() {
                       Book Your Assessment
                     </h2>
                     <p className="text-xs text-gray-500 mt-1">
-                      Pick a time — we'll take it from there.
+                      Pick a time. We'll take it from there.
                     </p>
                   </div>
                 </div>

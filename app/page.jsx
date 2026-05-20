@@ -1,6 +1,7 @@
 import ClientLayout from '@/components/ClientLayout';
 import Navbar from '@/components/Navbar';
 import HeroGeometric from '@/components/HeroGeometric';
+import PlatformTicker from '@/components/PlatformTicker';
 import ProblemSection from '@/components/ProblemSection';
 import ProcessSection from '@/components/ProcessSection';
 import TrainingSection from '@/components/TrainingSection';
@@ -15,6 +16,7 @@ export default function Home() {
       <main>
         <Navbar />
         <HeroGeometric />
+        <PlatformTicker />
         <ProblemSection />
         <ProcessSection />
         <TrainingSection />

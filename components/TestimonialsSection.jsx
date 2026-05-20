@@ -6,7 +6,7 @@ import { motion, useInView } from 'framer-motion';
 const testimonials = [
   {
     quote:
-      'The assessment alone was worth it. We found 6 workflows we could automate — we had no idea where to start before this.',
+      'The assessment alone was worth it. We found 6 workflows we could automate. We had no idea where to start before this.',
     name: 'M. R.',
     title: 'CEO, 35-person agency',
   },
@@ -31,7 +31,7 @@ const testimonials = [
   // Duplicates for seamless infinite loop
   {
     quote:
-      'The assessment alone was worth it. We found 6 workflows we could automate — we had no idea where to start before this.',
+      'The assessment alone was worth it. We found 6 workflows we could automate. We had no idea where to start before this.',
     name: 'M. R.',
     title: 'CEO, 35-person agency',
   },

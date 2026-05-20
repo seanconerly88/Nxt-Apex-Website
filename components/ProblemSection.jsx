@@ -8,7 +8,7 @@ const problems = [
     icon: '💸',
     title: 'Subscribed but Underutilized',
     description:
-      "You're paying for Claude, ChatGPT, Copilot — but your team treats them like search engines. The ROI isn't there because the strategy isn't there.",
+      "You're paying for Claude, ChatGPT, Copilot, but your team treats them like search engines. The ROI isn't there because the strategy isn't there.",
   },
   {
     icon: '🧭',

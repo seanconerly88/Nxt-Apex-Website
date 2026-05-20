@@ -27,7 +27,7 @@ const steps = [
     tag: 'Deliverable',
     title: 'AI Opportunity Report',
     description:
-      'Within 48 hours you receive a custom report detailing exactly where and how AI can be implemented in your business. Every recommendation is tied to real workflows, real tools, and real ROI — not generic advice.',
+      'Within 48 hours you receive a custom report detailing exactly where and how AI can be implemented in your business. Every recommendation is tied to real workflows, real tools, and real ROI. Not generic advice.',
     detail: 'Delivered within 48 hours',
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +45,7 @@ const steps = [
     tag: 'Implementation',
     title: 'Train or Deploy',
     description:
-      'Take the report and implement it yourself — or bring us in. We\'ll train your team directly on Claude Cowork and OpenAI for Business, building the exact workflows from your report into your daily operations.',
+      'Take the report and implement it yourself, or bring us in. We\'ll train your team directly on Claude Cowork and OpenAI for Business, building the exact workflows from your report into your daily operations.',
     detail: 'Your choice',
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

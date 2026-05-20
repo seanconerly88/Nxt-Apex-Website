@@ -43,3 +43,17 @@ body {
 .animate-scroll-testimonials:hover {
   animation-play-state: paused;
 }
+
+/* Platform ticker animation */
+@keyframes scroll-ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-ticker {
+  animation: scroll-ticker 55s linear infinite;
+}
+
+.animate-scroll-ticker:hover {
+  animation-play-state: paused;
+}

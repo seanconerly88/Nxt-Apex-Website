@@ -8,7 +8,7 @@ const tools = [
     name: 'Claude Cowork',
     by: 'by Anthropic',
     description:
-      'The most capable AI for business workflows. We train your team to use Claude Cowork for writing, analysis, research, document creation, and automating repetitive tasks — directly in their desktop environment.',
+      'The most capable AI for business workflows. We train your team to use Claude Cowork for writing, analysis, research, document creation, and automating repetitive tasks, directly in their desktop environment.',
     capabilities: [
       'Document & report creation',
       'Workflow automation',
@@ -24,7 +24,7 @@ const tools = [
     name: 'OpenAI for Business',
     by: 'by OpenAI',
     description:
-      'ChatGPT with enterprise-grade privacy and team management. We configure it for your business and train every team member to get real output — not just experimentation.',
+      'ChatGPT with enterprise-grade privacy and team management. We configure it for your business and train every team member to get real output, not just experimentation.',
     capabilities: [
       'Custom GPTs for your workflows',
       'Data analysis & synthesis',
