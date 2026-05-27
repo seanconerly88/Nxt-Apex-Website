@@ -12,7 +12,7 @@ export const metadata = {
   description:
     'We assess your business, identify every AI opportunity, and train your team on Claude Cowork and OpenAI for Business — so AI actually gets used.',
   openGraph: {
-    title: 'Nxt Apex AI',
+    title: 'Stop learning AI. Start solving with it.',
     description: 'Find where AI fits in your business. Then put it to work.',
     siteName: 'Nxt Apex AI',
     images: [
