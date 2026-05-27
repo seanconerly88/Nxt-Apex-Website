@@ -15,6 +15,14 @@ export const metadata = {
     title: 'Nxt Apex AI',
     description: 'Find where AI fits in your business. Then put it to work.',
     siteName: 'Nxt Apex AI',
+    images: [
+      {
+        url: '/og-logo.png',
+        width: 500,
+        height: 500,
+        alt: 'Nxt Apex AI',
+      },
+    ],
   },
 };
 
