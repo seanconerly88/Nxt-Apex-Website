@@ -48,7 +48,20 @@ const SCATTER = [
   { x:  145, y:  118, rot: -3,  fy: 13, fd: 4.4, fd2: 0.4 },
 ];
 
-const BIZ_TYPES   = ['Agency', 'SaaS', 'Professional Services', 'E-commerce', 'Healthcare', 'Other'];
+const BIZ_TYPES   = [
+  'Agency',
+  'SaaS',
+  'Professional Services',
+  'Consulting',
+  'E-commerce',
+  'Healthcare',
+  'Real Estate',
+  'Financial Services',
+  'Legal',
+  'Recruiting / Staffing',
+  'Construction / Contracting',
+  'Other',
+];
 const AI_OPTIONS  = [
   { id: 'chatgpt', label: 'ChatGPT (OpenAI)'  },
   { id: 'claude',  label: 'Claude (Anthropic)' },

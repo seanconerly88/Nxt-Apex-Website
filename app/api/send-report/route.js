@@ -108,8 +108,8 @@ async function upsertContact(pitKey, locationId, email, solutions, bizType, aiTo
   ].filter(f => f.id);
 
   const tags = [
-    'website-lead',
-    'ai-readiness-report',
+    'Website Lead',
+    'AI Readiness Report',
     aiTool ?? 'no-ai-tool',
     ...(Array.isArray(selectedTools) ? selectedTools : []),
   ].filter(Boolean);
