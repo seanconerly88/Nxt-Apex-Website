@@ -69,11 +69,19 @@ const AI_OPTIONS  = [
   { id: 'neither', label: 'Not yet'            },
 ];
 const PAIN_POINTS = [
-  'Sales follow-up',
-  'Reporting & dashboards',
-  'Client onboarding',
-  'Operations',
-  'Hiring & HR',
+  'Lead Follow Up',
+  'Sales Report Generation',
+  'Client Onboarding',
+  'Proposal & Contract Writing',
+  'Meeting Notes & Action Items',
+  'Monthly Finance Reports',
+  'Job Posting & Candidate Screening',
+  'Customer Support Responses',
+  'Invoice & Payment Follow Up',
+  'Project Status Updates',
+  'Social Media & Content Creation',
+  'Employee Onboarding',
+  'Other',
 ];
 
 const STEP_LABELS = ['Stack', 'Business', 'AI Tool', 'Focus'];
@@ -81,35 +89,77 @@ const STEP_LABELS = ['Stack', 'Business', 'AI Tool', 'Focus'];
 // ── Output Logic ─────────────────────────────────────────────────────────────
 
 const PAIN_MAP = {
-  'Sales follow-up': {
-    prefer: ['gmail', 'slack', 'hubspot', 'salesforce', 'ghl', 'pipedrive', 'calendly'],
-    title:  (ai, t) => `Every prospect gets a follow-up. Without anyone writing it.`,
-    body:   (ai, t) => `Right now, follow-ups happen when someone remembers to do them. Connect ${ai} to ${t} and every conversation gets a next step drafted and sent before your rep moves to the next call. No leads fall through. No deals go cold because someone forgot.`,
-    tags:   (ai)    => [ai, 'Sales velocity', 'Zero drop-off'],
+  'Lead Follow Up': {
+    prefer: ['hubspot', 'salesforce', 'ghl', 'pipedrive', 'gmail', 'calendly', 'slack'],
+    title:  (ai, t) => `Every lead gets a follow up. Without anyone remembering to do it.`,
+    body:   (ai, t) => `Right now someone on your team decides who gets a follow up and when. That means leads slip based on how busy people are. ${ai} connects to ${t} and sends the right message at the right time after every conversation. Your team focuses on calls that matter. Nothing goes cold.`,
+    tags:   (ai)    => [ai, 'Lead nurture', 'Zero drop-off'],
   },
-  'Reporting & dashboards': {
-    prefer: ['airtable', 'drive', 'notion', 'monday', 'asana', 'clickup'],
-    title:  (ai, t) => `Leadership stops waiting on someone to pull the numbers.`,
-    body:   (ai, t) => `Right now, someone spends hours every week pulling numbers together and building the same report. ${ai} connects to ${t} and does it for them. The report gets built, formatted, and sent on schedule. That person gets their time back.`,
-    tags:   (ai)    => [ai, 'Operational clarity', 'Auto-reporting'],
+  'Sales Report Generation': {
+    prefer: ['hubspot', 'salesforce', 'ghl', 'pipedrive', 'airtable', 'drive', 'notion'],
+    title:  (ai, t) => `Your sales report builds itself. Every single week.`,
+    body:   (ai, t) => `Someone on your team spends hours every week pulling numbers from ${t} and formatting the same report. ${ai} does that in minutes. It pulls the data, writes the summary, and sends it to whoever needs it on schedule. That person gets their Monday morning back.`,
+    tags:   (ai)    => [ai, 'Auto-reporting', 'Time saved'],
   },
-  'Client onboarding': {
+  'Client Onboarding': {
     prefer: ['notion', 'asana', 'monday', 'clickup', 'airtable', 'hubspot', 'salesforce', 'ghl'],
     title:  (ai, t) => `Every client gets your best onboarding. Every time.`,
-    body:   (ai, t) => `Your best client experiences happen because the right person ran the process. ${ai} connects to ${t} and makes that happen every time. Kickoff prep, intro materials, check-ins at the right moments. Every new client gets your best without extra work from your team.`,
-    tags:   (ai)    => [ai, 'Client retention', 'Consistency at scale'],
+    body:   (ai, t) => `Your best onboarding experiences happen when the right person runs the process with enough time to do it well. That is not always possible. ${ai} connects to ${t} and handles the kickoff prep, intro materials, and check-in messages automatically. Every new client gets the same great start without extra work from your team.`,
+    tags:   (ai)    => [ai, 'Client retention', 'Consistent experience'],
   },
-  'Operations': {
-    prefer: ['zapier', 'clickup', 'airtable', 'monday', 'asana', 'notion', 'slack'],
-    title:  (ai, t) => `The work between your tools stops falling through the cracks.`,
-    body:   (ai, t) => `Things fall through the cracks when work moves between people and tools. ${ai} connects to ${t} and spots those gaps before they become problems. The right task goes to the right person. Nothing sits ignored. Your team spends less time chasing updates and more time doing real work.`,
-    tags:   (ai)    => [ai, 'Operational integrity', 'Handoff automation'],
+  'Proposal & Contract Writing': {
+    prefer: ['notion', 'drive', 'hubspot', 'salesforce', 'ghl', 'gmail'],
+    title:  (ai, t) => `Proposals go out the same day. Not three days later.`,
+    body:   (ai, t) => `Right now writing a proposal takes hours. Someone has to pull the scope, find the right template, write the copy, and format it before it goes out. ${ai} connects to ${t} and builds a first draft in minutes using what you already know about the client. Your team reviews and sends. The client hears from you fast.`,
+    tags:   (ai)    => [ai, 'Faster close', 'Proposal speed'],
   },
-  'Hiring & HR': {
+  'Meeting Notes & Action Items': {
+    prefer: ['zoom', 'teams', 'slack', 'notion', 'asana', 'clickup', 'monday'],
+    title:  (ai, t) => `Every meeting ends with a clear list of what happens next.`,
+    body:   (ai, t) => `Right now someone has to take notes during the meeting, write them up after, and hope the action items get assigned. Half the time they do not. ${ai} connects to ${t} and turns every meeting into a summary with clear next steps assigned to the right people. Nothing gets lost. No one has to ask what was decided.`,
+    tags:   (ai)    => [ai, 'Meeting clarity', 'Action tracking'],
+  },
+  'Monthly Finance Reports': {
+    prefer: ['quickbooks', 'airtable', 'drive', 'notion', 'monday'],
+    title:  (ai, t) => `Your monthly numbers are ready before anyone asks for them.`,
+    body:   (ai, t) => `Every month someone pulls the same numbers from ${t}, formats them the same way, and sends the same report. It takes hours. ${ai} automates the whole thing. The data gets pulled, the report gets written, and it lands in the right inbox on the same day every month without anyone touching it.`,
+    tags:   (ai)    => [ai, 'Finance automation', 'Time saved'],
+  },
+  'Job Posting & Candidate Screening': {
     prefer: ['loom', 'slack', 'teams', 'gmail', 'notion', 'calendly'],
-    title:  (ai, t) => `Your best candidates stop waiting three weeks for a response.`,
-    body:   (ai, t) => `The best candidates are talking to three other companies right now. ${ai} connects to ${t} and keeps your hiring process moving fast. Messages go out the same day. Candidates stay warm. You become the company that actually responds and you hire the people you want before someone else does.`,
-    tags:   (ai)    => [ai, 'Talent acquisition', 'Speed to hire'],
+    title:  (ai, t) => `Your best candidates hear from you before they accept another offer.`,
+    body:   (ai, t) => `The best people you interview are talking to other companies at the same time. Slow responses cost you hires. ${ai} connects to ${t} and keeps your hiring process moving. Job posts go up fast. Candidates get responses the same day. Your team only spends time on people worth a real conversation.`,
+    tags:   (ai)    => [ai, 'Speed to hire', 'Talent pipeline'],
+  },
+  'Customer Support Responses': {
+    prefer: ['gmail', 'slack', 'teams', 'hubspot', 'ghl', 'zoom'],
+    title:  (ai, t) => `Common questions get answered instantly. Your team handles the hard stuff.`,
+    body:   (ai, t) => `Right now your team answers the same questions over and over. Every answer takes time away from work that actually needs their skill. ${ai} connects to ${t} and handles the questions your customers ask most. Your team gets fewer interruptions. Customers get faster answers. Nothing falls through the cracks.`,
+    tags:   (ai)    => [ai, 'Support speed', 'Team focus'],
+  },
+  'Invoice & Payment Follow Up': {
+    prefer: ['quickbooks', 'gmail', 'hubspot', 'ghl', 'pipedrive', 'slack'],
+    title:  (ai, t) => `Outstanding invoices get followed up on. Without the awkward calls.`,
+    body:   (ai, t) => `Chasing payments is uncomfortable and time consuming. Most businesses let invoices sit too long because no one wants to make that call. ${ai} connects to ${t} and sends the right message at the right time after an invoice goes unpaid. Professional. Automatic. Your cash flow improves without anyone making an awkward phone call.`,
+    tags:   (ai)    => [ai, 'Cash flow', 'Payment speed'],
+  },
+  'Project Status Updates': {
+    prefer: ['asana', 'monday', 'clickup', 'airtable', 'notion', 'slack'],
+    title:  (ai, t) => `Clients always know where their project stands. Without anyone writing an update.`,
+    body:   (ai, t) => `Right now someone has to check ${t}, pull the latest status, and write an update for the client. It happens late or not at all when things get busy. ${ai} connects to ${t} and sends a clear project update on a schedule. Clients feel informed. Your team does not spend time writing status emails.`,
+    tags:   (ai)    => [ai, 'Client communication', 'Project visibility'],
+  },
+  'Social Media & Content Creation': {
+    prefer: ['notion', 'drive', 'loom', 'slack', 'monday', 'airtable'],
+    title:  (ai, t) => `Your team shows up online consistently. Without spending hours on it.`,
+    body:   (ai, t) => `Consistent content takes time that most teams do not have. Posts get skipped. The content calendar falls behind. ${ai} connects to ${t} and turns your ideas, calls, and updates into ready to post content. Your brand stays active without anyone staring at a blank screen trying to think of something to say.`,
+    tags:   (ai)    => [ai, 'Content consistency', 'Brand presence'],
+  },
+  'Employee Onboarding': {
+    prefer: ['notion', 'loom', 'slack', 'teams', 'asana', 'clickup', 'monday'],
+    title:  (ai, t) => `New hires are productive in week one. Not week six.`,
+    body:   (ai, t) => `Most employee onboarding is inconsistent. What new hires learn depends on who has time to train them that week. ${ai} connects to ${t} and makes sure every new person gets the same materials, the same check-ins, and the same support at the right moments. Your best people spend less time training and more time doing their actual jobs.`,
+    tags:   (ai)    => [ai, 'New hire speed', 'Team consistency'],
   },
 };
 
@@ -317,11 +367,14 @@ export default function HeroScan() {
   const [painPoint, setPainPoint]   = useState(null);
   const [solutions, setSolutions]   = useState([]);
   const [email, setEmail]           = useState('');
-  const [sending, setSending]       = useState(false);
-  const [sent, setSent]             = useState(false);
-  const [sendError, setSendError]   = useState(false);
+  const [sending, setSending]         = useState(false);
+  const [sent, setSent]               = useState(false);
+  const [sendError, setSendError]     = useState(false);
+  const [painCustom, setPainCustom]   = useState('');
+  const [showPainOther, setShowPainOther] = useState(false);
 
-  const otherInputRef = useRef(null);
+  const otherInputRef   = useRef(null);
+  const painOtherRef    = useRef(null);
 
   // Auto-play left animation
   useEffect(() => {
@@ -331,10 +384,14 @@ export default function HeroScan() {
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, []);
 
-  // Focus other input when shown
+  // Focus other inputs when shown
   useEffect(() => {
     if (showOther) otherInputRef.current?.focus();
   }, [showOther]);
+
+  useEffect(() => {
+    if (showPainOther) painOtherRef.current?.focus();
+  }, [showPainOther]);
 
   const advance = (nextStep) => {
     setDirection(1);
@@ -364,12 +421,27 @@ export default function HeroScan() {
   };
 
   const selectPain = (pp) => {
+    if (pp === 'Other') { setShowPainOther(true); return; }
     setPainPoint(pp);
     setTimeout(() => {
-      advance(4); // scanning
+      advance(4);
       setTimeout(() => {
         setSolutions(buildSolutions(selectedTools, aiTool, pp));
-        advance(5); // results
+        advance(5);
+      }, 2400);
+    }, 300);
+  };
+
+  const submitPainOther = () => {
+    const val = painCustom.trim();
+    if (!val) return;
+    setPainPoint(val);
+    setShowPainOther(false);
+    setTimeout(() => {
+      advance(4);
+      setTimeout(() => {
+        setSolutions(buildSolutions(selectedTools, aiTool, val));
+        advance(5);
       }, 2400);
     }, 300);
   };
@@ -869,14 +941,14 @@ export default function HeroScan() {
                           </>
                         )}
 
-                        {/* ── Step 3: Pain Point ── */}
+                        {/* ── Step 3: Focus Activity ── */}
                         {step === 3 && (
                           <>
                             <div className="flex items-start gap-2.5">
                               <BotAvatar />
                               <div className="rounded-xl rounded-tl-sm px-4 py-3" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
                                 <p className="text-white/80 text-sm leading-relaxed">
-                                  Which function has your highest-skilled people spending time on work that doesn't require their expertise?
+                                  What's your team spending the most hours on manually each week?
                                 </p>
                               </div>
                             </div>
@@ -885,11 +957,40 @@ export default function HeroScan() {
                                 <Chip
                                   key={pp}
                                   label={pp}
-                                  selected={painPoint === pp}
+                                  selected={painPoint === pp || (pp === 'Other' && showPainOther)}
                                   onClick={() => selectPain(pp)}
                                 />
                               ))}
                             </div>
+                            <AnimatePresence>
+                              {showPainOther && (
+                                <motion.div
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: 'auto' }}
+                                  exit={{ opacity: 0, height: 0 }}
+                                  className="flex gap-2 overflow-hidden"
+                                >
+                                  <input
+                                    ref={painOtherRef}
+                                    type="text"
+                                    value={painCustom}
+                                    onChange={e => setPainCustom(e.target.value)}
+                                    onKeyDown={e => e.key === 'Enter' && submitPainOther()}
+                                    placeholder="Describe the activity..."
+                                    className="flex-1 px-3 py-2 rounded-lg text-sm text-white/80 outline-none border transition-colors"
+                                    style={{ backgroundColor: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.12)' }}
+                                  />
+                                  <button
+                                    onClick={submitPainOther}
+                                    disabled={!painCustom.trim()}
+                                    className="px-4 py-2 rounded-lg text-sm font-semibold text-black disabled:opacity-30"
+                                    style={{ backgroundColor: '#C6A62C' }}
+                                  >
+                                    Go →
+                                  </button>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
                           </>
                         )}
 
