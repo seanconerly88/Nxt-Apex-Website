@@ -155,9 +155,9 @@ export default function HeroGeometric() {
           We assess your business, identify every AI opportunity, and train your
           team on{' '}
           <strong className="text-gray-800 font-semibold">Claude</strong>{' '}
-          or{' '}
+          and{' '}
           <strong className="text-gray-800 font-semibold">OpenAI for Business</strong>{' '}
-          so AI actually accelerates your growth.
+          — so everyone stops managing tools and starts driving revenue.
         </motion.p>
 
         {/* CTAs */}

@@ -8,7 +8,7 @@ const tools = [
     name: 'Claude Cowork',
     by: 'by Anthropic',
     description:
-      'The most capable AI for business workflows. We train your team to use Claude Cowork for writing, analysis, research, document creation, and automating repetitive tasks, directly in their desktop environment.',
+      'The most capable AI for business workflows. We train your team to use Claude Cowork for writing, analysis, research, and document creation — freeing them from the repetitive work that was holding them back.',
     capabilities: [
       'Document & report creation',
       'Workflow automation',

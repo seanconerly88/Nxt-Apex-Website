@@ -31,12 +31,17 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-lg bg-[#C6A62C] flex items-center justify-center shadow-sm">
-              <div className="w-3 h-3 bg-white rounded-full" />
-            </div>
-            <span className="text-xl font-extrabold tracking-tight text-gray-900 group-hover:text-[#C6A62C] transition-colors duration-200">
+          {/* Logo — Trans Light on dark hero, Trans Dark on white nav */}
+          <a href="/" className="flex items-center gap-2.5">
+            <img
+              src={scrolled ? '/logo-trans-dark.png' : '/logo-trans-light.png'}
+              alt="NXT APEX AI"
+              className="h-10 w-auto transition-all duration-300"
+            />
+            <span
+              className="text-xl font-extrabold tracking-tight transition-colors duration-300"
+              style={{ color: scrolled ? '#111111' : '#ffffff' }}
+            >
               Nxt Apex
             </span>
           </a>

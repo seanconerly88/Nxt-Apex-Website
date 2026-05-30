@@ -10,11 +10,9 @@ export default function Footer() {
     <footer className="bg-[#111111] border-t border-white/5 py-12">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo */}
+          {/* Logo — Trans Light (dark footer background) */}
           <a href="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-[#C6A62C] flex items-center justify-center">
-              <div className="w-2.5 h-2.5 bg-white rounded-full" />
-            </div>
+            <img src="/logo-trans-light.png" alt="NXT APEX AI" className="h-9 w-auto" />
             <span className="text-lg font-extrabold tracking-tight text-white">Nxt Apex</span>
           </a>
 

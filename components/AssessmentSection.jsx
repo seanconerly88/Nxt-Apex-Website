@@ -7,7 +7,7 @@ import { useBooking } from '@/contexts/BookingContext';
 const uncovered = [
   'Current tools and how your team actually uses them',
   'Workflows that are ripe for AI automation',
-  'Where time is wasted on repetitive, low-value tasks',
+  'Where your best people are spending time on work AI should own',
   'Team readiness and technical capability',
   'Priority AI implementations with estimated ROI',
   'A clear 90-day implementation roadmap',

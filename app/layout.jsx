@@ -8,9 +8,9 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: 'Nxt Apex AI — Train Your Team. Multiply Output.',
+  title: 'Nxt Apex AI — Equip Your Team. Drive Revenue.',
   description:
-    'We assess your business, identify every AI opportunity, and train your team on Claude Cowork and OpenAI for Business — so AI actually gets used.',
+    'We assess your business, identify every AI opportunity, and train your team on Claude Cowork and OpenAI for Business — so everyone stops managing tools and starts driving revenue.',
   openGraph: {
     title: 'Stop learning AI. Start solving with it.',
     description: 'Find where AI fits in your business. Then put it to work.',
