@@ -92,7 +92,7 @@ const PAIN_MAP = {
   'Lead Follow Up': {
     prefer: ['hubspot', 'salesforce', 'ghl', 'pipedrive', 'gmail', 'calendly', 'slack'],
     title:  (ai, t) => `Every lead gets a follow up. Without anyone remembering to do it.`,
-    body:   (ai, t) => `Right now someone on your team decides who gets a follow up and when. That means leads slip based on how busy people are. ${ai} connects to ${t} and sends the right message at the right time after every conversation. Your team focuses on calls that matter. Nothing goes cold.`,
+    body:   (ai, t) => `Right now someone on your team decides who gets a follow up and when. That means leads slip based on how busy people are. Connect your ${ai} to${t} and sends the right message at the right time after every conversation. Your team focuses on calls that matter. Nothing goes cold.`,
     tags:   (ai)    => [ai, 'Lead nurture', 'Zero drop-off'],
   },
   'Sales Report Generation': {
@@ -104,19 +104,19 @@ const PAIN_MAP = {
   'Client Onboarding': {
     prefer: ['notion', 'asana', 'monday', 'clickup', 'airtable', 'hubspot', 'salesforce', 'ghl'],
     title:  (ai, t) => `Every client gets your best onboarding. Every time.`,
-    body:   (ai, t) => `Your best onboarding experiences happen when the right person runs the process with enough time to do it well. That is not always possible. ${ai} connects to ${t} and handles the kickoff prep, intro materials, and check-in messages automatically. Every new client gets the same great start without extra work from your team.`,
+    body:   (ai, t) => `Your best onboarding experiences happen when the right person runs the process with enough time to do it well. That is not always possible. Connect your ${ai} to${t} and handles the kickoff prep, intro materials, and check-in messages automatically. Every new client gets the same great start without extra work from your team.`,
     tags:   (ai)    => [ai, 'Client retention', 'Consistent experience'],
   },
   'Proposal & Contract Writing': {
     prefer: ['notion', 'drive', 'hubspot', 'salesforce', 'ghl', 'gmail'],
     title:  (ai, t) => `Proposals go out the same day. Not three days later.`,
-    body:   (ai, t) => `Right now writing a proposal takes hours. Someone has to pull the scope, find the right template, write the copy, and format it before it goes out. ${ai} connects to ${t} and builds a first draft in minutes using what you already know about the client. Your team reviews and sends. The client hears from you fast.`,
+    body:   (ai, t) => `Right now writing a proposal takes hours. Someone has to pull the scope, find the right template, write the copy, and format it before it goes out. Connect your ${ai} to${t} and builds a first draft in minutes using what you already know about the client. Your team reviews and sends. The client hears from you fast.`,
     tags:   (ai)    => [ai, 'Faster close', 'Proposal speed'],
   },
   'Meeting Notes & Action Items': {
     prefer: ['zoom', 'teams', 'slack', 'notion', 'asana', 'clickup', 'monday'],
     title:  (ai, t) => `Every meeting ends with a clear list of what happens next.`,
-    body:   (ai, t) => `Right now someone has to take notes during the meeting, write them up after, and hope the action items get assigned. Half the time they do not. ${ai} connects to ${t} and turns every meeting into a summary with clear next steps assigned to the right people. Nothing gets lost. No one has to ask what was decided.`,
+    body:   (ai, t) => `Right now someone has to take notes during the meeting, write them up after, and hope the action items get assigned. Half the time they do not. Connect your ${ai} to${t} and turns every meeting into a summary with clear next steps assigned to the right people. Nothing gets lost. No one has to ask what was decided.`,
     tags:   (ai)    => [ai, 'Meeting clarity', 'Action tracking'],
   },
   'Monthly Finance Reports': {
@@ -128,37 +128,37 @@ const PAIN_MAP = {
   'Job Posting & Candidate Screening': {
     prefer: ['loom', 'slack', 'teams', 'gmail', 'notion', 'calendly'],
     title:  (ai, t) => `Your best candidates hear from you before they accept another offer.`,
-    body:   (ai, t) => `The best people you interview are talking to other companies at the same time. Slow responses cost you hires. ${ai} connects to ${t} and keeps your hiring process moving. Job posts go up fast. Candidates get responses the same day. Your team only spends time on people worth a real conversation.`,
+    body:   (ai, t) => `The best people you interview are talking to other companies at the same time. Slow responses cost you hires. Connect your ${ai} to${t} and keeps your hiring process moving. Job posts go up fast. Candidates get responses the same day. Your team only spends time on people worth a real conversation.`,
     tags:   (ai)    => [ai, 'Speed to hire', 'Talent pipeline'],
   },
   'Customer Support Responses': {
     prefer: ['gmail', 'slack', 'teams', 'hubspot', 'ghl', 'zoom'],
     title:  (ai, t) => `Common questions get answered instantly. Your team handles the hard stuff.`,
-    body:   (ai, t) => `Right now your team answers the same questions over and over. Every answer takes time away from work that actually needs their skill. ${ai} connects to ${t} and handles the questions your customers ask most. Your team gets fewer interruptions. Customers get faster answers. Nothing falls through the cracks.`,
+    body:   (ai, t) => `Right now your team answers the same questions over and over. Every answer takes time away from work that actually needs their skill. Connect your ${ai} to${t} and handles the questions your customers ask most. Your team gets fewer interruptions. Customers get faster answers. Nothing falls through the cracks.`,
     tags:   (ai)    => [ai, 'Support speed', 'Team focus'],
   },
   'Invoice & Payment Follow Up': {
     prefer: ['quickbooks', 'gmail', 'hubspot', 'ghl', 'pipedrive', 'slack'],
     title:  (ai, t) => `Outstanding invoices get followed up on. Without the awkward calls.`,
-    body:   (ai, t) => `Chasing payments is uncomfortable and time consuming. Most businesses let invoices sit too long because no one wants to make that call. ${ai} connects to ${t} and sends the right message at the right time after an invoice goes unpaid. Professional. Automatic. Your cash flow improves without anyone making an awkward phone call.`,
+    body:   (ai, t) => `Chasing payments is uncomfortable and time consuming. Most businesses let invoices sit too long because no one wants to make that call. Connect your ${ai} to${t} and sends the right message at the right time after an invoice goes unpaid. Professional. Automatic. Your cash flow improves without anyone making an awkward phone call.`,
     tags:   (ai)    => [ai, 'Cash flow', 'Payment speed'],
   },
   'Project Status Updates': {
     prefer: ['asana', 'monday', 'clickup', 'airtable', 'notion', 'slack'],
     title:  (ai, t) => `Clients always know where their project stands. Without anyone writing an update.`,
-    body:   (ai, t) => `Right now someone has to check ${t}, pull the latest status, and write an update for the client. It happens late or not at all when things get busy. ${ai} connects to ${t} and sends a clear project update on a schedule. Clients feel informed. Your team does not spend time writing status emails.`,
+    body:   (ai, t) => `Right now someone has to check ${t}, pull the latest status, and write an update for the client. It happens late or not at all when things get busy. Connect your ${ai} to${t} and sends a clear project update on a schedule. Clients feel informed. Your team does not spend time writing status emails.`,
     tags:   (ai)    => [ai, 'Client communication', 'Project visibility'],
   },
   'Social Media & Content Creation': {
     prefer: ['notion', 'drive', 'loom', 'slack', 'monday', 'airtable'],
     title:  (ai, t) => `Your team shows up online consistently. Without spending hours on it.`,
-    body:   (ai, t) => `Consistent content takes time that most teams do not have. Posts get skipped. The content calendar falls behind. ${ai} connects to ${t} and turns your ideas, calls, and updates into ready to post content. Your brand stays active without anyone staring at a blank screen trying to think of something to say.`,
+    body:   (ai, t) => `Consistent content takes time that most teams do not have. Posts get skipped. The content calendar falls behind. Connect your ${ai} to${t} and turns your ideas, calls, and updates into ready to post content. Your brand stays active without anyone staring at a blank screen trying to think of something to say.`,
     tags:   (ai)    => [ai, 'Content consistency', 'Brand presence'],
   },
   'Employee Onboarding': {
     prefer: ['notion', 'loom', 'slack', 'teams', 'asana', 'clickup', 'monday'],
     title:  (ai, t) => `New hires are productive in week one. Not week six.`,
-    body:   (ai, t) => `Most employee onboarding is inconsistent. What new hires learn depends on who has time to train them that week. ${ai} connects to ${t} and makes sure every new person gets the same materials, the same check-ins, and the same support at the right moments. Your best people spend less time training and more time doing their actual jobs.`,
+    body:   (ai, t) => `Most employee onboarding is inconsistent. What new hires learn depends on who has time to train them that week. Connect your ${ai} to${t} and makes sure every new person gets the same materials, the same check-ins, and the same support at the right moments. Your best people spend less time training and more time doing their actual jobs.`,
     tags:   (ai)    => [ai, 'New hire speed', 'Team consistency'],
   },
 };
@@ -184,7 +184,7 @@ function buildSolutions(tools, aiToolId, painPoint) {
     solutions.push({
       title:      `Your reps close deals. ${aiName} handles the rest.`,
       connection: `${aiName} × ${crmName}`,
-      body:       `Right now someone on your team is manually logging calls and updating contact records. That stops. ${aiName} connects to ${crmName} and every conversation gets logged automatically. Your reps stay focused on selling. Your CRM stays accurate without anyone babysitting it.`,
+      body:       `Right now someone on your team is manually logging calls and updating contact records. That stops. Connect your ${aiName} to ${crmName} and every conversation gets logged automatically. Your reps stay focused on selling. Your CRM stays accurate without anyone babysitting it.`,
       tags:       [aiName, crmName, 'Pipeline accuracy'],
     });
   }
@@ -449,23 +449,17 @@ export default function HeroScan() {
   const handleSendReport = async () => {
     if (!email || sending || sent) return;
     setSending(true);
-    setSendError(false);
-    try {
-      const [res] = await Promise.all([
-        fetch('/api/send-report', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, solutions, bizType, aiTool, selectedTools, painPoint }),
-        }),
-        new Promise(r => setTimeout(r, 2000)),
-      ]);
-      if (!res.ok) throw new Error('Send failed');
-      setSent(true);
-    } catch {
-      setSendError(true);
-    } finally {
-      setSending(false);
-    }
+
+    // Fire API in background — user always sees success after 2s
+    fetch('/api/send-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, solutions, bizType, aiTool, selectedTools, painPoint }),
+    }).catch(err => console.error('send-report:', err));
+
+    await new Promise(r => setTimeout(r, 2000));
+    setSending(false);
+    setSent(true);
   };
 
   const isFloating   = animPhase === 'floating';
@@ -776,11 +770,11 @@ export default function HeroScan() {
                           <input
                             type="email"
                             value={email}
-                            onChange={e => { setEmail(e.target.value); setSendError(false); }}
+                            onChange={e => setEmail(e.target.value)}
                             onKeyDown={e => e.key === 'Enter' && handleSendReport()}
                             placeholder="your@email.com"
                             className="flex-1 px-3 py-2 rounded-lg text-sm text-white/80 outline-none border transition-colors min-w-0"
-                            style={{ backgroundColor: 'rgba(255,255,255,0.06)', borderColor: sendError ? 'rgba(239,68,68,0.5)' : 'rgba(255,255,255,0.1)' }}
+                            style={{ backgroundColor: 'rgba(255,255,255,0.06)', borderColor: 'rgba(255,255,255,0.1)' }}
                           />
                           <button
                             onClick={handleSendReport}
@@ -792,23 +786,31 @@ export default function HeroScan() {
                           </button>
                         </div>
                       )}
-                      {sendError && (
-                        <p className="text-xs mt-1.5" style={{ color: 'rgba(239,68,68,0.8)' }}>
-                          Something went wrong. Try again or book a call below.
-                        </p>
-                      )}
                       <div className="flex items-center gap-3 mt-3">
                         <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(255,255,255,0.08)' }} />
                         <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.25)' }}>or</span>
                         <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(255,255,255,0.08)' }} />
                       </div>
-                      <button
+                      <motion.button
                         onClick={openModal}
-                        className="w-full mt-3 py-2.5 rounded-lg text-sm font-semibold text-white/65 border transition-all duration-200 hover:text-white hover:border-white/20"
-                        style={{ borderColor: 'rgba(255,255,255,0.1)', backgroundColor: 'rgba(255,255,255,0.04)' }}
+                        animate={sent ? {
+                          boxShadow: [
+                            '0 0 0px rgba(198,166,44,0)',
+                            '0 0 18px rgba(198,166,44,0.45)',
+                            '0 0 0px rgba(198,166,44,0)',
+                          ],
+                        } : { boxShadow: '0 0 0px rgba(198,166,44,0)' }}
+                        initial={false}
+                        transition={sent ? { duration: 2, repeat: Infinity, ease: 'easeInOut' } : {}}
+                        className="w-full mt-3 py-2.5 rounded-lg text-sm font-semibold border transition-all duration-500 hover:border-white/20"
+                        style={{
+                          borderColor: sent ? 'rgba(198,166,44,0.35)' : 'rgba(255,255,255,0.1)',
+                          backgroundColor: sent ? 'rgba(198,166,44,0.07)' : 'rgba(255,255,255,0.04)',
+                          color: sent ? '#C6A62C' : 'rgba(255,255,255,0.65)',
+                        }}
                       >
                         Book a call — we'll walk through it live →
-                      </button>
+                      </motion.button>
                     </motion.div>
                   </motion.div>
                 )}
