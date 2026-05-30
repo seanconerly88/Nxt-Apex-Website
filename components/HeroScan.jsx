@@ -71,31 +71,31 @@ const PAIN_MAP = {
   'Sales follow-up': {
     prefer: ['gmail', 'slack', 'hubspot', 'salesforce', 'ghl', 'pipedrive', 'calendly'],
     title:  (ai, t) => `Every prospect gets a follow-up. Without anyone writing it.`,
-    body:   (ai, t) => `The most high-leverage sales motion — the follow-up — lives in someone's head right now. Connect ${ai} to ${t} and every conversation ends with a next step drafted, sent, and logged before your rep picks up the next call.`,
+    body:   (ai, t) => `Right now, follow-ups happen when someone remembers to do them. Connect ${ai} to ${t} and every conversation gets a next step drafted and sent before your rep moves to the next call. No leads fall through. No deals go cold because someone forgot.`,
     tags:   (ai)    => [ai, 'Sales velocity', 'Zero drop-off'],
   },
   'Reporting & dashboards': {
     prefer: ['airtable', 'drive', 'notion', 'monday', 'asana', 'clickup'],
     title:  (ai, t) => `Leadership stops waiting on someone to pull the numbers.`,
-    body:   (ai, t) => `Right now, someone owns "the report." They aggregate, format, send — every week. ${ai} + ${t} replaces that entire motion. Reports pull from your source of truth and land in the right hands on schedule, automatically.`,
+    body:   (ai, t) => `Right now, someone spends hours every week pulling numbers together and building the same report. ${ai} connects to ${t} and does it for them. The report gets built, formatted, and sent on schedule. That person gets their time back.`,
     tags:   (ai)    => [ai, 'Operational clarity', 'Auto-reporting'],
   },
   'Client onboarding': {
     prefer: ['notion', 'asana', 'monday', 'clickup', 'airtable', 'hubspot', 'salesforce', 'ghl'],
     title:  (ai, t) => `Every client gets your best onboarding. Every time.`,
-    body:   (ai, t) => `Your onboarding is only as consistent as the person running it. ${ai} + ${t} standardizes the entire sequence — kickoff prep, materials, milestone check-ins — so every client gets the same care your best account manager delivers.`,
+    body:   (ai, t) => `Your best client experiences happen because the right person ran the process. ${ai} connects to ${t} and makes that happen every time. Kickoff prep, intro materials, check-ins at the right moments. Every new client gets your best without extra work from your team.`,
     tags:   (ai)    => [ai, 'Client retention', 'Consistency at scale'],
   },
   'Operations': {
     prefer: ['zapier', 'clickup', 'airtable', 'monday', 'asana', 'notion', 'slack'],
     title:  (ai, t) => `The work between your tools stops falling through the cracks.`,
-    body:   (ai, t) => `Every handoff in your business is a potential failure point. ${ai} + ${t} acts as the connective layer — catching what slips, routing what needs action, and flagging what's about to break before it does.`,
+    body:   (ai, t) => `Things fall through the cracks when work moves between people and tools. ${ai} connects to ${t} and spots those gaps before they become problems. The right task goes to the right person. Nothing sits ignored. Your team spends less time chasing updates and more time doing real work.`,
     tags:   (ai)    => [ai, 'Operational integrity', 'Handoff automation'],
   },
   'Hiring & HR': {
     prefer: ['loom', 'slack', 'teams', 'gmail', 'notion', 'calendly'],
     title:  (ai, t) => `Your best candidates stop waiting three weeks for a response.`,
-    body:   (ai, t) => `Hiring is a competitive sport — slow teams lose the people they want. ${ai} + ${t} keeps candidates warm, drafts outreach, and moves the process forward so you're the employer who actually responds.`,
+    body:   (ai, t) => `The best candidates are talking to three other companies right now. ${ai} connects to ${t} and keeps your hiring process moving fast. Messages go out the same day. Candidates stay warm. You become the company that actually responds and you hire the people you want before someone else does.`,
     tags:   (ai)    => [ai, 'Talent acquisition', 'Speed to hire'],
   },
 };
@@ -121,7 +121,7 @@ function buildSolutions(tools, aiToolId, painPoint) {
     solutions.push({
       title:      `Your reps close deals. ${aiName} handles the rest.`,
       connection: `${aiName} × ${crmName}`,
-      body:       `Every call, email, and client touch becomes a ${crmName} entry automatically — no manual logging. Your team stays in the conversation, not the CRM. The pipeline reflects reality the moment it changes, without anyone touching a field.`,
+      body:       `Right now someone on your team is manually logging calls and updating contact records. That stops. ${aiName} connects to ${crmName} and every conversation gets logged automatically. Your reps stay focused on selling. Your CRM stays accurate without anyone babysitting it.`,
       tags:       [aiName, crmName, 'Pipeline accuracy'],
     });
   }
@@ -227,7 +227,7 @@ function ChatOppCard({ sol, index }) {
           <p className="text-[#C6A62C] text-[11px] font-semibold mt-0.5">{sol.connection}</p>
         </div>
       </div>
-      <p className="text-white/62 text-[12px] leading-relaxed mb-3">{sol.body}</p>
+      <p className="text-white/85 text-[12px] leading-relaxed mb-3">{sol.body}</p>
       <div className="flex flex-wrap gap-1.5">
         {sol.tags.map(tag => (
           <span
@@ -366,11 +366,14 @@ export default function HeroScan() {
     setSending(true);
     setSendError(false);
     try {
-      const res = await fetch('/api/send-report', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, solutions, bizType, aiTool, selectedTools, painPoint }),
-      });
+      const [res] = await Promise.all([
+        fetch('/api/send-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, solutions, bizType, aiTool, selectedTools, painPoint }),
+        }),
+        new Promise(r => setTimeout(r, 2000)),
+      ]);
       if (!res.ok) throw new Error('Send failed');
       setSent(true);
     } catch {
@@ -672,11 +675,16 @@ export default function HeroScan() {
                         A complete breakdown of every opportunity in your stack, ranked by impact.
                       </p>
                       {sent ? (
-                        <div className="flex items-center gap-2 py-2">
-                          <span className="text-[#C6A62C] text-lg">✓</span>
-                          <span className="text-sm font-semibold" style={{ color: '#C6A62C' }}>
-                            Report sent! Check your inbox.
-                          </span>
+                        <div className="py-2">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-[#C6A62C] text-lg">✓</span>
+                            <span className="text-sm font-bold" style={{ color: '#C6A62C' }}>
+                              Your report is on the way.
+                            </span>
+                          </div>
+                          <p className="text-[11px] pl-7" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                            Check your inbox — it should be there in the next minute.
+                          </p>
                         </div>
                       ) : (
                         <div className="flex gap-2">

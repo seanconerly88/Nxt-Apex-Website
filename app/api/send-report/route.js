@@ -140,48 +140,53 @@ async function generateReportContent(solutions, bizType, aiTool, selectedTools, 
   const s1 = solutions[0] ?? {};
   const s2 = solutions[1] ?? {};
 
-  const prompt = `You are a senior AI implementation consultant at Nxt Apex AI. A business owner just completed our AI readiness assessment. Write their personalized AI Readiness Report — two high-impact implementation opportunities that will make them want to book a strategy call.
+  const prompt = `You are a senior AI implementation consultant at Nxt Apex AI. A business owner just completed our AI readiness assessment. Write their personalized AI Readiness Report. Two opportunities. Make them read it and think "WE NEED THAT."
 
-WHAT YOU KNOW ABOUT THEM:
+WHO THEY ARE:
 - Business type: ${bizType ?? 'Not specified'}
-- AI investment: ${aiLabel}
-- Tech stack: ${toolList || 'Not specified'}
-- The problem burning their highest-skilled people: "${painPoint ?? 'General operations'}"
-- Opportunity #1 pairing: ${s1.connection ?? 'AI + Their Stack'}
-- Opportunity #2 pairing: ${s2.connection ?? 'AI + Their Stack'}
+- AI tool they use or want: ${aiLabel}
+- Tools in their stack: ${toolList || 'Not specified'}
+- The problem costing them most right now: "${painPoint ?? 'General operations'}"
+- Opportunity 1: ${s1.connection ?? 'AI + Their Stack'}
+- Opportunity 2: ${s2.connection ?? 'AI + Their Stack'}
 
-WHAT MAKES A GREAT WRITE-UP:
-Each opportunity must feel like it came from a consultant who spent an hour with this specific business. It should:
+HARD RULES. BREAK ANY OF THESE AND THE CONTENT FAILS:
+1. Never use dashes of any kind. No em dash. No en dash. No hyphen used as a dash. Write a new sentence instead.
+2. Write at a 9th grade reading level. Short sentences. Plain words. If a 14-year-old would not understand a word, replace it.
+3. Never use these words: leverage, utilize, streamline, seamlessly, cutting-edge, robust, ecosystem, synergy, empower, revolutionize, transformative, innovative, game-changer, implement, facilitate.
+4. No bullet points inside the body text. Full sentences only.
+5. Every paragraph must answer "so what does this mean for my business?" Plain English. Real outcomes.
+6. The hook must name a problem they feel every single day. Not a general problem. Their specific problem.
+7. The "This week" action must be something they can do in under 2 hours with tools they already have. Name the exact steps.
 
-1. Open with a hook that names the exact problem with economic language — not "you waste time" but something like "your highest-paid people are doing work that requires none of their actual expertise"
-2. Explain the specific workflow: what ${aiLabel} does, which exact feature of their tool it connects to, what the output looks like step by step
-3. Include a "This week" action — one concrete thing they can set up in a few hours using the tools they already have
-4. Name the failure pattern — the specific reason most teams try this and give up (this builds enormous credibility)
-5. Close with the transformation: not generic "save time" but the actual business outcome — a rep who closes instead of logs, a report that writes itself, a hiring process that doesn't bottleneck on one person
+WHAT MAKES IT LAND:
+- Talk about real people at their company doing real work. "Your sales rep." "The person who builds the weekly report." "Your hiring manager."
+- Name specific features of their tools. Not just "HubSpot." Say "HubSpot contact records" or "HubSpot sequences."
+- Show the before and after. What their day looks like now vs. what it looks like when this is set up.
+- Name the failure pattern. Tell them why most companies try this and quit. That builds more trust than any claim you can make.
+- End on a business outcome they can feel. Revenue. Time. Fewer fires. Better hires. Not "efficiency gains."
 
-TONE:
-Write for a skeptical, busy business owner who has heard "AI will change everything" a hundred times. Short sentences. Specific numbers when you have them. Reference actual features of their tools by name. Make them feel like we already understand their operation better than their own team does. No jargon. No hedging.
-
-RESEARCH:
-Draw on everything you know about how ${aiLabel} integrates with ${toolList}. Reference real implementation patterns. If you know typical outcomes for this type of integration, use specific language. Be the expert in the room.
-
-Return ONLY valid JSON — no markdown fences, no explanation before or after:
+Return ONLY valid JSON. No markdown. No explanation. No text before or after the JSON:
 {
   "solution1": {
-    "title": "Outcome-focused title (what they get, not what the tool does)",
+    "title": "Short title. What they get. Not what the tool does. No dashes.",
     "connection": "${s1.connection ?? ''}",
-    "hook": "One sentence that names the exact problem they live with every day",
-    "body": "Three paragraphs separated by two newlines. Para 1: the problem and its real cost. Para 2: the exact implementation — step by step, tool by tool. Para 3: the failure pattern and then what success looks like.",
-    "thisWeek": "One specific action they can take this week, naming the exact tool and what to configure",
-    "tags": ["tag1", "tag2", "tag3"]
+    "hook": "One sentence. The exact problem they live with right now. Make them nod.",
+    "body": "Three paragraphs separated by two newlines. Para 1: what is happening at their company right now that is costing them. Para 2: exactly how this works with their specific tools, step by step, no jargon. Para 3: why most teams fail at this and what is different when it actually works.",
+    "extraSentences": "Two sentences only. Go deeper on the business value. What does their team get back? What becomes possible that was not possible before? No dashes. Plain words.",
+    "blueprint": "Step 1 label > Step 2 label > Step 3 label (each step is 2 to 4 words, plain English, no dashes, shows the setup sequence from zero to working)",
+    "thisWeek": "One action. Under 2 hours. Exact steps using their actual tools. No dashes.",
+    "tags": ["short tag", "short tag", "short tag"]
   },
   "solution2": {
     "title": "...",
     "connection": "${s2.connection ?? ''}",
     "hook": "...",
     "body": "...",
+    "extraSentences": "...",
+    "blueprint": "Step 1 label > Step 2 label > Step 3 label",
     "thisWeek": "...",
-    "tags": ["tag1", "tag2", "tag3"]
+    "tags": ["short tag", "short tag", "short tag"]
   }
 }`;
 
@@ -227,11 +232,15 @@ Return ONLY valid JSON — no markdown fences, no explanation before or after:
 function buildEmailHTML(s1, s2, aiTool, painPoint) {
   const aiLabel = { chatgpt: 'ChatGPT', claude: 'Claude', both: 'Claude and ChatGPT', neither: null }[aiTool] ?? null;
 
+  const bizLabel = bizType ? ` ${bizType.toLowerCase()} business` : ' business';
+  const aiLabel2 = aiLabel ?? 'AI';
+  const openingSentence = `Thank you for taking the time to check out Nxt Apex. The two opportunities below are built around your specific tools and the problem your team is dealing with right now. Think of this as your starting point — a real look at where ${aiLabel2} fits in your${bizLabel} and what to actually do about it.`;
+
   const introLine = aiLabel && painPoint
-    ? `You're investing in ${aiLabel} and your team's biggest friction is <strong style="color:#C6A62C;">${painPoint.toLowerCase()}</strong>. Here's exactly where that changes — and what to do about it this week.`
+    ? `You're investing in ${aiLabel} and your team's biggest friction is <strong style="color:#C6A62C;">${painPoint.toLowerCase()}</strong>. Here's exactly where that changes and what to do about it this week.`
     : aiLabel
-    ? `You're investing in ${aiLabel}. Here's exactly where it creates the most impact in your stack — and what to do about it this week.`
-    : `Here's where AI creates the most immediate, measurable impact in your business — and what to do about it this week.`;
+    ? `You're investing in ${aiLabel}. Here's exactly where it creates the most impact in your stack and what to do about it this week.`
+    : `Here's where AI creates the most immediate, measurable impact in your business and what to do about it this week.`;
 
   const tagPill = (tag) =>
     `<span style="display:inline-block;background:#C6A62C;color:#000;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;margin:2px 3px 2px 0;letter-spacing:0.05em;">${tag}</span>`;
@@ -250,8 +259,18 @@ function buildEmailHTML(s1, s2, aiTool, painPoint) {
           <p style="margin:0 0 12px;font-size:18px;font-weight:700;color:#ffffff;line-height:1.3;">${sol.title ?? ''}</p>
           <p style="margin:0 0 16px;font-size:15px;font-style:italic;color:rgba(255,255,255,0.5);line-height:1.6;border-left:2px solid rgba(198,166,44,0.4);padding-left:12px;">${sol.hook ?? ''}</p>
           ${formatBody(sol.body)}
+          ${sol.extraSentences ? `<p style="margin:0 0 16px;font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7;">${sol.extraSentences}</p>` : ''}
+          ${sol.blueprint ? `
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin:4px 0 20px;">
+            <tr>
+              <td style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:12px 16px;">
+                <p style="margin:0 0 5px;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);">How to set it up</p>
+                <p style="margin:0;font-size:13px;font-weight:600;color:#C6A62C;line-height:1.5;">${sol.blueprint}</p>
+              </td>
+            </tr>
+          </table>` : ''}
           ${sol.thisWeek ? `
-          <table width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0 16px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">
             <tr>
               <td style="background:rgba(198,166,44,0.1);border:1px solid rgba(198,166,44,0.25);border-radius:8px;padding:14px 16px;">
                 <p style="margin:0 0 4px;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#C6A62C;">This week</p>
@@ -297,7 +316,8 @@ function buildEmailHTML(s1, s2, aiTool, painPoint) {
           <tr>
             <td style="background:#080D1C;padding:32px 36px;">
 
-              <p style="margin:0 0 28px;font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;">${introLine}</p>
+              <p style="margin:0 0 16px;font-size:14px;color:rgba(255,255,255,0.7);line-height:1.75;">${openingSentence}</p>
+              <p style="margin:0 0 28px;font-size:13px;color:rgba(255,255,255,0.4);line-height:1.7;border-top:1px solid rgba(255,255,255,0.06);padding-top:16px;">${introLine}</p>
 
               <p style="margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Opportunity #1</p>
               ${solutionCard(s1)}
