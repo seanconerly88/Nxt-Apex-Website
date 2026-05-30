@@ -791,26 +791,17 @@ export default function HeroScan() {
                         <span className="text-[11px]" style={{ color: 'rgba(255,255,255,0.25)' }}>or</span>
                         <div className="flex-1 h-px" style={{ backgroundColor: 'rgba(255,255,255,0.08)' }} />
                       </div>
-                      <motion.button
+                      <button
                         onClick={openModal}
-                        animate={sent ? {
-                          boxShadow: [
-                            '0 0 0px rgba(198,166,44,0)',
-                            '0 0 18px rgba(198,166,44,0.45)',
-                            '0 0 0px rgba(198,166,44,0)',
-                          ],
-                        } : { boxShadow: '0 0 0px rgba(198,166,44,0)' }}
-                        initial={false}
-                        transition={sent ? { duration: 2, repeat: Infinity, ease: 'easeInOut' } : {}}
-                        className="w-full mt-3 py-2.5 rounded-lg text-sm font-semibold border transition-all duration-500 hover:border-white/20"
-                        style={{
-                          borderColor: sent ? 'rgba(198,166,44,0.35)' : 'rgba(255,255,255,0.1)',
-                          backgroundColor: sent ? 'rgba(198,166,44,0.07)' : 'rgba(255,255,255,0.04)',
-                          color: sent ? '#C6A62C' : 'rgba(255,255,255,0.65)',
-                        }}
+                        className={`w-full mt-3 py-2.5 rounded-lg text-sm font-semibold border transition-all duration-500 hover:border-white/20 ${sent ? 'book-call-active' : ''}`}
+                        style={!sent ? {
+                          borderColor: 'rgba(255,255,255,0.1)',
+                          backgroundColor: 'rgba(255,255,255,0.04)',
+                          color: 'rgba(255,255,255,0.65)',
+                        } : {}}
                       >
-                        Book a call — we'll walk through it live →
-                      </motion.button>
+                        <span>Book a call — we'll walk through it live →</span>
+                      </button>
                     </motion.div>
                   </motion.div>
                 )}

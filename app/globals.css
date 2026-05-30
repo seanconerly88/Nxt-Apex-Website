@@ -57,3 +57,101 @@ body {
 .animate-scroll-ticker:hover {
   animation-play-state: paused;
 }
+
+/* ── Book-a-call shiny button (activates after email send) ───────────────── */
+@property --book-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes book-spin {
+  to { --book-angle: 360deg; }
+}
+
+@keyframes book-shimmer {
+  to { rotate: 360deg; }
+}
+
+@keyframes book-breathe {
+  from, to { scale: 1; }
+  50%       { scale: 1.15; }
+}
+
+@keyframes book-bounce {
+  0%, 100% { transform: translateY(0); }
+  20%       { transform: translateY(-5px); }
+  40%       { transform: translateY(-2px); }
+  60%       { transform: translateY(-4px); }
+  80%       { transform: translateY(-1px); }
+}
+
+.book-call-active {
+  --highlight:        #C6A62C;
+  --highlight-soft:   #e8c84a;
+  --bg:               #080D1C;
+  --duration:         2.5s;
+
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid transparent !important;
+  color: #C6A62C !important;
+
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    conic-gradient(
+      from var(--book-angle),
+      transparent 0%,
+      var(--highlight) 8%,
+      var(--highlight-soft) 16%,
+      var(--highlight) 24%,
+      transparent 32%
+    ) border-box !important;
+
+  animation:
+    book-spin    var(--duration) linear infinite,
+    book-bounce  1.8s ease-in-out 0.1s 3;
+}
+
+/* Inner shimmer sweep */
+.book-call-active::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(
+    -50deg,
+    transparent,
+    rgba(198,166,44,0.25),
+    transparent
+  );
+  mask-image: radial-gradient(circle at bottom, transparent 40%, black);
+  animation: book-shimmer var(--duration) linear infinite;
+  z-index: 0;
+}
+
+/* Glow breathe underneath */
+.book-call-active::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  translate: -50% -50%;
+  width: calc(100% + 1rem);
+  height: calc(100% + 1rem);
+  box-shadow: inset 0 -1ex 2rem 4px rgba(198,166,44,0.3);
+  animation: book-breathe calc(var(--duration) * 1.5) linear infinite;
+  z-index: -1;
+}
+
+.book-call-active span {
+  position: relative;
+  z-index: 1;
+}
