@@ -139,7 +139,7 @@ export default function HeroGeometric() {
                 backgroundClip: 'text',
               }}
             >
-              We'll Make Them Work.
+              Now Make Them Work.
             </span>
           </h1>
         </motion.div>

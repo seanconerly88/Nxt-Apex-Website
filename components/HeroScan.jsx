@@ -605,7 +605,7 @@ export default function HeroScan() {
                         backgroundClip: 'text',
                       }}
                     >
-                      We'll Make Them Work.
+                      Now Make Them Work.
                     </span>
                   </motion.h1>
 
@@ -631,7 +631,7 @@ export default function HeroScan() {
                       className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl font-semibold text-base text-black transition-all duration-300 hover:-translate-y-0.5"
                       style={{ backgroundColor: '#C6A62C', boxShadow: '0 6px 28px rgba(198,166,44,0.38)' }}
                     >
-                      Book Your Assessment →
+                      Show Me Where to Start →
                     </button>
                     <a href="#process" className="text-sm font-medium text-white/35 hover:text-white/60 transition-colors duration-200">
                       See how it works ↓
