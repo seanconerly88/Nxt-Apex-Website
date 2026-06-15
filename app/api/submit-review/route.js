@@ -153,6 +153,31 @@ export async function POST(request) {
       console.warn('Review note skipped:', e.message);
     }
 
+    // ── 4. Fire GHL webhook trigger ────────────────────────────────────────
+    const webhookUrl = process.env.GHL_REVIEW_WEBHOOK_URL;
+    if (webhookUrl) {
+      try {
+        await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event: 'review.submitted',
+            name,
+            email,
+            company: company || '',
+            rating: ratingNum,
+            reviewText,
+            approved,
+            displayName,
+            submittedAt: new Date().toISOString(),
+          }),
+        });
+        console.log('✓ GHL webhook fired');
+      } catch (e) {
+        console.warn('GHL webhook skipped:', e.message);
+      }
+    }
+
     return NextResponse.json({ success: true, approved, displayName });
   } catch (err) {
     console.error('submit-review fatal:', err.message);
