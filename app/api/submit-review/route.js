@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 const GHL_BASE    = 'https://services.leadconnectorhq.com';
 const GHL_VERSION = '2021-07-28';
 
+const CUSTOM_VALUE_NAME = 'NXA Approved Reviews';
+
 const REVIEW_FIELDS = {
   nxa_review_text:         'NXA Review Text',
   nxa_review_rating:       'NXA Review Rating',
@@ -153,7 +155,41 @@ export async function POST(request) {
       console.warn('Review note skipped:', e.message);
     }
 
-    // ── 4. Fire GHL webhook trigger ────────────────────────────────────────
+    // ── 4. If approved, append to GHL Custom Value carousel store ─────────
+    if (approved) {
+      try {
+        const cvRes = await fetch(
+          `${GHL_BASE}/locations/${locationId}/customValues`,
+          { headers: ghlHeaders(pitKey) }
+        );
+        const cvData    = cvRes.ok ? await cvRes.json() : {};
+        const values    = cvData.customValues ?? [];
+        const existing  = values.find(v => v.name === CUSTOM_VALUE_NAME);
+        const current   = existing?.value ? JSON.parse(existing.value) : [];
+
+        const newReview = { name: displayName, company: company || '', rating: ratingNum, quote: reviewText };
+        const updated   = [...current, newReview];
+
+        if (existing?.id) {
+          await fetch(`${GHL_BASE}/locations/${locationId}/customValues/${existing.id}`, {
+            method: 'PUT',
+            headers: ghlHeaders(pitKey),
+            body: JSON.stringify({ name: CUSTOM_VALUE_NAME, value: JSON.stringify(updated) }),
+          });
+        } else {
+          await fetch(`${GHL_BASE}/locations/${locationId}/customValues`, {
+            method: 'POST',
+            headers: ghlHeaders(pitKey),
+            body: JSON.stringify({ name: CUSTOM_VALUE_NAME, value: JSON.stringify([newReview]) }),
+          });
+        }
+        console.log('✓ Review added to carousel store');
+      } catch (e) {
+        console.warn('Carousel store update skipped:', e.message);
+      }
+    }
+
+    // ── 5. Fire GHL webhook trigger ────────────────────────────────────────
     const webhookUrl = process.env.GHL_REVIEW_WEBHOOK_URL;
     if (webhookUrl) {
       try {

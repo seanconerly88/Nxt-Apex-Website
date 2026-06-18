@@ -9,13 +9,30 @@ const TOOL_NAMES = {
   slack:'Slack', notion:'Notion', drive:'Google Drive', asana:'Asana',
   monday:'Monday.com', clickup:'ClickUp', airtable:'Airtable', zapier:'Zapier',
   zoom:'Zoom', teams:'MS Teams', quickbooks:'QuickBooks', gmail:'Gmail',
-  calendly:'Calendly', loom:'Loom',
+  calendly:'Calendly', loom:'Loom', stripe:'Stripe', shopify:'Shopify',
+  xero:'Xero', gusto:'Gusto', mailchimp:'Mailchimp', klaviyo:'Klaviyo',
+  activecampaign:'ActiveCampaign', constantcontact:'Constant Contact',
+  docusign:'DocuSign', pandadoc:'PandaDoc', dropbox:'Dropbox',
+  m365:'Microsoft 365 / Outlook', typeform:'Typeform', jotform:'Jotform',
+  acuity:'Acuity', make:'Make',
 };
 
-const AI_LABELS = {
-  chatgpt:'ChatGPT (OpenAI)', claude:'Claude (Anthropic)',
-  both:'Claude and ChatGPT', neither:'no AI tool yet',
+const AI_NAMES = {
+  chatgpt:'ChatGPT', claude:'Claude', gemini:'Gemini', openclaw:'OpenClaw',
+  kimi:'Kimi', grok:'Grok', perplexity:'Perplexity', deepseek:'DeepSeek', local:'a local LLM',
 };
+
+function aiLabelFrom(arr) {
+  const picks = (arr ?? []).filter(id => id !== 'none' && AI_NAMES[id]).map(id => AI_NAMES[id]);
+  if (!picks.length) return 'AI';
+  if (picks.length === 1) return picks[0];
+  if (picks.length === 2) return `${picks[0]} and ${picks[1]}`;
+  return `${picks.slice(0, -1).join(', ')}, and ${picks[picks.length - 1]}`;
+}
+
+function hasRealAi(arr) {
+  return (arr ?? []).some(id => id !== 'none' && AI_NAMES[id]);
+}
 
 let fieldCache = null;
 
@@ -36,11 +53,12 @@ function ghlHeaders(pitKey) {
 }
 
 // ─── Step 1: Basic contact upsert (no custom fields — always runs) ─────────
-async function upsertContact(pitKey, locationId, email, aiTool, selectedTools) {
+async function upsertContact(pitKey, locationId, email, aiToolsArr, selectedTools) {
+  const aiTags = (aiToolsArr ?? []).map(id => AI_NAMES[id] ? `AI: ${AI_NAMES[id]}` : (id === 'none' ? 'AI: None Yet' : null));
   const tags = [
     'Website Lead',
     'AI Readiness Report',
-    aiTool ?? 'no-ai-tool',
+    ...aiTags,
     ...(Array.isArray(selectedTools) ? selectedTools : []),
   ].filter(Boolean);
 
@@ -100,7 +118,7 @@ async function ensureCustomFields(pitKey, locationId) {
   return ids;
 }
 
-async function updateContactCustomFields(pitKey, contactId, solutions, bizType, aiTool, selectedTools, painPoint, fieldIds) {
+async function updateContactCustomFields(pitKey, contactId, solutions, bizType, aiToolLabel, selectedTools, painPoint, fieldIds) {
   const customFields = [
     { id: fieldIds.quick_win_1_title,      field_value: solutions[0]?.title ?? '' },
     { id: fieldIds.quick_win_1_body,       field_value: solutions[0]?.body ?? '' },
@@ -109,7 +127,7 @@ async function updateContactCustomFields(pitKey, contactId, solutions, bizType, 
     { id: fieldIds.quick_win_2_body,       field_value: solutions[1]?.body ?? '' },
     { id: fieldIds.quick_win_2_connection, field_value: solutions[1]?.connection ?? '' },
     { id: fieldIds.nxa_biz_type,           field_value: bizType ?? '' },
-    { id: fieldIds.nxa_ai_tool,            field_value: aiTool ?? '' },
+    { id: fieldIds.nxa_ai_tool,            field_value: aiToolLabel ?? '' },
     { id: fieldIds.nxa_selected_tools,     field_value: Array.isArray(selectedTools) ? selectedTools.join(', ') : '' },
     { id: fieldIds.nxa_pain_point,         field_value: painPoint ?? '' },
   ].filter(f => f.id);
@@ -178,52 +196,62 @@ async function sendEmail(pitKey, locationId, contactId, email, subject, html) {
 }
 
 // ─── Claude AI generation ──────────────────────────────────────────────────
-async function generateReportContent(solutions, bizType, aiTool, selectedTools, painPoint, anthropicKey) {
+async function generateReportContent(solutions, bizType, aiToolsArr, selectedTools, painPoint, anthropicKey) {
   const toolList = (selectedTools ?? []).map(id => TOOL_NAMES[id] ?? id).join(', ');
-  const aiLabel  = AI_LABELS[aiTool] ?? 'AI tools';
+  const aiLabel  = aiLabelFrom(aiToolsArr);
   const s1 = solutions[0] ?? {};
   const s2 = solutions[1] ?? {};
 
-  const prompt = `You are a senior AI implementation consultant at Nxt Apex AI. A business owner just completed our AI readiness assessment. Write their personalized AI Readiness Report. Two opportunities. Make them read it and think "WE NEED THAT."
+  const prompt = `You are Sean Conerly, founder of Nxt Apex AI. You have spent years inside businesses helping them put AI to work. A business owner just completed your AI readiness assessment. Write their personalized AI Readiness Report email. Three opportunities. All three must be fresh ideas. They already saw two cards on the website before submitting their email so do not repeat those connection angles.
 
 WHO THEY ARE:
 - Business type: ${bizType ?? 'Not specified'}
 - AI tool they use or want: ${aiLabel}
 - Tools in their stack: ${toolList || 'Not specified'}
 - The problem costing them most right now: "${painPoint ?? 'General operations'}"
-- Opportunity 1: ${s1.connection ?? 'AI + Their Stack'}
-- Opportunity 2: ${s2.connection ?? 'AI + Their Stack'}
+- What they already saw on the website: "${s1.connection ?? ''}" and "${s2.connection ?? ''}"
+
+YOUR VOICE. Write exactly like this:
+- Short sentences. One idea per sentence. If it has two clauses, break it into two sentences.
+- Casual but direct. You have been in the room with businesses like theirs. You know what works.
+- No hedging. No "might" or "could potentially." State what happens.
+- Talk about specific people. "Your ops manager." "The person who builds the Monday report." "Your sales rep."
+- Name their actual tools. Not "your CRM." Say "HubSpot." Not "your project tool." Say "Asana."
+
+REVENUE AND TIME. Every opportunity must connect to one of these two outcomes:
+- Specific time saved: "This gets your team back 4 hours every week." Be concrete. Name the number.
+- Specific revenue protected or generated: "This recovers leads that go cold after day 3." Name the mechanism.
+Do not be vague. "Saves time" is not enough. "Gets your account manager back 5 hours a week" is enough.
 
 HARD RULES. BREAK ANY OF THESE AND THE CONTENT FAILS:
-1. Never use dashes of any kind. No em dash. No en dash. No hyphen used as a dash. Write a new sentence instead.
-2. Write at a 9th grade reading level. Short sentences. Plain words.
-3. Never use these words: leverage, utilize, streamline, seamlessly, cutting-edge, robust, ecosystem, synergy, empower, revolutionize, transformative, innovative, game-changer, implement, facilitate.
-4. No bullet points inside the body text. Full sentences only.
-5. Every paragraph must answer "so what does this mean for my business?" Plain English. Real outcomes.
-6. The hook must name a problem they feel every single day.
-7. The "This week" action must be doable in under 2 hours with tools they already have.
+1. No dashes of any kind. No em dash. No en dash. No hyphen as a dash. Write a new sentence instead.
+2. No run-on sentences. One idea per sentence. Period. New sentence.
+3. 9th grade reading level. Short words. Short sentences. Plain English.
+4. Never use: leverage, utilize, streamline, seamlessly, cutting-edge, robust, ecosystem, synergy, empower, revolutionize, transformative, innovative, game-changer, implement, facilitate, unlock.
+5. No bullet points in body text. Full sentences only.
+6. The hook names a problem they feel every single day. One sentence. Gut punch.
+7. The "This week" action is doable in under 2 hours using tools they already have.
+8. Every card ends on a dollar or hour outcome. Not a feature. A result.
 
-WHAT MAKES IT LAND:
-- Talk about real people at their company. "Your sales rep." "The person who builds the weekly report."
-- Name specific features of their tools. Not just "HubSpot." Say "HubSpot contact records."
-- Show the before and after. What their day looks like now vs. when this is set up.
-- Name the failure pattern. Why most companies try this and quit.
-- End on a business outcome they can feel.
-
-Return ONLY valid JSON. No markdown. No explanation. No text before or after:
+Return ONLY valid JSON. No markdown. No explanation. Nothing before or after the JSON:
 {
   "solution1": {
-    "title": "Short outcome-focused title. No dashes.",
-    "connection": "${s1.connection ?? ''}",
-    "hook": "One sentence. The exact problem they live with right now.",
-    "body": "Three paragraphs separated by two newlines. Para 1: the problem and its cost. Para 2: exactly how this works step by step. Para 3: why most teams fail and what success looks like.",
-    "extraSentences": "Two sentences expanding on the business value. No dashes.",
+    "title": "Outcome-focused. Short. No dashes.",
+    "connection": "Specific tool + Specific tool. No generics.",
+    "hook": "One sentence. The daily problem they feel.",
+    "body": "Three short paragraphs separated by two newlines. Para 1: the cost of the problem today. Para 2: exactly what changes and how. Para 3: the revenue or time outcome.",
+    "extraSentences": "Two sentences. Concrete business value. No dashes.",
     "blueprint": "Step 1 label > Step 2 label > Step 3 label",
-    "thisWeek": "One action under 2 hours using their actual tools. No dashes.",
+    "thisWeek": "One action. Under 2 hours. Their actual tools. No dashes.",
     "tags": ["short tag", "short tag", "short tag"]
   },
   "solution2": {
-    "title": "...", "connection": "${s2.connection ?? ''}", "hook": "...",
+    "title": "...", "connection": "...", "hook": "...",
+    "body": "...", "extraSentences": "...", "blueprint": "...", "thisWeek": "...",
+    "tags": ["short tag", "short tag", "short tag"]
+  },
+  "solution3": {
+    "title": "...", "connection": "...", "hook": "...",
     "body": "...", "extraSentences": "...", "blueprint": "...", "thisWeek": "...",
     "tags": ["short tag", "short tag", "short tag"]
   }
@@ -242,7 +270,7 @@ Return ONLY valid JSON. No markdown. No explanation. No text before or after:
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-5',
-        max_tokens: 2000,
+        max_tokens: 3200,
         messages: [{ role: 'user', content: prompt }],
       }),
       signal: controller.signal,
@@ -266,18 +294,18 @@ Return ONLY valid JSON. No markdown. No explanation. No text before or after:
 }
 
 // ─── Email HTML ────────────────────────────────────────────────────────────
-function buildEmailHTML(s1, s2, aiTool, painPoint, bizType) {
-  const aiLabel = { chatgpt:'ChatGPT', claude:'Claude', both:'Claude and ChatGPT', neither:null }[aiTool] ?? null;
+function buildEmailHTML(s1, s2, s3, aiToolsArr, painPoint, bizType) {
+  const aiLabel = hasRealAi(aiToolsArr) ? aiLabelFrom(aiToolsArr) : null;
   const aiLabel2 = aiLabel ?? 'AI';
   const bizLabel = bizType ? ` ${bizType.toLowerCase()} business` : ' business';
 
-  const openingSentence = `Thank you for taking the time to check out Nxt Apex. The two opportunities below are built around your specific tools and the problem your team is dealing with right now. Think of this as your starting point — a real look at where ${aiLabel2} fits in your${bizLabel} and what to actually do about it.`;
+  const openingSentence = `Thank you for taking the time to check out Nxt Apex. The three opportunities below are built around your specific tools and the problem your team is dealing with right now. Think of this as your starting point. A real look at where ${aiLabel2} fits in your${bizLabel} and what to actually do about it.`;
 
   const introLine = aiLabel && painPoint
-    ? `You're investing in ${aiLabel} and your team's biggest friction is <strong style="color:#C6A62C;">${painPoint.toLowerCase()}</strong>. Here's exactly where that changes and what to do about it this week.`
+    ? `You are investing in ${aiLabel} and your team's biggest friction is <strong style="color:#C6A62C;">${painPoint.toLowerCase()}</strong>. Here is exactly where that changes and what to do about it this week.`
     : aiLabel
-    ? `You're investing in ${aiLabel}. Here's exactly where it creates the most impact in your stack and what to do about it this week.`
-    : `Here's where AI creates the most immediate, measurable impact in your business and what to do about it this week.`;
+    ? `You are investing in ${aiLabel}. Here is exactly where it creates the most impact in your stack and what to do about it this week.`
+    : `Here is where AI creates the most immediate, measurable impact in your business and what to do about it this week.`;
 
   const tagPill = (tag) =>
     `<span style="display:inline-block;background:#C6A62C;color:#000;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;margin:2px 3px 2px 0;letter-spacing:0.05em;">${tag}</span>`;
@@ -340,6 +368,8 @@ function buildEmailHTML(s1, s2, aiTool, painPoint, bizType) {
           ${solutionCard(s1)}
           <p style="margin:20px 0 12px;font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Opportunity #2</p>
           ${solutionCard(s2)}
+          <p style="margin:20px 0 12px;font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Opportunity #3</p>
+          ${solutionCard(s3)}
           <table width="100%" cellpadding="0" cellspacing="0" style="margin:32px 0;">
             <tr><td style="height:1px;background:rgba(255,255,255,0.07);"></td></tr>
           </table>
@@ -384,7 +414,9 @@ export async function POST(request) {
   const log = { contact: false, customFields: false, email: false, aiGenerated: false };
 
   try {
-    const { email, solutions, bizType, aiTool, selectedTools, painPoint } = await request.json();
+    const { email, solutions, bizType, aiTools, aiTool, selectedTools, painPoint } = await request.json();
+    const aiToolsArr = Array.isArray(aiTools) ? aiTools : (aiTool ? [aiTool] : []);
+    const aiToolLabel = aiLabelFrom(aiToolsArr);
 
     if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 });
 
@@ -398,7 +430,7 @@ export async function POST(request) {
     }
 
     // ── 1. Create contact (required) ────────────────────────────────────────
-    const contactId = await upsertContact(pitKey, locationId, email, aiTool, selectedTools);
+    const contactId = await upsertContact(pitKey, locationId, email, aiToolsArr, selectedTools);
     if (!contactId) return NextResponse.json({ error: 'Could not create GHL contact' }, { status: 500 });
     log.contact = true;
     console.log('✓ Contact created:', contactId);
@@ -410,14 +442,14 @@ export async function POST(request) {
         return null;
       }),
       anthropicKey
-        ? generateReportContent(solutions, bizType, aiTool, selectedTools, painPoint, anthropicKey)
+        ? generateReportContent(solutions, bizType, aiToolsArr, selectedTools, painPoint, anthropicKey)
         : Promise.resolve(null),
     ]);
 
     // ── 3. Update contact with custom fields if available ───────────────────
     if (fieldIds) {
       try {
-        await updateContactCustomFields(pitKey, contactId, solutions, bizType, aiTool, selectedTools, painPoint, fieldIds);
+        await updateContactCustomFields(pitKey, contactId, solutions, bizType, aiToolLabel, selectedTools, painPoint, fieldIds);
         log.customFields = true;
         console.log('✓ Custom fields updated');
       } catch (e) {
@@ -428,12 +460,13 @@ export async function POST(request) {
     // ── 4. Merge AI content over pre-scripted solutions ─────────────────────
     const finalS1 = aiContent?.solution1 ? { ...solutions[0], ...aiContent.solution1 } : solutions[0] ?? {};
     const finalS2 = aiContent?.solution2 ? { ...solutions[1], ...aiContent.solution2 } : solutions[1] ?? {};
+    const finalS3 = aiContent?.solution3 ?? {};
     log.aiGenerated = !!aiContent;
     if (aiContent) console.log('✓ Claude content generated');
 
     // ── 5. Send email ────────────────────────────────────────────────────────
     try {
-      const html = buildEmailHTML(finalS1, finalS2, aiTool, painPoint, bizType);
+      const html = buildEmailHTML(finalS1, finalS2, finalS3, aiToolsArr, painPoint, bizType);
       await sendEmail(pitKey, locationId, contactId, email, 'Your AI Readiness Report — Nxt Apex', html);
       log.email = true;
       console.log('✓ Email sent');

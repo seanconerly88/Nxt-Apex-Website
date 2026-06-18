@@ -7,24 +7,40 @@ import { useBooking } from '@/contexts/BookingContext';
 // ── Static Data ───────────────────────────────────────────────────────────────
 
 const TOOLS = [
-  { id: 'hubspot',    name: 'HubSpot',       color: '#FF7A59' },
-  { id: 'salesforce', name: 'Salesforce',    color: '#00A1E0' },
-  { id: 'ghl',        name: 'GoHighLevel',   color: '#FF6B35' },
-  { id: 'pipedrive',  name: 'Pipedrive',     color: '#1F9562' },
-  { id: 'slack',      name: 'Slack',         color: '#E01E5A' },
-  { id: 'notion',     name: 'Notion',        color: '#888888' },
-  { id: 'drive',      name: 'Google Drive',  color: '#34A853' },
-  { id: 'asana',      name: 'Asana',         color: '#F06A6A' },
-  { id: 'monday',     name: 'Monday.com',    color: '#FF3D57' },
-  { id: 'clickup',    name: 'ClickUp',       color: '#7B68EE' },
-  { id: 'airtable',   name: 'Airtable',      color: '#FCBA03' },
-  { id: 'zapier',     name: 'Zapier',        color: '#FF4A00' },
-  { id: 'zoom',       name: 'Zoom',          color: '#2D8CFF' },
-  { id: 'teams',      name: 'MS Teams',      color: '#6264A7' },
-  { id: 'quickbooks', name: 'QuickBooks',    color: '#2CA01C' },
-  { id: 'gmail',      name: 'Gmail',         color: '#EA4335' },
-  { id: 'calendly',   name: 'Calendly',      color: '#006BFF' },
-  { id: 'loom',       name: 'Loom',          color: '#FF4A90' },
+  { id: 'activecampaign',  name: 'ActiveCampaign',          color: '#356AE6' },
+  { id: 'acuity',          name: 'Acuity',                  color: '#6558F5' },
+  { id: 'airtable',        name: 'Airtable',                color: '#FCBA03' },
+  { id: 'asana',           name: 'Asana',                   color: '#F06A6A' },
+  { id: 'calendly',        name: 'Calendly',                color: '#006BFF' },
+  { id: 'clickup',         name: 'ClickUp',                 color: '#7B68EE' },
+  { id: 'constantcontact', name: 'Constant Contact',        color: '#1F5DA0' },
+  { id: 'docusign',        name: 'DocuSign',                color: '#FAB600' },
+  { id: 'dropbox',         name: 'Dropbox',                 color: '#0061FF' },
+  { id: 'gmail',           name: 'Gmail',                   color: '#EA4335' },
+  { id: 'ghl',             name: 'GoHighLevel',             color: '#FF6B35' },
+  { id: 'drive',           name: 'Google Drive',            color: '#34A853' },
+  { id: 'gusto',           name: 'Gusto',                   color: '#F45D48' },
+  { id: 'hubspot',         name: 'HubSpot',                 color: '#FF7A59' },
+  { id: 'jotform',         name: 'Jotform',                 color: '#FF6100' },
+  { id: 'klaviyo',         name: 'Klaviyo',                 color: '#232425' },
+  { id: 'loom',            name: 'Loom',                    color: '#FF4A90' },
+  { id: 'mailchimp',       name: 'Mailchimp',               color: '#FFD500' },
+  { id: 'make',            name: 'Make',                    color: '#6D00CC' },
+  { id: 'm365',            name: 'Microsoft 365 / Outlook', color: '#0078D4' },
+  { id: 'monday',          name: 'Monday.com',              color: '#FF3D57' },
+  { id: 'teams',           name: 'MS Teams',                color: '#6264A7' },
+  { id: 'notion',          name: 'Notion',                  color: '#888888' },
+  { id: 'pandadoc',        name: 'PandaDoc',                color: '#25C16F' },
+  { id: 'pipedrive',       name: 'Pipedrive',               color: '#1F9562' },
+  { id: 'quickbooks',      name: 'QuickBooks',              color: '#2CA01C' },
+  { id: 'salesforce',      name: 'Salesforce',              color: '#00A1E0' },
+  { id: 'shopify',         name: 'Shopify',                 color: '#95BF47' },
+  { id: 'slack',           name: 'Slack',                   color: '#E01E5A' },
+  { id: 'stripe',          name: 'Stripe',                  color: '#635BFF' },
+  { id: 'typeform',        name: 'Typeform',                color: '#262627' },
+  { id: 'xero',            name: 'Xero',                    color: '#13B5EA' },
+  { id: 'zapier',          name: 'Zapier',                  color: '#FF4A00' },
+  { id: 'zoom',            name: 'Zoom',                    color: '#2D8CFF' },
 ];
 
 const SCATTER = [
@@ -63,11 +79,31 @@ const BIZ_TYPES   = [
   'Other',
 ];
 const AI_OPTIONS  = [
-  { id: 'chatgpt', label: 'ChatGPT (OpenAI)'  },
-  { id: 'claude',  label: 'Claude (Anthropic)' },
-  { id: 'both',    label: 'Both'               },
-  { id: 'neither', label: 'Not yet'            },
+  { id: 'chatgpt',    label: 'ChatGPT'    },
+  { id: 'claude',     label: 'Claude'     },
+  { id: 'gemini',     label: 'Gemini'     },
+  { id: 'openclaw',   label: 'OpenClaw'   },
+  { id: 'kimi',       label: 'Kimi'       },
+  { id: 'grok',       label: 'Grok'       },
+  { id: 'perplexity', label: 'Perplexity' },
+  { id: 'deepseek',   label: 'DeepSeek'   },
+  { id: 'local',      label: 'Local LLM'  },
+  { id: 'none',       label: 'None Yet'   },
 ];
+
+const AI_NAMES = {
+  chatgpt: 'ChatGPT', claude: 'Claude', gemini: 'Gemini',
+  openclaw: 'OpenClaw', kimi: 'Kimi', grok: 'Grok',
+  perplexity: 'Perplexity', deepseek: 'DeepSeek', local: 'a local LLM',
+};
+
+function aiDisplayName(aiTools) {
+  const picks = (aiTools ?? []).filter(id => id !== 'none' && AI_NAMES[id]).map(id => AI_NAMES[id]);
+  if (!picks.length) return 'AI';
+  if (picks.length === 1) return picks[0];
+  if (picks.length === 2) return `${picks[0]} and ${picks[1]}`;
+  return `${picks.slice(0, -1).join(', ')}, and ${picks[picks.length - 1]}`;
+}
 const PAIN_POINTS = [
   'Lead Follow Up',
   'Sales Report Generation',
@@ -84,7 +120,7 @@ const PAIN_POINTS = [
   'Other',
 ];
 
-const STEP_LABELS = ['Stack', 'Business', 'AI Tool', 'Focus'];
+const STEP_LABELS = ['Business', 'Stack', 'Focus', 'AI Tool'];
 
 // ── Output Logic ─────────────────────────────────────────────────────────────
 
@@ -163,13 +199,8 @@ const PAIN_MAP = {
   },
 };
 
-function buildSolutions(tools, aiToolId, painPoint) {
-  const aiName = {
-    claude:  'Claude',
-    chatgpt: 'ChatGPT',
-    both:    'Claude + ChatGPT',
-    neither: 'AI',
-  }[aiToolId] || 'AI';
+function buildSolutions(tools, aiTools, painPoint) {
+  const aiName = aiDisplayName(aiTools);
 
   const crmName = tools.includes('hubspot')    ? 'HubSpot'
                 : tools.includes('salesforce') ? 'Salesforce'
@@ -363,7 +394,7 @@ export default function HeroScan() {
   const [bizType, setBizType]       = useState(null);
   const [showOther, setShowOther]   = useState(false);
   const [bizCustom, setBizCustom]   = useState('');
-  const [aiTool, setAiTool]         = useState(null);
+  const [aiTools, setAiTools]       = useState([]);
   const [painPoint, setPainPoint]   = useState(null);
   const [solutions, setSolutions]   = useState([]);
   const [email, setEmail]           = useState('');
@@ -404,7 +435,7 @@ export default function HeroScan() {
   const selectBiz = (biz) => {
     if (biz === 'Other') { setShowOther(true); return; }
     setBizType(biz);
-    setTimeout(() => advance(2), 300);
+    setTimeout(() => advance(1), 300);
   };
 
   const submitOther = () => {
@@ -412,24 +443,22 @@ export default function HeroScan() {
     if (!val) return;
     setBizType(val);
     setShowOther(false);
-    setTimeout(() => advance(2), 300);
+    setTimeout(() => advance(1), 300);
   };
 
-  const selectAI = (id) => {
-    setAiTool(id);
-    setTimeout(() => advance(3), 300);
+  const toggleAI = (id) => {
+    setAiTools(prev => {
+      if (id === 'none') return prev.includes('none') ? [] : ['none'];
+      return prev.includes(id)
+        ? prev.filter(x => x !== id)
+        : [...prev.filter(x => x !== 'none'), id];
+    });
   };
 
   const selectPain = (pp) => {
     if (pp === 'Other') { setShowPainOther(true); return; }
     setPainPoint(pp);
-    setTimeout(() => {
-      advance(4);
-      setTimeout(() => {
-        setSolutions(buildSolutions(selectedTools, aiTool, pp));
-        advance(5);
-      }, 2400);
-    }, 300);
+    setTimeout(() => advance(3), 300);
   };
 
   const submitPainOther = () => {
@@ -437,13 +466,34 @@ export default function HeroScan() {
     if (!val) return;
     setPainPoint(val);
     setShowPainOther(false);
-    setTimeout(() => {
-      advance(4);
-      setTimeout(() => {
-        setSolutions(buildSolutions(selectedTools, aiTool, val));
-        advance(5);
-      }, 2400);
-    }, 300);
+    setTimeout(() => advance(3), 300);
+  };
+
+  // Final step — fire scan from the AI Tool question (last question)
+  const startScan = () => {
+    if (aiTools.length === 0) return;
+    advance(4);
+
+    // Static fallback — always available instantly
+    const staticSols = buildSolutions(selectedTools, aiTools, painPoint);
+
+    // Fire Claude during the scan window (Haiku — fast, ~1-2s)
+    const aiCall = fetch('/api/generate-cards', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ bizType, aiTools, selectedTools, painPoint }),
+    })
+      .then(r => r.ok ? r.json() : null)
+      .catch(() => null);
+
+    // Wait for scan animation, then show best available result
+    const scanDelay = new Promise(resolve => setTimeout(resolve, 2400));
+
+    Promise.all([aiCall, scanDelay]).then(([aiData]) => {
+      const aiSols = aiData?.solutions;
+      setSolutions(Array.isArray(aiSols) && aiSols.length >= 2 ? aiSols.slice(0, 2) : staticSols);
+      advance(5);
+    });
   };
 
   const handleSendReport = async () => {
@@ -454,7 +504,7 @@ export default function HeroScan() {
     fetch('/api/send-report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, solutions, bizType, aiTool, selectedTools, painPoint }),
+      body: JSON.stringify({ email, solutions, bizType, aiTools, selectedTools, painPoint }),
     }).catch(err => console.error('send-report:', err));
 
     await new Promise(r => setTimeout(r, 2000));
@@ -506,6 +556,7 @@ export default function HeroScan() {
                   {/* Floating cards */}
                   {TOOLS.map((tool, i) => {
                     const sc = SCATTER[i];
+                    if (!sc) return null;
                     return (
                       <motion.div
                         key={tool.id}
@@ -732,9 +783,7 @@ export default function HeroScan() {
                       <BotAvatar />
                       <div className="rounded-xl rounded-tl-sm px-4 py-3" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
                         <p className="text-white/80 text-sm leading-relaxed">
-                          Here's where <strong className="text-[#C6A62C]">{
-                            {claude:'Claude',chatgpt:'ChatGPT',both:'Claude + ChatGPT',neither:'AI'}[aiTool] || 'AI'
-                          }</strong> creates the most immediate impact in your stack:
+                          Here's where <strong className="text-[#C6A62C]">{aiDisplayName(aiTools)}</strong> can create the most immediate impact in your stack:
                         </p>
                       </div>
                     </div>
@@ -821,8 +870,8 @@ export default function HeroScan() {
                         className="space-y-4"
                       >
 
-                        {/* ── Step 0: Tools ── */}
-                        {step === 0 && (
+                        {/* ── Step 1: Stack (tools) ── */}
+                        {step === 1 && (
                           <>
                             <div className="flex items-start gap-2.5">
                               <BotAvatar />
@@ -844,7 +893,7 @@ export default function HeroScan() {
                               ))}
                             </div>
                             <button
-                              onClick={() => advance(1)}
+                              onClick={() => advance(2)}
                               disabled={selectedTools.length === 0}
                               className="w-full py-3 rounded-xl font-semibold text-sm text-black transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:translate-y-0 mt-2"
                               style={{
@@ -852,13 +901,13 @@ export default function HeroScan() {
                                 boxShadow: selectedTools.length > 0 ? '0 4px 22px rgba(198,166,44,0.4)' : 'none',
                               }}
                             >
-                              {selectedTools.length === 0 ? 'Select tools above' : 'Start my AI Readiness Report →'}
+                              {selectedTools.length === 0 ? 'Select tools above' : 'Continue →'}
                             </button>
                           </>
                         )}
 
-                        {/* ── Step 1: Business Type ── */}
-                        {step === 1 && (
+                        {/* ── Step 0: Business Type ── */}
+                        {step === 0 && (
                           <>
                             <div className="flex items-start gap-2.5">
                               <BotAvatar />
@@ -910,14 +959,14 @@ export default function HeroScan() {
                           </>
                         )}
 
-                        {/* ── Step 2: AI Tool ── */}
-                        {step === 2 && (
+                        {/* ── Step 3: AI Tool (final question) ── */}
+                        {step === 3 && (
                           <>
                             <div className="flex items-start gap-2.5">
                               <BotAvatar />
                               <div className="rounded-xl rounded-tl-sm px-4 py-3" style={{ backgroundColor: 'rgba(255,255,255,0.06)' }}>
                                 <p className="text-white/80 text-sm leading-relaxed">
-                                  Which AI assistant is your team already working with?
+                                  Which AI assistants is your team already working with? Pick all that apply.
                                 </p>
                               </div>
                             </div>
@@ -926,16 +975,27 @@ export default function HeroScan() {
                                 <Chip
                                   key={opt.id}
                                   label={opt.label}
-                                  selected={aiTool === opt.id}
-                                  onClick={() => selectAI(opt.id)}
+                                  selected={aiTools.includes(opt.id)}
+                                  onClick={() => toggleAI(opt.id)}
                                 />
                               ))}
                             </div>
+                            <button
+                              onClick={startScan}
+                              disabled={aiTools.length === 0}
+                              className="w-full py-3 rounded-xl font-semibold text-sm text-black transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-25 disabled:cursor-not-allowed disabled:hover:translate-y-0 mt-2"
+                              style={{
+                                backgroundColor: '#C6A62C',
+                                boxShadow: aiTools.length > 0 ? '0 4px 22px rgba(198,166,44,0.4)' : 'none',
+                              }}
+                            >
+                              {aiTools.length === 0 ? 'Select all that apply' : 'See my opportunities →'}
+                            </button>
                           </>
                         )}
 
-                        {/* ── Step 3: Focus Activity ── */}
-                        {step === 3 && (
+                        {/* ── Step 2: Focus Activity ── */}
+                        {step === 2 && (
                           <>
                             <div className="flex items-start gap-2.5">
                               <BotAvatar />
