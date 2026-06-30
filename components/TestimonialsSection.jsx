@@ -77,7 +77,7 @@ export default function TestimonialsSection() {
   const cards = base.length < 4 ? [...base, ...STATIC_TESTIMONIALS, ...base, ...STATIC_TESTIMONIALS] : [...base, ...base];
 
   return (
-    <section ref={ref} className="py-28 bg-[#FAFAF8] overflow-hidden">
+    <section id="testimonials" ref={ref} className="py-28 bg-[#FAFAF8] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-14">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

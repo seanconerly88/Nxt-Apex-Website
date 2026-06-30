@@ -687,6 +687,9 @@ export default function HeroScan() {
                     <a href="#process" className="text-sm font-medium text-white/35 hover:text-white/60 transition-colors duration-200">
                       See how it works ↓
                     </a>
+                    <a href="#testimonials" className="text-sm font-medium text-white/35 hover:text-white/60 transition-colors duration-200">
+                      See results ↓
+                    </a>
                   </motion.div>
 
                   <motion.div

@@ -409,6 +409,72 @@ function buildEmailHTML(s1, s2, s3, aiToolsArr, painPoint, bizType) {
 </body></html>`;
 }
 
+// ─── Owner notification email ─────────────────────────────────────────────
+function buildNotificationHTML(leadEmail, bizType, aiToolLabel, toolNameList, painPoint, s1, s2, s3, contactId, locationId) {
+  const ghlLink = `https://app.gohighlevel.com/v2/location/${locationId}/contacts/detail/${contactId}`;
+
+  const cardRow = (num, sol) => sol?.title ? `
+    <tr><td style="padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+      <p style="margin:0 0 2px;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#C6A62C;">Opportunity #${num} — ${sol.connection ?? ''}</p>
+      <p style="margin:0;font-size:14px;font-weight:600;color:#fff;">${sol.title}</p>
+    </td></tr>` : '';
+
+  return `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#060A18;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#0D1220;border-radius:12px;overflow:hidden;">
+        <tr><td style="background:#C6A62C;padding:16px 28px;">
+          <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#000;">New Lead — AI Readiness Report</p>
+          <p style="margin:4px 0 0;font-size:20px;font-weight:900;color:#000;">${leadEmail}</p>
+        </td></tr>
+        <tr><td style="padding:24px 28px;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+            <tr><td style="background:#060A18;border-radius:8px;padding:16px 18px;">
+              <p style="margin:0 0 10px;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);">What they told us</p>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr><td style="padding:5px 0;font-size:13px;color:rgba(255,255,255,0.5);width:110px;">Business</td><td style="padding:5px 0;font-size:13px;color:#fff;font-weight:600;">${bizType ?? 'Not specified'}</td></tr>
+                <tr><td style="padding:5px 0;font-size:13px;color:rgba(255,255,255,0.5);">AI Tools</td><td style="padding:5px 0;font-size:13px;color:#fff;font-weight:600;">${aiToolLabel}</td></tr>
+                <tr><td style="padding:5px 0;font-size:13px;color:rgba(255,255,255,0.5);">Pain Point</td><td style="padding:5px 0;font-size:13px;color:#C6A62C;font-weight:600;">${painPoint ?? 'Not specified'}</td></tr>
+                <tr><td style="padding:5px 0;font-size:13px;color:rgba(255,255,255,0.5);vertical-align:top;">Stack</td><td style="padding:5px 0;font-size:13px;color:#fff;">${toolNameList}</td></tr>
+              </table>
+            </td></tr>
+          </table>
+          <p style="margin:0 0 10px;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);">What we sent them</p>
+          <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;">
+            ${cardRow(1, s1)}
+            ${cardRow(2, s2)}
+            ${cardRow(3, s3)}
+          </table>
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr><td align="center">
+              <a href="${ghlLink}" style="display:inline-block;background:#C6A62C;color:#000;font-size:13px;font-weight:700;padding:11px 24px;border-radius:8px;text-decoration:none;">View in GHL →</a>
+            </td></tr>
+          </table>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+}
+
+async function sendOwnerNotification(pitKey, locationId, leadEmail, bizType, aiToolLabel, selectedTools, painPoint, finalS1, finalS2, finalS3, leadContactId) {
+  const SEAN_EMAIL = 'sean@nxtapexai.com';
+  const toolNameList = (selectedTools ?? []).map(id => TOOL_NAMES[id] ?? id).join(', ') || 'None specified';
+
+  const upsertRes = await fetch(`${GHL_BASE}/contacts/upsert`, {
+    method: 'POST',
+    headers: ghlHeaders(pitKey),
+    body: JSON.stringify({ locationId, email: SEAN_EMAIL }),
+  });
+  if (!upsertRes.ok) throw new Error(`Owner upsert failed: ${upsertRes.status}`);
+  const upsertData = await upsertRes.json();
+  const seanContactId = upsertData.contact?.id ?? upsertData.id;
+  if (!seanContactId) throw new Error('No owner contactId');
+
+  const html = buildNotificationHTML(leadEmail, bizType, aiToolLabel, toolNameList, painPoint, finalS1, finalS2, finalS3, leadContactId, locationId);
+  await sendEmail(pitKey, locationId, seanContactId, SEAN_EMAIL, `New Lead: ${leadEmail} — AI Readiness Report`, html);
+}
+
 // ─── POST handler ──────────────────────────────────────────────────────────
 export async function POST(request) {
   const log = { contact: false, customFields: false, email: false, aiGenerated: false };
@@ -464,7 +530,7 @@ export async function POST(request) {
     log.aiGenerated = !!aiContent;
     if (aiContent) console.log('✓ Claude content generated');
 
-    // ── 5. Send email ────────────────────────────────────────────────────────
+    // ── 5. Send email to lead ────────────────────────────────────────────────
     try {
       const html = buildEmailHTML(finalS1, finalS2, finalS3, aiToolsArr, painPoint, bizType);
       await sendEmail(pitKey, locationId, contactId, email, 'Your AI Readiness Report — Nxt Apex', html);
@@ -473,6 +539,13 @@ export async function POST(request) {
     } catch (e) {
       console.error('Email send failed:', e.message);
     }
+
+    // ── 6. Notify Sean ───────────────────────────────────────────────────────
+    sendOwnerNotification(
+      pitKey, locationId, email, bizType, aiToolLabel,
+      selectedTools, painPoint, finalS1, finalS2, finalS3, contactId
+    ).then(() => console.log('✓ Owner notification sent'))
+      .catch(e => console.warn('Owner notification skipped:', e.message));
 
     return NextResponse.json({ success: true, ...log });
   } catch (err) {
