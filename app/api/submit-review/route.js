@@ -24,9 +24,7 @@ function ghlHeaders(pitKey) {
 }
 
 function buildDisplayName(name = '') {
-  const parts = name.trim().split(/\s+/);
-  if (parts.length === 1) return parts[0];
-  return `${parts[0]} ${parts[parts.length - 1][0]}.`;
+  return name.trim().split(/\s+/)[0];
 }
 
 async function ensureReviewFields(pitKey, locationId) {

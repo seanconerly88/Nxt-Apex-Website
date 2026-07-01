@@ -6,22 +6,22 @@ import { motion, useInView } from 'framer-motion';
 const STATIC_TESTIMONIALS = [
   {
     quote: 'The assessment alone was worth it. We found 6 workflows we could automate. We had no idea where to start before this.',
-    name: 'M. R.',
+    name: 'Marcus',
     title: 'CEO, 35-person agency',
   },
   {
     quote: "The AI Opportunity Report changed how we look at our operations. Sean's team made AI feel achievable, not overwhelming.",
-    name: 'K. T.',
+    name: 'Karen',
     title: 'Operations Director',
   },
   {
     quote: 'We went from subscribed to actually using Claude for everything within a week of training. The team is completely different now.',
-    name: 'D. L.',
+    name: 'David',
     title: 'Founder',
   },
   {
     quote: "I thought we were already using AI well. The assessment showed us we'd barely scratched the surface. Game changer.",
-    name: 'J. P.',
+    name: 'Jessica',
     title: 'Managing Partner',
   },
 ];
