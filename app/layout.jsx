@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google';
+import ClientLayout from '@/components/ClientLayout';
 import './globals.css';
 
 const inter = Inter({
@@ -21,10 +22,14 @@ const organizationSchema = {
   founder: { '@type': 'Person', '@id': `${SITE_URL}/#sean-conerly`, name: 'Sean Conerly' },
   email: 'sean@nxtapexai.com',
   telephone: '+15042904780',
-  serviceType: ['AI Consulting', 'AI Readiness Assessment', 'AI Team Training', 'Business Automation', 'AI Implementation'],
+  address: { '@type': 'PostalAddress', addressLocality: 'New Orleans', addressRegion: 'LA', addressCountry: 'US' },
+  sameAs: [
+    'https://www.linkedin.com/in/sean-conerly-49063054/',
+  ],
+  serviceType: ['AI Consulting', 'AI Readiness Assessment', 'AI Team Training', 'Business Automation', 'AI Implementation', 'AI Search Visibility', 'Answer Engine Optimization'],
   areaServed: 'US',
   priceRange: '$$$$',
-  knowsAbout: ['Artificial Intelligence', 'Business Automation', 'AI Implementation', 'CILAS Framework', 'Claude AI', 'OpenAI', 'AI Strategy'],
+  knowsAbout: ['Artificial Intelligence', 'Business Automation', 'AI Implementation', 'CILAS Framework', 'Claude AI', 'OpenAI', 'AI Strategy', 'Answer Engine Optimization', 'AEO', 'AI Search Optimization'],
 };
 
 const personSchema = {
@@ -71,7 +76,7 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify([organizationSchema, personSchema]) }}
         />
-        {children}
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

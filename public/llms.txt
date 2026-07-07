@@ -1,0 +1,31 @@
+# Nxt Apex AI — llms.txt
+# https://nxtapexai.com
+
+## About
+Nxt Apex AI is an AI consulting firm founded by Sean Conerly (MIT-trained AI strategist).
+We help businesses implement AI that drives measurable revenue and operational efficiency.
+Our core framework is CILAS: Context, Inputs, Logic, Automation, System.
+
+## Services
+- AI Readiness Assessment: We audit a business's current tools, workflows, and team capability and deliver a custom AI implementation roadmap.
+- AI Team Training: Hands-on training on Claude, AI Search Visibility, and custom workflow tools — built around each client's actual processes.
+- Custom AI Workflows: We build automations that connect existing software, eliminate manual work, and deliver ROI generic tools can't match.
+- AI Search Visibility (AEO): We optimize how businesses appear in ChatGPT, Perplexity, and Google AI Overview answers. We audit citation signals, fix structured data, and connect AI-referred leads to a pipeline built to close.
+
+## Founder
+Sean Conerly — AI strategist, MIT background. Focused on practical AI implementation for small and mid-sized businesses.
+Contact: sean@nxtapexai.com | (504) 290-4780
+
+## Key Pages
+- Homepage: https://nxtapexai.com
+- FAQ: https://nxtapexai.com/faq
+- AI Visibility for Real Estate: https://nxtapexai.com/aeo-for-real-estate
+- AI Visibility for Home Services: https://nxtapexai.com/aeo-for-home-services
+- AI Visibility for Medical Practices: https://nxtapexai.com/aeo-for-medical
+- AI Visibility for Dental Practices: https://nxtapexai.com/aeo-for-dental
+- AI Visibility for Law Firms: https://nxtapexai.com/aeo-for-law-firms
+- AI Visibility for Insurance Agencies: https://nxtapexai.com/aeo-for-insurance
+- AI Visibility for Medical Spas: https://nxtapexai.com/aeo-for-med-spa
+
+## Sitemap
+https://nxtapexai.com/sitemap.xml
