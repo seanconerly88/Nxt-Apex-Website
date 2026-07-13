@@ -667,7 +667,7 @@ export default function HeroScan() {
                     className="text-white/45 font-light leading-relaxed max-w-lg mb-9"
                     style={{ fontSize: 'clamp(16px,1.3vw,19px)' }}
                   >
-                    AI connects your existing tools to eliminate the work slowing your team down —
+                    We use agents to upgrade and connect your existing tools to eliminate the work slowing your team down —
                     see exactly where in 60 seconds.
                   </motion.p>
 

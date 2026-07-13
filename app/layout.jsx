@@ -49,7 +49,7 @@ const personSchema = {
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: 'Nxt Apex AI | AI Consulting & Implementation for Business',
-  description: 'Nxt Apex AI helps businesses implement AI that drives real results. Led by Sean Conerly, we deliver AI readiness assessments, custom implementation strategies, and team training — built on the CILAS framework.',
+  description: 'Nxt Apex AI uses custom AI agents to upgrade and connect your existing business tools — eliminating the work slowing your team down. AI readiness assessments, implementation, and team training built on the CILAS framework.',
   keywords: ['AI consulting', 'AI implementation', 'business automation', 'AI readiness assessment', 'CILAS framework', 'Sean Conerly', 'AI team training', 'AI strategy'],
   authors: [{ name: 'Sean Conerly', url: SITE_URL }],
   creator: 'Sean Conerly',
