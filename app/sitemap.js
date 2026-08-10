@@ -3,6 +3,7 @@ const SITE_URL = 'https://nxtapexai.com';
 export default function sitemap() {
   return [
     { url: SITE_URL,                              lastModified: new Date(), changeFrequency: 'weekly',  priority: 1.0 },
+    { url: `${SITE_URL}/ai-search`,               lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
     { url: `${SITE_URL}/faq`,                     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/aeo-agency`,              lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/aeo-for-real-estate`,     lastModified: new Date(), changeFrequency: 'weekly',  priority: 0.9 },
