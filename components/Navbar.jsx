@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { useBooking } from '@/contexts/BookingContext';
 
 export default function Navbar() {
@@ -16,9 +17,10 @@ export default function Navbar() {
   }, []);
 
   const links = [
-    { label: 'Process', href: '#process' },
-    { label: 'Training', href: '#training' },
-    { label: 'Assessment', href: '#assessment' },
+    { label: 'Assessment', href: '/' },
+    { label: 'AI Search', href: '/ai-search' },
+    { label: 'AEO Agency', href: '/aeo-agency' },
+    { label: 'FAQ', href: '/faq' },
   ];
 
   return (
@@ -49,13 +51,13 @@ export default function Navbar() {
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-8">
             {links.map((link) => (
-              <a
+              <Link
                 key={link.label}
                 href={link.href}
                 className="text-sm font-medium text-gray-600 hover:text-[#C6A62C] transition-colors duration-200"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <div className="w-px h-5 bg-gray-200" />
             <a
@@ -105,14 +107,14 @@ export default function Navbar() {
           >
             <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col gap-4">
               {links.map((link) => (
-                <a
+                <Link
                   key={link.label}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className="text-sm font-medium text-gray-700 py-1 hover:text-[#C6A62C] transition-colors"
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
               <button
                 onClick={() => { openModal(); setMobileOpen(false); }}

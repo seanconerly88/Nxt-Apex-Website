@@ -1,36 +1,125 @@
+import Link from 'next/link';
+
+const VERTICALS = [
+  { label: 'AEO for Real Estate', href: '/aeo-for-real-estate' },
+  { label: 'AEO for Home Services', href: '/aeo-for-home-services' },
+  { label: 'AEO for Medical', href: '/aeo-for-medical' },
+  { label: 'AEO for Dental', href: '/aeo-for-dental' },
+  { label: 'AEO for Law Firms', href: '/aeo-for-law-firms' },
+  { label: 'AEO for Insurance', href: '/aeo-for-insurance' },
+  { label: 'AEO for Med Spa', href: '/aeo-for-med-spa' },
+];
+
+const SERVICES = [
+  { label: 'AI Readiness Assessment', href: '/' },
+  { label: 'AI Search Visibility', href: '/ai-search' },
+  { label: 'AEO Agency', href: '/aeo-agency' },
+  { label: 'FAQ', href: '/faq' },
+  { label: 'Reviews', href: '/reviews' },
+];
+
 export default function Footer() {
-  const links = [
-    { label: 'Process', href: '#process' },
-    { label: 'Training', href: '#training' },
-    { label: 'Assessment', href: '#assessment' },
-    { label: '(504) 290-4780', href: 'tel:+15042904780' },
-  ];
-
   return (
-    <footer className="bg-[#111111] border-t border-white/5 py-12">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Logo — Trans Light (dark footer background) */}
-          <a href="/" className="flex items-center gap-2.5">
-            <img src="/logo-trans-light.png" alt="NXT APEX AI" className="h-9 w-auto" />
-            <span className="text-lg font-extrabold tracking-tight text-white">Nxt Apex</span>
-          </a>
+    <footer style={{ backgroundColor: '#060A18', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
 
-          {/* Links */}
-          <nav className="flex flex-wrap items-center justify-center gap-6 md:gap-8">
-            {links.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm text-gray-500 hover:text-white transition-colors duration-200"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
+          {/* Brand */}
+          <div className="lg:col-span-1">
+            <Link href="/" className="flex items-center gap-2.5 mb-4">
+              <img src="/logo-trans-light.png" alt="Nxt Apex AI" className="h-8 w-auto" />
+              <span className="text-white font-extrabold tracking-tight">Nxt Apex AI</span>
+            </Link>
+            <p className="text-white/35 text-[13px] leading-relaxed mb-5">
+              AI consulting and implementation for service businesses. We find where you leak revenue and fix it.
+            </p>
+            <a
+              href="tel:+15042904780"
+              className="text-[13px] font-semibold transition-colors"
+              style={{ color: '#C6A62C' }}
+            >
+              (504) 290-4780
+            </a>
+          </div>
 
-          {/* Copyright */}
-          <p className="text-sm text-gray-600">&copy; 2026 Nxt Apex AI. All rights reserved.</p>
+          {/* Services */}
+          <div>
+            <p className="text-white/25 text-[11px] font-bold uppercase tracking-widest mb-4">Services</p>
+            <ul className="space-y-2.5">
+              {SERVICES.map(link => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/45 text-[13px] hover:text-white transition-colors duration-150"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Industries */}
+          <div>
+            <p className="text-white/25 text-[11px] font-bold uppercase tracking-widest mb-4">Industries</p>
+            <ul className="space-y-2.5">
+              {VERTICALS.map(link => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/45 text-[13px] hover:text-white transition-colors duration-150"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact / Legal */}
+          <div>
+            <p className="text-white/25 text-[11px] font-bold uppercase tracking-widest mb-4">Company</p>
+            <ul className="space-y-2.5">
+              <li>
+                <a
+                  href="mailto:sean@nxtapexai.com"
+                  className="text-white/45 text-[13px] hover:text-white transition-colors duration-150"
+                >
+                  sean@nxtapexai.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.linkedin.com/in/sean-conerly-49063054/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/45 text-[13px] hover:text-white transition-colors duration-150"
+                >
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <Link href="/faq" className="text-white/45 text-[13px] hover:text-white transition-colors duration-150">
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link href="/reviews" className="text-white/45 text-[13px] hover:text-white transition-colors duration-150">
+                  Client Reviews
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        {/* Bottom bar */}
+        <div
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+        >
+          <p className="text-white/20 text-[12px]">&copy; 2026 Nxt Apex AI. All rights reserved.</p>
+          <p className="text-white/15 text-[11px]">New Orleans, LA · AI Consulting · CILAS Framework</p>
         </div>
       </div>
     </footer>
