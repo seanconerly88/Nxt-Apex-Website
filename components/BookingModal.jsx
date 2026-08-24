@@ -60,8 +60,8 @@ export default function BookingModal() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 24 }}
               transition={{ duration: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden"
-              style={{ maxHeight: '92vh' }}
+              className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-y-auto"
+              style={{ maxHeight: '92vh', WebkitOverflowScrolling: 'touch' }}
             >
               {/* Modal header */}
               <div className="px-7 pt-5 pb-4 border-b border-gray-100">
@@ -113,21 +113,12 @@ export default function BookingModal() {
               </div>
 
               {/* GHL Calendar iframe */}
-              <div
-                className="overflow-y-auto overscroll-contain"
-                style={{ maxHeight: 'calc(92vh - 160px)', WebkitOverflowScrolling: 'touch' }}
-              >
-                <iframe
-                  src="https://api.leadconnectorhq.com/widget/booking/skLPTNg3PVxukFM8OQHW"
-                  style={{
-                    width: '100%',
-                    height: '1200px',
-                    border: 'none',
-                    display: 'block',
-                  }}
-                  id="skLPTNg3PVxukFM8OQHW_1779295626870"
-                />
-              </div>
+              <iframe
+                src="https://api.leadconnectorhq.com/widget/booking/skLPTNg3PVxukFM8OQHW"
+                style={{ width: '100%', height: '1400px', border: 'none', display: 'block' }}
+                scrolling="no"
+                id="skLPTNg3PVxukFM8OQHW_1779295626870"
+              />
             </motion.div>
           </motion.div>
         )}
