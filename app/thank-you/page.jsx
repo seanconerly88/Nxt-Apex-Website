@@ -10,7 +10,7 @@ export const metadata = {
 export default function ThankYou() {
   return (
     <main style={{ backgroundColor: '#060A18', minHeight: '100vh' }}>
-      <Navbar />
+      <Navbar ctaLabel="View FAQ" ctaHref="/faq" />
 
       <section className="flex flex-col items-center justify-center px-6 text-center" style={{ minHeight: '80vh', paddingTop: '120px', paddingBottom: '80px' }}>
 

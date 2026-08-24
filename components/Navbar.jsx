@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useBooking } from '@/contexts/BookingContext';
 
-export default function Navbar() {
+export default function Navbar({ ctaLabel, ctaHref }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openModal } = useBooking();
@@ -70,16 +70,23 @@ export default function Navbar() {
 
           {/* CTA */}
           <div className="hidden md:block">
-            <button
-              onClick={openModal}
-              className="inline-flex items-center px-5 py-2.5 rounded-lg text-white text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-              style={{
-                backgroundColor: '#C6A62C',
-                boxShadow: '0 2px 12px rgba(198,166,44,0.28)',
-              }}
-            >
-              Book Assessment
-            </button>
+            {ctaHref ? (
+              <Link
+                href={ctaHref}
+                className="inline-flex items-center px-5 py-2.5 rounded-lg text-white text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                style={{ backgroundColor: '#C6A62C', boxShadow: '0 2px 12px rgba(198,166,44,0.28)' }}
+              >
+                {ctaLabel || 'Book Assessment'}
+              </Link>
+            ) : (
+              <button
+                onClick={openModal}
+                className="inline-flex items-center px-5 py-2.5 rounded-lg text-white text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                style={{ backgroundColor: '#C6A62C', boxShadow: '0 2px 12px rgba(198,166,44,0.28)' }}
+              >
+                Book Assessment
+              </button>
+            )}
           </div>
 
           {/* Mobile toggle */}
@@ -116,13 +123,24 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <button
-                onClick={() => { openModal(); setMobileOpen(false); }}
-                className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-white text-sm font-semibold mt-2"
-                style={{ backgroundColor: '#C6A62C' }}
-              >
-                Book Assessment
-              </button>
+              {ctaHref ? (
+                <Link
+                  href={ctaHref}
+                  onClick={() => setMobileOpen(false)}
+                  className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-white text-sm font-semibold mt-2"
+                  style={{ backgroundColor: '#C6A62C' }}
+                >
+                  {ctaLabel || 'Book Assessment'}
+                </Link>
+              ) : (
+                <button
+                  onClick={() => { openModal(); setMobileOpen(false); }}
+                  className="inline-flex items-center justify-center px-5 py-3 rounded-xl text-white text-sm font-semibold mt-2"
+                  style={{ backgroundColor: '#C6A62C' }}
+                >
+                  Book Assessment
+                </button>
+              )}
             </div>
           </motion.div>
         )}
