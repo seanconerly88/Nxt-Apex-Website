@@ -15,8 +15,8 @@ const OFFERS = [
     tag: 'Start here',
     tagColor: 'rgba(255,255,255,0.15)',
     tagText: 'rgba(255,255,255,0.6)',
-    description: 'Get the AI Readiness Assessment results, your scored report, and the fix list. You take it from there.',
-    features: ['9-stage client journey audit', 'Scored report delivered in 4 days', 'Priority fix list'],
+    description: 'Every open loop in your business named and ranked, in your hands in 48 hours. You know exactly what to close and in what order.',
+    features: ['Full client journey audit', 'Open loops ranked by priority', 'Delivered in 48 hours'],
     cta: 'Book your free Assessment',
     ctaStyle: 'outline',
     highlight: false,
@@ -29,7 +29,7 @@ const OFFERS = [
     tag: 'Most popular',
     tagColor: 'rgba(198,166,44,0.15)',
     tagText: '#C6A62C',
-    description: 'Monthly retainer. We guide your team through implementing AI fixes, review outputs, and keep your pipeline healthy.',
+    description: 'Monthly retainer. We stay in it, reviewing what is built, catching what breaks, and keeping the system running when you are not watching it.',
     features: ['Everything in DIY', 'Monthly 1:1 strategy sessions', 'Implementation roadmap', 'Async Slack support', 'Pipeline check-ins'],
     cta: 'Book your free Assessment',
     ctaStyle: 'gold',
@@ -43,8 +43,8 @@ const OFFERS = [
     tag: 'Full deployment',
     tagColor: 'rgba(255,255,255,0.08)',
     tagText: 'rgba(255,255,255,0.5)',
-    description: 'We build and deploy the AI workflows, automations, and agent infrastructure for you. Hands off your team.',
-    features: ['Custom AI agent build', 'CRM + tool integrations', 'Automation setup', 'QA & handoff training', 'Post-launch support'],
+    description: 'Two loops closed by day four. All six running by day twelve. We build it, integrate it, test it, hand it off.',
+    features: ['All six agents deployed', 'CRM + tool integrations', 'Two loops live by day 6', 'QA & handoff training', 'Post-launch support'],
     cta: 'Book your free Assessment',
     ctaStyle: 'outline',
     highlight: false,
@@ -57,7 +57,7 @@ const OFFERS = [
     tag: 'Workshop',
     tagColor: 'rgba(255,255,255,0.08)',
     tagText: 'rgba(255,255,255,0.5)',
-    description: 'Half-day or full-day AI training for your team. Practical, specific to your industry, no fluff.',
+    description: 'Half day or full day, built around your industry. Your team leaves knowing how to run the system, not how to define the word prompt.',
     features: ['Custom curriculum', 'Industry-specific examples', 'Hands-on practice', 'Take-home playbook', 'Min. 5 attendees'],
     cta: 'Book your free Assessment',
     ctaStyle: 'outline',
@@ -103,10 +103,10 @@ export default function OfferStackSection() {
             After the Assessment
           </div>
           <h2 className="text-white font-extrabold mb-4" style={{ fontSize: 'clamp(30px, 3.5vw, 48px)' }}>
-            Five paths to implementation
+            Implementation, not education.
           </h2>
           <p className="text-white/40 text-lg max-w-xl mx-auto">
-            Every engagement starts with the Assessment. Then you pick the level of support that fits your budget and team.
+            Most AI agencies teach you what is possible. We build what is necessary.
           </p>
         </motion.div>
 

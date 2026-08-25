@@ -51,7 +51,7 @@ export default function CTASection() {
           </div>
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight leading-[1.05]">
-            Find where AI fits
+            Stop learning about AI.
             <br />
             <span
               style={{
@@ -61,13 +61,12 @@ export default function CTASection() {
                 backgroundClip: 'text',
               }}
             >
-              in your business.
+              Start using it.
             </span>
           </h2>
 
           <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-            Book your AI Readiness Assessment. Walk away with a report that tells you exactly what
-            to build, what to automate, and what to train your team on.
+            One call. Every open loop named. Forty eight hours to your list.
           </p>
 
           <button

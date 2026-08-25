@@ -1,5 +1,8 @@
 import Navbar from '@/components/Navbar';
 import HomeHero from '@/components/HomeHero';
+import CalloutBand from '@/components/CalloutBand';
+import SixLoopsSection from '@/components/SixLoopsSection';
+import TimelineSection from '@/components/TimelineSection';
 import OfferStackSection from '@/components/OfferStackSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import CTASection from '@/components/CTASection';
@@ -7,16 +10,16 @@ import Footer from '@/components/Footer';
 
 const SITE_URL = 'https://nxtapexai.com';
 
-const assessmentSchema = {
+const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'What is an AI Readiness Assessment?',
+      name: 'What is the Closed Loop System?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'An AI Readiness Assessment is a 9-stage audit of your full client journey — from lead generation to public reviews — that identifies exactly where your business is leaking revenue, leads, and reputation. The result is a scored fix list delivered in 4 days.',
+        text: 'The Closed Loop System is six AI agents, each one closing a specific way revenue leaks out of a business: Speed to Lead closes the response loop, AI Receptionist closes the missed call loop, Database Reactivation closes the dead lead loop, Website Manager closes the browse and bounce loop, Reputation Manager closes the trust loop, and Pipeline Manager closes the oversight loop.',
       },
     },
     {
@@ -24,43 +27,60 @@ const assessmentSchema = {
       name: 'How fast should a business respond to a new lead?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Research shows that responding to a new lead within 5 minutes increases contact rates by up to 900% compared to responding after 30 minutes. Speed to Lead is one of the highest-weight stages in the Nxt Apex AI Readiness Assessment.',
+        text: 'Leads contacted within 5 minutes are up to 96x more likely to convert than leads reached after 30 minutes. This is the response loop, and it is the most common open loop we find. An AI agent closes it by replying to every new lead in under 60 seconds, around the clock.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What happens when a prospect no-shows a sales call?',
+      name: 'How long does implementation take?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Most businesses either try once and move on or do nothing consistent. An AI agent can fire a personalized follow-up within minutes of a missed call, recover 20-40% of no-shows, and keep the lead warm without any manual effort.',
+        text: 'Day 0 is your AI Readiness Assessment. By day 2 your open loops are named and ranked. By day 6 Speed to Lead and Database Reactivation are live. By day 12 all six agents are running and monitored. By day 30 the full system is implemented and tuned for performance.',
       },
     },
     {
       '@type': 'Question',
-      name: 'How should a business collect client reviews?',
+      name: 'What happens when a business misses a phone call?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The most effective review collection is automated — a personalized ask sent at the right moment after fulfillment, triggered by a workflow rather than remembered manually. Businesses using automated review requests generate 3-5x more reviews than those asking manually.',
+        text: 'Most missed calls go to voicemail and never get returned. This is the missed call loop. An AI Receptionist closes it by answering every call the team cannot get to, qualifying the caller, and booking the ones worth booking directly onto the calendar.',
       },
     },
     {
       '@type': 'Question',
-      name: 'What does the AI Readiness Assessment cost?',
+      name: 'What is database reactivation?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The initial AI Readiness Assessment call is free. After the call, a scored fix list is delivered within 4 days. Implementation support is available through Advisory ($1,500/mo), Done-For-You ($3,500-$10K), Team Training ($500/person), or the full CILAS system deployment ($400/mo).',
+        text: 'Database reactivation is systematically contacting every lead in your CRM who never bought. Most businesses have paid to generate hundreds or thousands of these leads and never followed up. An AI agent works that list conversationally and books the ones who are ready now.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Is Nxt Apex AI a marketing agency?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'No. Marketing agencies create demand. Nxt Apex AI captures demand that already exists and is currently being lost. The work is AI operations and implementation, not advertising or lead generation.',
       },
     },
   ],
 };
 
 export const metadata = {
-  title: 'AI Readiness Assessment | Find Your Biggest Revenue Leak | Nxt Apex AI',
-  description: 'Answer 5 questions about your operations. We identify your biggest revenue leak and show you exactly how an AI agent fixes it in 2 weeks. Free. No sales call.',
-  keywords: ['AI readiness assessment', 'revenue leak audit', 'AI business consultant', 'business operations audit', 'speed to lead', 'AI implementation', 'Nxt Apex AI'],
+  title: 'The Closed Loop System | Six AI Agents That Stop Revenue Leaks | Nxt Apex AI',
+  description: 'You do not need more leads. You need to stop losing the ones you have. Six AI agents close the six ways revenue leaves your business. First two live in six days.',
+  keywords: [
+    'AI receptionist',
+    'speed to lead automation',
+    'database reactivation AI',
+    'AI implementation for service businesses',
+    'closed loop system',
+    'AI operations consulting',
+    'missed call automation',
+    'Nxt Apex AI',
+  ],
   openGraph: {
-    title: 'Your business is leaking revenue in at least 3 places right now.',
-    description: 'Answer 5 questions. We find your biggest leak and show you how an AI agent fixes it in 2 weeks.',
+    title: 'The work your team hates doing? It stops next week.',
+    description: 'Six AI agents. Six ways revenue leaves your business, closed. Answer 5 questions and find which loop is widest open.',
     url: SITE_URL,
     type: 'website',
   },
@@ -72,10 +92,13 @@ export default function Home() {
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(assessmentSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <Navbar />
       <HomeHero />
+      <CalloutBand />
+      <SixLoopsSection />
+      <TimelineSection />
       <OfferStackSection />
       <TestimonialsSection />
       <CTASection />

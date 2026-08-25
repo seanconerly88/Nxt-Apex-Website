@@ -1,0 +1,163 @@
+'use client';
+
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { useBooking } from '@/contexts/BookingContext';
+
+const EASE = [0.22, 1, 0.36, 1];
+
+const STEPS = [
+  {
+    when: 'Day 0',
+    what: 'Your AI Readiness Assessment.',
+    detail: 'We map how your business actually runs and find which loops are open.',
+  },
+  {
+    when: 'Day 2',
+    what: 'Your open loops named and ranked.',
+    detail: 'You get the full picture and the order to close them in.',
+  },
+  {
+    when: 'Day 6',
+    what: 'Speed to Lead and Database Reactivation go live.',
+    detail: 'Two loops closed four days after kickoff.',
+    highlight: true,
+  },
+  {
+    when: 'Day 12',
+    what: 'All six agents running and monitored.',
+    detail: 'The full system is deployed, tested, and handed off to your team.',
+    highlight: true,
+  },
+  {
+    when: 'Day 15',
+    what: 'Weekly optimization calls on the calendar.',
+    detail: 'We review what is working, what is not, and tune from there.',
+  },
+  {
+    when: 'Day 30',
+    what: 'Fully implemented and tuned for performance.',
+    detail: 'Every loop closed, measured, and optimized against your numbers.',
+  },
+];
+
+export default function TimelineSection() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const { openModal } = useBooking();
+
+  return (
+    <section ref={ref} className="py-28 px-6" style={{ backgroundColor: '#080D1C' }}>
+      <div className="max-w-4xl mx-auto">
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="text-center mb-16"
+        >
+          <div
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5 text-[11px] font-bold tracking-[0.14em] uppercase"
+            style={{ backgroundColor: 'rgba(198,166,44,0.1)', border: '1px solid rgba(198,166,44,0.2)', color: '#C6A62C' }}
+          >
+            What happens after you book
+          </div>
+          <h2
+            className="text-white font-extrabold"
+            style={{ fontSize: 'clamp(28px, 3.6vw, 48px)', letterSpacing: '-0.02em', textWrap: 'balance' }}
+          >
+            Here is what the first thirty days look like.
+          </h2>
+        </motion.div>
+
+        {/* Timeline */}
+        <div className="relative">
+          {/* Vertical rail */}
+          <motion.div
+            className="absolute left-[7px] sm:left-[91px] top-2 bottom-2 w-px origin-top"
+            style={{ backgroundColor: 'rgba(198,166,44,0.18)' }}
+            initial={{ scaleY: 0 }}
+            animate={inView ? { scaleY: 1 } : {}}
+            transition={{ duration: 1.2, ease: EASE }}
+          />
+
+          <div className="flex flex-col gap-8">
+            {STEPS.map((s, i) => (
+              <motion.div
+                key={s.when}
+                initial={{ opacity: 0, x: -14 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.55, delay: 0.2 + i * 0.1, ease: EASE }}
+                className="relative grid grid-cols-[auto_1fr] sm:grid-cols-[84px_auto_1fr] gap-x-4 sm:gap-x-6 items-start"
+              >
+                {/* Day label — desktop */}
+                <p
+                  className="hidden sm:block text-[13px] font-bold text-right pt-0.5 tabular-nums"
+                  style={{ color: s.highlight ? '#C6A62C' : 'rgba(255,255,255,0.35)' }}
+                >
+                  {s.when}
+                </p>
+
+                {/* Node */}
+                <div className="pt-1.5">
+                  <div
+                    className="w-[15px] h-[15px] rounded-full flex items-center justify-center"
+                    style={{
+                      backgroundColor: '#080D1C',
+                      border: s.highlight ? '2px solid #C6A62C' : '2px solid rgba(255,255,255,0.18)',
+                    }}
+                  >
+                    {s.highlight && (
+                      <div className="w-[5px] h-[5px] rounded-full" style={{ backgroundColor: '#C6A62C' }} />
+                    )}
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div>
+                  <p
+                    className="sm:hidden text-[12px] font-bold mb-1 tabular-nums"
+                    style={{ color: s.highlight ? '#C6A62C' : 'rgba(255,255,255,0.35)' }}
+                  >
+                    {s.when}
+                  </p>
+                  <p className="text-white font-semibold text-[16px] sm:text-[17px] leading-snug mb-1">
+                    {s.what}
+                  </p>
+                  <p className="text-white/35 text-[14px] leading-relaxed">{s.detail}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Closing claim */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.9, ease: EASE }}
+          className="mt-16 rounded-2xl px-8 py-10 text-center"
+          style={{
+            backgroundColor: 'rgba(198,166,44,0.05)',
+            border: '1px solid rgba(198,166,44,0.18)',
+          }}
+        >
+          <p
+            className="text-white font-extrabold mb-6"
+            style={{ fontSize: 'clamp(20px, 2.6vw, 30px)', letterSpacing: '-0.018em', textWrap: 'balance' }}
+          >
+            All six loops installed before your second invoice.
+          </p>
+          <button
+            onClick={openModal}
+            className="inline-flex items-center px-7 py-3.5 rounded-xl text-white font-bold text-[15px] transition-all duration-200 hover:-translate-y-0.5"
+            style={{ backgroundColor: '#C6A62C', boxShadow: '0 4px 20px rgba(198,166,44,0.3)' }}
+          >
+            Book your Assessment →
+          </button>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
