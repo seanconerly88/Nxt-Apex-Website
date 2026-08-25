@@ -124,7 +124,7 @@ export default function TimelineSection() {
   const railScale = useSpring(scrollYProgress, { stiffness: 90, damping: 26, mass: 0.3 });
 
   return (
-    <section ref={ref} className="py-28 px-6" style={{ backgroundColor: '#080D1C' }}>
+    <section ref={ref} className="pt-36 lg:pt-48 pb-28 px-6" style={{ backgroundColor: '#080D1C' }}>
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}

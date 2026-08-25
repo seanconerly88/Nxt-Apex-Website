@@ -12,8 +12,8 @@ export default function CalloutBand() {
   return (
     <section
       ref={ref}
-      className="relative px-6 pt-36 lg:pt-48 pb-24 lg:pb-28 overflow-hidden"
-      style={{ backgroundColor: '#080D1C' }}
+      className="relative px-6 py-24 lg:py-32 overflow-hidden"
+      style={{ backgroundColor: '#060A18' }}
     >
       {/* Faint gold wash */}
       <div

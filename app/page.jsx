@@ -96,10 +96,10 @@ export default function Home() {
       />
       <Navbar />
       <HomeHero />
-      <CalloutBand />
-      <SixLoopsSection />
       <TimelineSection />
+      <SixLoopsSection />
       <OfferStackSection />
+      <CalloutBand />
       <TestimonialsSection />
       <CTASection />
       <Footer />
