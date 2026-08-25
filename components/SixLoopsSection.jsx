@@ -102,15 +102,25 @@ export default function SixLoopsSection() {
               initial={{ opacity: 0, y: 26 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
-              className="rounded-2xl p-7 flex flex-col"
+              whileHover={reduceMotion ? {} : {
+                y: -6,
+                backgroundColor: 'rgba(198,166,44,0.05)',
+                borderColor: 'rgba(198,166,44,0.28)',
+                boxShadow: '0 18px 44px rgba(0,0,0,0.4)',
+              }}
+              className="group rounded-2xl p-7 flex flex-col cursor-default"
               style={{
                 backgroundColor: 'rgba(255,255,255,0.025)',
                 border: '1px solid rgba(255,255,255,0.06)',
               }}
             >
-              <div className="mb-5">
+              <motion.div
+                className="mb-5"
+                whileHover={reduceMotion ? {} : { rotate: 90 }}
+                transition={{ duration: 0.5, ease: EASE }}
+              >
                 <LoopRing inView={inView} delay={0.3 + i * 0.08} reduceMotion={reduceMotion} />
-              </div>
+              </motion.div>
 
               <p
                 className="text-[11px] font-bold uppercase tracking-[0.12em] mb-2.5"

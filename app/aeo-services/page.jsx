@@ -3,13 +3,13 @@ import AEOAgencyPage from '@/components/AEOAgencyPage';
 const SITE_URL = 'https://nxtapexai.com';
 
 export const metadata = {
-  title: 'AEO Agency for Small Business | Nxt Apex AI',
+  title: 'AEO Services for Small Business | Nxt Apex AI',
   description: 'Most AEO agencies stop at visibility. Nxt Apex AI connects AI search citations to a pipeline built to close. Free AI Visibility Report — no sales call required.',
-  alternates: { canonical: `${SITE_URL}/aeo-agency` },
+  alternates: { canonical: `${SITE_URL}/aeo-services` },
   openGraph: {
-    title: 'AEO Agency That Connects AI Visibility to Your Sales Pipeline',
+    title: 'AEO Services That Connect AI Visibility to Your Sales Pipeline',
     description: 'Most AEO agencies stop at citations. We fix your AI search presence and wire new leads directly into a pipeline built to close them.',
-    url: `${SITE_URL}/aeo-agency`,
+    url: `${SITE_URL}/aeo-services`,
   },
 };
 
@@ -17,11 +17,11 @@ const schema = [
   {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: 'AEO Agency That Connects AI Visibility to Your Sales Pipeline',
+    headline: 'AEO Services That Connect AI Visibility to Your Sales Pipeline',
     description: 'Most AEO agencies stop at visibility. Nxt Apex AI connects AI search citations to a pipeline built to close.',
     author: { '@type': 'Person', name: 'Sean Conerly', url: `${SITE_URL}/#sean-conerly` },
     publisher: { '@type': 'Organization', name: 'Nxt Apex AI', url: SITE_URL },
-    url: `${SITE_URL}/aeo-agency`,
+    url: `${SITE_URL}/aeo-services`,
     dateModified: '2026-07-07',
   },
   {
@@ -40,7 +40,7 @@ const schema = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: 'AEO Agency', item: `${SITE_URL}/aeo-agency` },
+      { '@type': 'ListItem', position: 2, name: 'AEO Services', item: `${SITE_URL}/aeo-services` },
     ],
   },
 ];

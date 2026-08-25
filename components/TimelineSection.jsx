@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useSpring, useReducedMotion } from 'framer-motion';
 import { useBooking } from '@/contexts/BookingContext';
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -41,10 +41,87 @@ const STEPS = [
   },
 ];
 
+function Step({ step, index, reduceMotion }) {
+  const ref = useRef(null);
+  const active = useInView(ref, { once: true, margin: '-45% 0px -45% 0px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: -14 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.55, delay: index * 0.06, ease: EASE }}
+      className="relative grid grid-cols-[auto_1fr] sm:grid-cols-[84px_auto_1fr] gap-x-4 sm:gap-x-6 items-start"
+    >
+      {/* Day label — desktop */}
+      <motion.p
+        className="hidden sm:block text-[13px] font-bold text-right pt-0.5 tabular-nums"
+        animate={{ color: active || step.highlight ? '#C6A62C' : 'rgba(255,255,255,0.3)' }}
+        transition={{ duration: 0.45 }}
+      >
+        {step.when}
+      </motion.p>
+
+      {/* Node */}
+      <div className="pt-1.5">
+        <motion.div
+          className="w-[15px] h-[15px] rounded-full flex items-center justify-center"
+          style={{ backgroundColor: '#080D1C', borderWidth: '2px', borderStyle: 'solid' }}
+          initial={{ borderColor: 'rgba(255,255,255,0.18)' }}
+          animate={{
+            borderColor: active ? '#C6A62C' : 'rgba(255,255,255,0.18)',
+            scale: active && !reduceMotion ? 1.15 : 1,
+            boxShadow: active ? '0 0 0 4px rgba(198,166,44,0.12)' : '0 0 0 0px rgba(198,166,44,0)',
+          }}
+          transition={{ duration: 0.45, ease: EASE }}
+        >
+          <motion.div
+            className="rounded-full"
+            animate={{
+              width: active ? 5 : 0,
+              height: active ? 5 : 0,
+              backgroundColor: '#C6A62C',
+            }}
+            transition={{ duration: 0.35, ease: EASE }}
+          />
+        </motion.div>
+      </div>
+
+      {/* Content */}
+      <div>
+        <motion.p
+          className="sm:hidden text-[12px] font-bold mb-1 tabular-nums"
+          animate={{ color: active || step.highlight ? '#C6A62C' : 'rgba(255,255,255,0.3)' }}
+          transition={{ duration: 0.45 }}
+        >
+          {step.when}
+        </motion.p>
+        <motion.p
+          className="font-semibold text-[16px] sm:text-[17px] leading-snug mb-1"
+          animate={{ color: active ? '#ffffff' : 'rgba(255,255,255,0.55)' }}
+          transition={{ duration: 0.45 }}
+        >
+          {step.what}
+        </motion.p>
+        <p className="text-white/35 text-[14px] leading-relaxed">{step.detail}</p>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function TimelineSection() {
   const ref = useRef(null);
+  const railRef = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const reduceMotion = useReducedMotion();
   const { openModal } = useBooking();
+
+  const { scrollYProgress } = useScroll({
+    target: railRef,
+    offset: ['start 75%', 'end 55%'],
+  });
+  const railScale = useSpring(scrollYProgress, { stiffness: 90, damping: 26, mass: 0.3 });
 
   return (
     <section ref={ref} className="py-28 px-6" style={{ backgroundColor: '#080D1C' }}>
@@ -72,62 +149,25 @@ export default function TimelineSection() {
         </motion.div>
 
         {/* Timeline */}
-        <div className="relative">
-          {/* Vertical rail */}
+        <div ref={railRef} className="relative">
+          {/* Track */}
+          <div
+            className="absolute left-[7px] sm:left-[91px] top-2 bottom-2 w-px"
+            style={{ backgroundColor: 'rgba(255,255,255,0.07)' }}
+          />
+          {/* Scroll-linked fill */}
           <motion.div
             className="absolute left-[7px] sm:left-[91px] top-2 bottom-2 w-px origin-top"
-            style={{ backgroundColor: 'rgba(198,166,44,0.18)' }}
-            initial={{ scaleY: 0 }}
-            animate={inView ? { scaleY: 1 } : {}}
-            transition={{ duration: 1.2, ease: EASE }}
+            style={{
+              backgroundColor: '#C6A62C',
+              scaleY: reduceMotion ? 1 : railScale,
+              boxShadow: '0 0 8px rgba(198,166,44,0.5)',
+            }}
           />
 
           <div className="flex flex-col gap-8">
             {STEPS.map((s, i) => (
-              <motion.div
-                key={s.when}
-                initial={{ opacity: 0, x: -14 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.55, delay: 0.2 + i * 0.1, ease: EASE }}
-                className="relative grid grid-cols-[auto_1fr] sm:grid-cols-[84px_auto_1fr] gap-x-4 sm:gap-x-6 items-start"
-              >
-                {/* Day label — desktop */}
-                <p
-                  className="hidden sm:block text-[13px] font-bold text-right pt-0.5 tabular-nums"
-                  style={{ color: s.highlight ? '#C6A62C' : 'rgba(255,255,255,0.35)' }}
-                >
-                  {s.when}
-                </p>
-
-                {/* Node */}
-                <div className="pt-1.5">
-                  <div
-                    className="w-[15px] h-[15px] rounded-full flex items-center justify-center"
-                    style={{
-                      backgroundColor: '#080D1C',
-                      border: s.highlight ? '2px solid #C6A62C' : '2px solid rgba(255,255,255,0.18)',
-                    }}
-                  >
-                    {s.highlight && (
-                      <div className="w-[5px] h-[5px] rounded-full" style={{ backgroundColor: '#C6A62C' }} />
-                    )}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div>
-                  <p
-                    className="sm:hidden text-[12px] font-bold mb-1 tabular-nums"
-                    style={{ color: s.highlight ? '#C6A62C' : 'rgba(255,255,255,0.35)' }}
-                  >
-                    {s.when}
-                  </p>
-                  <p className="text-white font-semibold text-[16px] sm:text-[17px] leading-snug mb-1">
-                    {s.what}
-                  </p>
-                  <p className="text-white/35 text-[14px] leading-relaxed">{s.detail}</p>
-                </div>
-              </motion.div>
+              <Step key={s.when} step={s} index={i} reduceMotion={reduceMotion} />
             ))}
           </div>
         </div>
@@ -135,8 +175,9 @@ export default function TimelineSection() {
         {/* Closing claim */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.9, ease: EASE }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, ease: EASE }}
           className="mt-16 rounded-2xl px-8 py-10 text-center"
           style={{
             backgroundColor: 'rgba(198,166,44,0.05)',
@@ -149,13 +190,15 @@ export default function TimelineSection() {
           >
             All six loops installed before your second invoice.
           </p>
-          <button
+          <motion.button
             onClick={openModal}
-            className="inline-flex items-center px-7 py-3.5 rounded-xl text-white font-bold text-[15px] transition-all duration-200 hover:-translate-y-0.5"
+            whileHover={reduceMotion ? {} : { y: -3, boxShadow: '0 10px 32px rgba(198,166,44,0.42)' }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center px-7 py-3.5 rounded-xl text-white font-bold text-[15px]"
             style={{ backgroundColor: '#C6A62C', boxShadow: '0 4px 20px rgba(198,166,44,0.3)' }}
           >
             Book your Assessment →
-          </button>
+          </motion.button>
         </motion.div>
       </div>
     </section>

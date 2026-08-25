@@ -12,8 +12,7 @@ const VERTICALS = [
 
 const SERVICES = [
   { label: 'AI Readiness Assessment', href: '/' },
-  { label: 'AI Search Visibility', href: '/ai-search' },
-  { label: 'AEO Agency', href: '/aeo-agency' },
+  { label: 'AEO Services', href: '/aeo-services' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Reviews', href: '/reviews' },
 ];

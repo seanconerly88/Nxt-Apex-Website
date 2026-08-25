@@ -118,12 +118,18 @@ export default function OfferStackSection() {
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
+              whileHover={{
+                y: -8,
+                borderColor: 'rgba(198,166,44,0.42)',
+                backgroundColor: offer.highlight ? 'rgba(198,166,44,0.09)' : 'rgba(198,166,44,0.045)',
+                boxShadow: '0 20px 48px rgba(0,0,0,0.45)',
+              }}
               className={`rounded-2xl p-7 flex flex-col relative overflow-hidden ${offer.highlight ? 'xl:col-span-1' : ''}`}
               style={{
                 backgroundColor: offer.highlight ? 'rgba(198,166,44,0.06)' : 'rgba(255,255,255,0.025)',
-                border: offer.highlight
-                  ? '1px solid rgba(198,166,44,0.3)'
-                  : '1px solid rgba(255,255,255,0.06)',
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderColor: offer.highlight ? 'rgba(198,166,44,0.3)' : 'rgba(255,255,255,0.06)',
               }}
             >
               {/* Glow for highlighted */}

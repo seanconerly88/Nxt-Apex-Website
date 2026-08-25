@@ -2,11 +2,112 @@ import Anthropic from '@anthropic-ai/sdk';
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-export async function POST(req) {
-  try {
-    const body = await req.json();
-    const { missedCall, speedToLead, deadLeads, websiteVisitors, reviews, name, domain } = body;
+const GHL_BASE = 'https://services.leadconnectorhq.com';
+const GHL_VERSION = '2021-07-28';
 
+function ghlHeaders(pitKey) {
+  return {
+    Authorization: `Bearer ${pitKey}`,
+    Version: GHL_VERSION,
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  };
+}
+
+const QUESTION_LABELS = {
+  missedCall: 'When nobody picks up the phone',
+  speedToLead: 'How fast a new lead hears from them',
+  deadLeads: 'Last contact with non-buying database',
+  websiteVisitors: 'Site visitor at 9pm with a question',
+  reviews: 'How they collect reviews',
+};
+
+/**
+ * Push the quiz lead into GHL: upsert the contact, tag it, and attach a note
+ * with every answer plus the diagnosed loop. Never throws — a CRM failure
+ * must not break the visitor's result screen.
+ */
+async function pushToGHL({ answers, contact, result }) {
+  const pitKey = process.env.GHL_PIT_KEY;
+  const locationId = process.env.GHL_LOCATION_ID;
+
+  if (!pitKey || !locationId) {
+    console.warn('GHL push skipped: missing PIT key or location id');
+    return;
+  }
+  if (!contact.email) {
+    console.warn('GHL push skipped: no email');
+    return;
+  }
+
+  const name = (contact.name || '').trim();
+  const tags = ['closed-loop-quiz', 'website-lead'];
+  if (result?.agent) {
+    tags.push(`loop-${result.agent.toLowerCase().replace(/\s+/g, '-')}`);
+  }
+
+  const upsertRes = await fetch(`${GHL_BASE}/contacts/upsert`, {
+    method: 'POST',
+    headers: ghlHeaders(pitKey),
+    body: JSON.stringify({
+      locationId,
+      email: contact.email,
+      firstName: name.split(' ')[0] || name,
+      lastName: name.split(' ').slice(1).join(' ') || '',
+      phone: contact.phone || undefined,
+      website: contact.domain || undefined,
+      source: 'Closed Loop Quiz',
+      tags,
+    }),
+  });
+
+  if (!upsertRes.ok) {
+    const text = await upsertRes.text();
+    throw new Error(`GHL upsert failed ${upsertRes.status}: ${text}`);
+  }
+
+  const upsertData = await upsertRes.json();
+  const contactId = upsertData.contact?.id ?? upsertData.id;
+  if (!contactId) throw new Error('No contactId returned from GHL');
+
+  console.log('✓ Quiz contact upserted:', contactId);
+
+  const answerLines = Object.entries(QUESTION_LABELS)
+    .map(([key, label]) => `${label}: ${answers[key] || 'no answer'}`)
+    .join('\n');
+
+  const noteBody = [
+    'CLOSED LOOP QUIZ SUBMISSION',
+    '',
+    `Diagnosed loop: ${result?.leak || 'unknown'}`,
+    `Closing agent: ${result?.agent || 'unknown'}`,
+    contact.domain ? `Website: ${contact.domain}` : null,
+    '',
+    'ANSWERS',
+    answerLines,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  await fetch(`${GHL_BASE}/contacts/${contactId}/notes`, {
+    method: 'POST',
+    headers: ghlHeaders(pitKey),
+    body: JSON.stringify({ body: noteBody }),
+  });
+
+  console.log('✓ Quiz note added');
+}
+
+export async function POST(req) {
+  const body = await req.json().catch(() => ({}));
+  const { missedCall, speedToLead, deadLeads, websiteVisitors, reviews, name, email, phone, domain } = body;
+
+  const answers = { missedCall, speedToLead, deadLeads, websiteVisitors, reviews };
+  const contact = { name, email, phone, domain };
+
+  let result;
+
+  try {
     const prompt = `You are an AI operations analyst for Nxt Apex AI. We sell The Closed Loop System: six AI agents, each one closing a specific way revenue leaks out of a business.
 
 The six loops and the agent that closes each one:
@@ -51,17 +152,23 @@ Rules:
       messages: [{ role: 'user', content: prompt }],
     });
 
-    const raw = message.content[0].text.trim();
-    const parsed = JSON.parse(raw);
-
-    return Response.json(parsed);
+    result = JSON.parse(message.content[0].text.trim());
   } catch (err) {
-    console.error('ai-idea error:', err);
-    return Response.json({
+    console.error('ai-idea generation error:', err);
+    result = {
       leak: 'Response Loop',
       agent: 'Speed to Lead',
       agentSentence: 'Speed to Lead fires a personalized text to every new lead within 60 seconds, around the clock, with no manual step required.',
       twoWeekSentence: 'Leads contacted within 5 minutes are 96x more likely to convert than those reached after 30 minutes, and by day six you will have zero leads going cold in the first hour.',
-    });
+    };
   }
+
+  // Capture the lead regardless of whether generation succeeded.
+  try {
+    await pushToGHL({ answers, contact, result });
+  } catch (err) {
+    console.error('GHL push failed:', err);
+  }
+
+  return Response.json(result);
 }

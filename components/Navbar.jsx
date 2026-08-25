@@ -18,8 +18,8 @@ export default function Navbar({ ctaLabel, ctaHref }) {
 
   const links = [
     { label: 'Assessment', href: '/' },
-    { label: 'AI Search', href: '/ai-search' },
-    { label: 'AEO Agency', href: '/aeo-agency' },
+    { label: 'AEO Services', href: '/aeo-services' },
+    { label: 'Reviews', href: '/reviews' },
     { label: 'FAQ', href: '/faq' },
   ];
 

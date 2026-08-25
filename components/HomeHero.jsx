@@ -96,9 +96,12 @@ export default function HomeHero() {
   const cardRef = useRef(null);
   const px = useMotionValue(0);
   const py = useMotionValue(0);
-  const spring = { stiffness: 140, damping: 20, mass: 0.4 };
-  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [2.5, -2.5]), spring);
-  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-2.5, 2.5]), spring);
+  const spring = { stiffness: 150, damping: 18, mass: 0.35 };
+  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [7, -7]), spring);
+  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-7, 7]), spring);
+  // Sheen follows the cursor across the card face
+  const sheenX = useSpring(useTransform(px, [-0.5, 0.5], ['20%', '80%']), spring);
+  const sheenY = useSpring(useTransform(py, [-0.5, 0.5], ['15%', '85%']), spring);
 
   function handlePointerMove(e) {
     if (reduceMotion || !cardRef.current) return;
@@ -288,10 +291,10 @@ export default function HomeHero() {
             onPointerMove={handlePointerMove}
             onPointerLeave={handlePointerLeave}
             style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-            className="relative rounded-2xl overflow-hidden"
+            className="relative rounded-2xl"
           >
             <div
-              className="rounded-2xl overflow-hidden"
+              className="relative rounded-2xl overflow-hidden"
               style={{
                 backgroundColor: 'rgba(255,255,255,0.035)',
                 border: '1px solid rgba(255,255,255,0.09)',
@@ -299,6 +302,17 @@ export default function HomeHero() {
                 backdropFilter: 'blur(12px)',
               }}
             >
+              {/* Cursor-tracked sheen */}
+              {!reduceMotion && (
+                <motion.div
+                  className="absolute inset-0 pointer-events-none z-10"
+                  style={{
+                    background: 'radial-gradient(420px circle at var(--sx) var(--sy), rgba(198,166,44,0.10), transparent 60%)',
+                    '--sx': sheenX,
+                    '--sy': sheenY,
+                  }}
+                />
+              )}
               {/* Progress bar — questions only */}
               {isQuestion && (
                 <div className="px-5 sm:px-8 pt-5 pb-0">
