@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Link from 'next/link';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -136,15 +137,34 @@ export default function SixLoopsSection() {
           ))}
         </div>
 
-        {/* Bottom note */}
-        <motion.p
+        {/* Bottom note + proof link */}
+        <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.6, ease: EASE }}
-          className="text-center text-white/25 text-[14px] mt-12 max-w-xl mx-auto"
+          className="flex flex-col items-center mt-12"
         >
-          You do not need more leads. You need to stop losing the ones you have.
-        </motion.p>
+          <p className="text-center text-white/25 text-[14px] max-w-xl mb-7">
+            You do not need more leads. You need to stop losing the ones you have.
+          </p>
+
+          <Link href="/case-studies">
+            <motion.span
+              whileHover={reduceMotion ? {} : { y: -3, borderColor: 'rgba(198,166,44,0.55)', backgroundColor: 'rgba(198,166,44,0.08)' }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-[15px] cursor-pointer"
+              style={{
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderColor: 'rgba(198,166,44,0.3)',
+                backgroundColor: 'rgba(198,166,44,0.04)',
+                color: '#C6A62C',
+              }}
+            >
+              See the loops we have closed →
+            </motion.span>
+          </Link>
+        </motion.div>
       </div>
     </section>
   );
