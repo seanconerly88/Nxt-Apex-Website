@@ -23,6 +23,7 @@ const SERVICES = [
   { label: 'AI Readiness Assessment', href: '/' },
   { label: 'Case Studies', href: '/case-studies' },
   { label: 'AEO Services', href: '/aeo-services' },
+  { label: 'Field Notes', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
   { label: 'Reviews', href: '/reviews' },
 ];

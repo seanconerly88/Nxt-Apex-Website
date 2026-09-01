@@ -28,6 +28,7 @@ Six named systems, each closing one place inbound revenue leaks. Each has its ow
 ## Key Pages
 - Homepage: https://nxtapexai.com
 - FAQ: https://nxtapexai.com/faq
+- Field Notes (blog): https://nxtapexai.com/blog
 - AI Visibility for Real Estate: https://nxtapexai.com/aeo-for-real-estate
 - AI Visibility for Home Services: https://nxtapexai.com/aeo-for-home-services
 - AI Visibility for Medical Practices: https://nxtapexai.com/aeo-for-medical

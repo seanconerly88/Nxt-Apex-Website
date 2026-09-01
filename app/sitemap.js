@@ -1,5 +1,6 @@
 import { CASE_STUDIES } from '@/lib/case-studies';
 import { LOOPS, LOOP_ORDER } from '@/lib/loopConfig';
+import { POSTS } from '@/lib/blog';
 
 const SITE_URL = 'https://nxtapexai.com';
 
@@ -18,6 +19,13 @@ export default function sitemap() {
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
+    })),
+    { url: `${SITE_URL}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    ...POSTS.map(p => ({
+      url: `${SITE_URL}/blog/${p.slug}`,
+      lastModified: new Date(p.updated || p.date),
+      changeFrequency: 'monthly',
+      priority: 0.7,
     })),
     { url: `${SITE_URL}/faq`,                     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${SITE_URL}/aeo-services`,            lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
