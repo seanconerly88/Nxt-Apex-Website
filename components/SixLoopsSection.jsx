@@ -3,41 +3,14 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { LOOPS, LOOP_ORDER } from '@/lib/loopConfig';
 
 const EASE = [0.22, 1, 0.36, 1];
 
-const LOOPS = [
-  {
-    closes: 'Closes the response loop',
-    name: 'Speed to Lead',
-    body: 'Every new lead gets a personal reply in under 60 seconds, day or night, with nobody lifting a finger.',
-  },
-  {
-    closes: 'Closes the missed call loop',
-    name: 'AI Receptionist',
-    body: 'Answers every call your team cannot get to and books the ones worth booking.',
-  },
-  {
-    closes: 'Closes the dead lead loop',
-    name: 'Database Reactivation',
-    body: 'Works the list you already paid to build and never followed up on.',
-  },
-  {
-    closes: 'Closes the browse and bounce loop',
-    name: 'Website Manager',
-    body: 'Answers questions on your site at 9pm and books the appointment before they leave.',
-  },
-  {
-    closes: 'Closes the trust loop',
-    name: 'Reputation Manager',
-    body: 'Asks every happy customer for a review at the exact moment they are most likely to leave one.',
-  },
-  {
-    closes: 'Closes the oversight loop',
-    name: 'Pipeline Manager',
-    body: 'Watches the other five and tells you the moment one starts slipping.',
-  },
-];
+const LOOP_CARDS = LOOP_ORDER.map(key => {
+  const { slug, name, closes, cardBody } = LOOPS[key];
+  return { slug, name, closes, body: cardBody };
+});
 
 function LoopRing({ inView, delay, reduceMotion }) {
   const C = 2 * Math.PI * 13; // circumference for r=13
@@ -97,9 +70,9 @@ export default function SixLoopsSection() {
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-          {LOOPS.map((item, i) => (
+          {LOOP_CARDS.map((item, i) => (
+            <Link key={item.name} href={`/${item.slug}`} className="block h-full">
             <motion.div
-              key={item.name}
               initial={{ opacity: 0, y: 26 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: i * 0.08, ease: EASE }}
@@ -109,7 +82,7 @@ export default function SixLoopsSection() {
                 borderColor: 'rgba(198,166,44,0.28)',
                 boxShadow: '0 18px 44px rgba(0,0,0,0.4)',
               }}
-              className="group rounded-2xl p-7 flex flex-col cursor-default"
+              className="group rounded-2xl p-7 h-full flex flex-col cursor-pointer"
               style={{
                 backgroundColor: 'rgba(255,255,255,0.025)',
                 border: '1px solid rgba(255,255,255,0.06)',
@@ -132,8 +105,13 @@ export default function SixLoopsSection() {
 
               <h3 className="text-white font-bold text-xl mb-3">{item.name}</h3>
 
-              <p className="text-white/40 text-[14px] leading-relaxed">{item.body}</p>
+              <p className="text-white/40 text-[14px] leading-relaxed flex-1">{item.body}</p>
+
+              <span className="mt-5 text-[13px] font-bold" style={{ color: '#C6A62C' }}>
+                See how it works →
+              </span>
             </motion.div>
+            </Link>
           ))}
         </div>
 
