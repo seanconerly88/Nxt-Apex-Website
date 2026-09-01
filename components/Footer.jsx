@@ -10,6 +10,15 @@ const VERTICALS = [
   { label: 'AEO for Med Spa', href: '/aeo-for-med-spa' },
 ];
 
+const LOOP_LINKS = [
+  { label: 'Speed to Lead', href: '/speed-to-lead' },
+  { label: 'AI Receptionist', href: '/ai-receptionist' },
+  { label: 'Database Reactivation', href: '/database-reactivation' },
+  { label: 'Website Manager', href: '/website-manager' },
+  { label: 'Reputation Manager', href: '/reputation-manager' },
+  { label: 'Pipeline Manager', href: '/pipeline-manager' },
+];
+
 const SERVICES = [
   { label: 'AI Readiness Assessment', href: '/' },
   { label: 'Case Studies', href: '/case-studies' },
@@ -22,7 +31,7 @@ export default function Footer() {
   return (
     <footer style={{ backgroundColor: '#060A18', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-14">
 
           {/* Brand */}
           <div className="lg:col-span-1">
@@ -47,6 +56,23 @@ export default function Footer() {
             <p className="text-white/25 text-[11px] font-bold uppercase tracking-widest mb-4">Services</p>
             <ul className="space-y-2.5">
               {SERVICES.map(link => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/45 text-[13px] hover:text-white transition-colors duration-150"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* The Six Loops */}
+          <div>
+            <p className="text-white/25 text-[11px] font-bold uppercase tracking-widest mb-4">The Six Loops</p>
+            <ul className="space-y-2.5">
+              {LOOP_LINKS.map(link => (
                 <li key={link.href}>
                   <Link
                     href={link.href}

@@ -1,10 +1,17 @@
 import { CASE_STUDIES } from '@/lib/case-studies';
+import { LOOPS, LOOP_ORDER } from '@/lib/loopConfig';
 
 const SITE_URL = 'https://nxtapexai.com';
 
 export default function sitemap() {
   return [
     { url: SITE_URL,                              lastModified: new Date(), changeFrequency: 'weekly',  priority: 1.0 },
+    ...LOOP_ORDER.map(key => ({
+      url: `${SITE_URL}/${LOOPS[key].slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    })),
     { url: `${SITE_URL}/case-studies`,            lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     ...CASE_STUDIES.map(cs => ({
       url: `${SITE_URL}/case-studies/${cs.slug}`,

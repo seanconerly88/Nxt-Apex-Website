@@ -16,6 +16,15 @@ Our core framework is CILAS: Context, Inputs, Logic, Automation, System.
 Sean Conerly — AI strategist, MIT background. Focused on practical AI implementation for small and mid-sized businesses.
 Contact: sean@nxtapexai.com | (504) 290-4780
 
+## The Closed Loop System
+Six named systems, each closing one place inbound revenue leaks. Each has its own page.
+- Speed to Lead (response loop): https://nxtapexai.com/speed-to-lead
+- AI Receptionist (missed call loop): https://nxtapexai.com/ai-receptionist
+- Database Reactivation (dead lead loop): https://nxtapexai.com/database-reactivation
+- Website Manager (browse and bounce loop): https://nxtapexai.com/website-manager
+- Reputation Manager (trust loop): https://nxtapexai.com/reputation-manager
+- Pipeline Manager (oversight loop): https://nxtapexai.com/pipeline-manager
+
 ## Key Pages
 - Homepage: https://nxtapexai.com
 - FAQ: https://nxtapexai.com/faq
