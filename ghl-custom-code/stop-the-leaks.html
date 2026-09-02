@@ -5,16 +5,21 @@
      no framework. Vanilla JS only.
 
      WEBHOOK_URL below is already set to the live GHL inbound
-     webhook. A test submission was sent on setup, use it to map
-     the incoming fields (business_name, email, phone, lead_source,
+     webhook. Use a test submission to map the incoming fields
+     (full_name, business_name, email, phone, lead_source,
      lead_volume, follow_up, intent, qualified, disqualify_reason)
-     in the GHL workflow: upsert/update the contact, branch on
+     in the GHL workflow: upsert/update the contact (split
+     full_name into first/last, or map it to a single Name field
+     depending on how your workflow step handles it), branch on
      `qualified` (yes/no) to tag "leak-audit-qualified" vs
      "leak-audit-disqualified", and notify yourself.
      `disqualify_reason` is "low_volume" or "wrong_fit" when
      qualified is "no", empty otherwise, use it to route the
      notification or tag differently if you want to see which
-     gate a disqualified lead hit.
+     gate a disqualified lead hit. Disqualified leads still submit
+     full contact info, same as qualified ones, only the outcome
+     and the panel they see differ, so you can follow up with them
+     later.
 
      Before you publish, confirm the booking calendar widget ID in
      the iframe below matches the calendar you want qualified leads
@@ -129,6 +134,10 @@
             <button type="button" class="nxt-stl__back" data-back>&larr; Back</button>
             <p class="nxt-stl__step-question">Last thing, where do we send it?</p>
 
+            <div class="nxt-stl__field">
+              <label>Your name</label>
+              <input type="text" id="nxtName" placeholder="Jamie Rivera" required />
+            </div>
             <div class="nxt-stl__row">
               <div class="nxt-stl__field">
                 <label>Business name</label>
@@ -472,21 +481,25 @@
     e.preventDefault();
     errorEl.hidden = true;
 
+    var fullName = document.getElementById('nxtName').value.trim();
     var businessName = document.getElementById('nxtBusinessName').value.trim();
     var phone = document.getElementById('nxtPhone').value.trim();
     var email = document.getElementById('nxtEmail').value.trim();
 
-    if (!state.follow_up || !state.lead_source || !state.lead_volume || !state.intent || !businessName || !phone || !email) {
+    if (!state.follow_up || !state.lead_source || !state.lead_volume || !state.intent || !fullName || !businessName || !phone || !email) {
       showError('Please fill out every question and field before submitting.');
       return;
     }
 
+    // Everyone who finishes the form gets sent, qualified or not.
+    // Disqualified leads still land in GHL for a later follow-up.
     var outcome = getOutcome(state.lead_volume, state.intent);
 
     submitBtn.disabled = true;
     submitLabel.textContent = 'Finding your leaks...';
 
     var payload = {
+      full_name: fullName,
       business_name: businessName,
       email: email,
       phone: phone,
