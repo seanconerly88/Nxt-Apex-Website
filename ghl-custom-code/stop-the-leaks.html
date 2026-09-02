@@ -4,13 +4,28 @@
      element. Self-contained: styles + markup + JS, no build step,
      no framework. Vanilla JS only.
 
-     Two-phase qualifier: phase 1 (4 diagnostic questions + contact
-     info) determines wrong_fit / low_volume / qualified. Anyone who
-     clears phase 1 sees a "you're almost there" interstitial, then
-     3 yes/no commitment questions (phase 2) describing the actual
-     offer (six AI agents, a 45-minute call, showing up). A "No" on
-     any of those disqualifies too. Only someone who says yes to
-     everything reaches the scheduling page.
+     THIS IS PAGE 1 OF A 3-PAGE FUNNEL. Paste this on the funnel's
+     first page (fb.nxtapexai.com/fb-home or wherever it lives).
+     Two more standalone files, ghl-custom-code/booking.html and
+     ghl-custom-code/thanks.html, go on their own separate GHL
+     pages at fb.nxtapexai.com/booking and fb.nxtapexai.com/thanks
+     (edit BOOKING_URL / THANKS_URL below if those paths differ).
+     This page never shows a booking calendar or a rejection message
+     itself, it redirects to one of those two pages at the end.
+
+     Two-phase qualifier on this page: phase 1 (4 diagnostic
+     questions + contact info) determines wrong_fit / low_volume /
+     qualified. Anyone who clears phase 1 sees a "you're almost
+     there" interstitial, then 3 yes/no commitment questions
+     (phase 2) describing the actual offer (six AI agents, a
+     45-minute call, showing up). A "No" on any of those
+     disqualifies too. Only someone who says yes to everything gets
+     redirected to /booking; every disqualify path (wrong_fit,
+     low_volume, declined_commitment) redirects to /thanks?reason=...
+     so that page can show reason-specific copy. Whichever page they
+     land on, the webhook has already fired with everything
+     collected so far, so disqualified leads still land in GHL for a
+     later follow-up even though they never see a calendar.
 
      WEBHOOK_URL below is already set to the live GHL inbound
      webhook. Use a test submission to map the incoming fields
@@ -23,13 +38,7 @@
      to tag "leak-audit-qualified" vs "leak-audit-disqualified", and
      notify yourself. `disqualify_reason` is "wrong_fit",
      "low_volume", or "declined_commitment" when qualified is "no",
-     empty otherwise. Everyone who reaches the contact-info step
-     submits full contact info regardless of outcome, so disqualified
-     leads still land in GHL for a later follow-up.
-
-     Before you publish, confirm the booking calendar widget ID in
-     the scheduling page's iframe below matches the calendar you
-     want fully-qualified leads booking into.
+     empty otherwise.
    ============================================================ -->
 
 <div class="nxt-stl">
@@ -222,29 +231,6 @@
 
         </form>
 
-        <!-- Scheduling page (fully qualified) -->
-        <div class="nxt-stl__success" id="nxtScheduling" hidden>
-          <div class="nxt-stl__success-check">&#10003;</div>
-          <p class="nxt-stl__success-title">You&rsquo;re In. Grab a Time.</p>
-          <p class="nxt-stl__success-body">
-            45 minutes, just us. We&rsquo;ll go through <strong id="nxtSchedulingBizName">your</strong> pipeline and your customer journey end to end.
-          </p>
-          <iframe
-            src="https://book.nxtapexai.com/widget/booking/ZQ5Ah96PEGhNYchJzoHV"
-            allow="payment"
-            style="width:100%;border:none;overflow:hidden;height:820px;"
-            scrolling="no"
-            id="nxt-booking-iframe"
-          ></iframe>
-          <script src="https://book.nxtapexai.com/js/form_embed.js"></script>
-        </div>
-
-        <!-- Rejection page (any disqualify reason) -->
-        <div class="nxt-stl__success nxt-stl__success--muted" id="nxtRejection" hidden>
-          <p class="nxt-stl__success-title">Thanks for your time. This isn&rsquo;t a fit right now.</p>
-          <p class="nxt-stl__success-body" id="nxtRejectionBody"></p>
-        </div>
-
       </div>
     </div>
   </section>
@@ -389,12 +375,6 @@
   .nxt-stl__error{color:#f87171;font-size:13px;text-align:center;margin:0 0 16px;}
   .nxt-stl__form-note{color:var(--muted-2);font-size:12px;text-align:center;margin:16px 0 0;}
 
-  .nxt-stl__success{text-align:center;}
-  .nxt-stl__success-check{width:52px;height:52px;border-radius:50%;background:rgba(198,166,44,0.12);border:1px solid rgba(198,166,44,0.3);color:var(--gold);font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
-  .nxt-stl__success-title{font-weight:700;font-size:20px;margin:0 0 10px;}
-  .nxt-stl__success-body{color:var(--muted);font-size:15px;line-height:1.6;max-width:440px;margin:0 auto 24px;}
-  .nxt-stl__success--muted .nxt-stl__success-body{margin-bottom:0;}
-
   /* Objection */
   .nxt-stl__section--objection{background:#FAFAF8;color:#111;text-align:center;}
   .nxt-stl__eyebrow--light{border-color:rgba(0,0,0,0.14);background:#fff;color:rgba(0,0,0,0.5);}
@@ -538,16 +518,6 @@
     return 'qualified';
   }
 
-  // Unicode escape, not a literal curly-quote character, so this
-  // renders correctly even if the host GHL page doesn't declare
-  // UTF-8 in its own <head>.
-  var RQ = '\u2019';
-  var REJECTION_COPY = {
-    wrong_fit: 'Sounds like you need a lead gen partner. That' + RQ + 's not us. We don' + RQ + 't run ads or generate new leads, we fix what happens after someone already raised their hand, the leads you already paid for. If more leads is the actual gap, a marketing or ads agency is the better fit for that piece.',
-    low_volume: 'Right now we' + RQ + 're built for businesses with more lead flow than that. Closing gaps only moves the needle once there' + RQ + 's real volume to work with. Come back when that number changes.',
-    declined_commitment: 'Based on your answers, the timing isn' + RQ + 't right for a call like this right now. No hard feelings. Reach out when it is.'
-  };
-
   var contactInfo = { fullName: '', businessName: '', phone: '', email: '' };
 
   function buildPayload(outcome, reason){
@@ -569,33 +539,48 @@
     };
   }
 
+  // This fires right before the page navigates away (see redirectTo*
+  // below), so a normal fetch() can get cancelled mid-flight when the
+  // browser tears the page down. sendBeacon is built exactly for
+  // this: the browser guarantees best-effort delivery even across
+  // navigation. Falls back to fetch with keepalive for old browsers.
   function sendToWebhook(payload){
-    // text/plain avoids a CORS preflight the GHL webhook endpoint won't
-    // answer (it's built for server-to-server calls, not browser JS).
-    // The body is still valid JSON; GHL parses it regardless of the
-    // declared content type.
-    fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload)
-    }).catch(function(err){
-      console.warn('Webhook send failed (outcome still shown):', err);
+    var body = JSON.stringify(payload);
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(WEBHOOK_URL, new Blob([body], { type: 'text/plain' }));
+    } else {
+      fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: body,
+        keepalive: true
+      }).catch(function(err){
+        console.warn('Webhook send failed:', err);
+      });
+    }
+  }
+
+  // Second step of the funnel lives on its own pages. Query params
+  // carry a little context across the navigation for personalizing
+  // the destination page and, on /thanks, picking the right copy
+  // for why they didn't qualify.
+  var BOOKING_URL = 'https://fb.nxtapexai.com/booking';
+  var THANKS_URL = 'https://fb.nxtapexai.com/thanks';
+
+  function redirectToBooking(){
+    var params = new URLSearchParams({
+      name: contactInfo.fullName,
+      business: contactInfo.businessName
     });
+    window.location.href = BOOKING_URL + '?' + params.toString();
   }
 
-  function showRejection(reason){
-    form.hidden = true;
-    document.getElementById('nxtRejectionBody').textContent = REJECTION_COPY[reason] || REJECTION_COPY.declined_commitment;
-    document.getElementById('nxtRejection').hidden = false;
+  function redirectToThanks(reason){
+    var params = new URLSearchParams({ reason: reason });
+    window.location.href = THANKS_URL + '?' + params.toString();
   }
 
-  function showScheduling(){
-    form.hidden = true;
-    document.getElementById('nxtSchedulingBizName').textContent = contactInfo.businessName;
-    document.getElementById('nxtScheduling').hidden = false;
-  }
-
-  /* ---- Step 4 -> 1) rejection if phase 1 disqualified, 2) interstitial if not ---- */
+  /* ---- Step 4 -> 1) /thanks if phase 1 disqualified, 2) interstitial if not ---- */
   document.getElementById('nxtContinueBtn').addEventListener('click', function(){
     errorEl.hidden = true;
 
@@ -614,7 +599,7 @@
     if (phase1Outcome !== 'qualified') {
       // Disqualified at phase 1: still send everything collected so far, no phase 2 asked.
       sendToWebhook(buildPayload('no', phase1Outcome));
-      showRejection(phase1Outcome);
+      redirectToThanks(phase1Outcome);
       return;
     }
 
@@ -642,7 +627,7 @@
         setTimeout(function(){
           if (btn.textContent.trim() === 'No') {
             sendToWebhook(buildPayload('no', 'declined_commitment'));
-            showRejection('declined_commitment');
+            redirectToThanks('declined_commitment');
             return;
           }
           var next = COMMIT_NEXT[stepName];
@@ -651,7 +636,7 @@
           } else {
             // Last commitment question answered Yes: fully qualified.
             sendToWebhook(buildPayload('qualified', ''));
-            showScheduling();
+            redirectToBooking();
           }
         }, 280);
       });

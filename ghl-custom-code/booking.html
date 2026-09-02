@@ -1,0 +1,123 @@
+<!-- ============================================================
+     NXT APEX AI: "Stop The Leaks" Funnel, Page 2a (Booking)
+     Paste this on its own GHL page at fb.nxtapexai.com/booking
+     (or wherever BOOKING_URL in stop-the-leaks.html points).
+     Only fully-qualified leads land here, redirected from page 1
+     after answering every phase-2 commitment question "Yes".
+
+     Reads ?name= and ?business= from the URL (page 1 sets these)
+     to personalize the headline. Works fine with no query params
+     too, it just falls back to generic copy.
+
+     Before you publish, confirm the booking calendar widget ID in
+     the iframe below is the calendar you want these leads on.
+   ============================================================ -->
+
+<div class="nxt-stl">
+
+  <header class="nxt-stl__header">
+    <a href="https://nxtapexai.com" class="nxt-stl__brand">
+      <img src="https://nxtapexai.com/logo-trans-light.png" alt="Nxt Apex AI" />
+      <span>Nxt Apex AI</span>
+    </a>
+    <a href="tel:+15042904780" class="nxt-stl__phone">(504) 290-4780</a>
+  </header>
+
+  <section class="nxt-stl__hero" style="padding-bottom:60px;">
+    <div class="nxt-stl__hero-bg" aria-hidden="true"></div>
+    <div class="nxt-stl__wrap nxt-stl__hero-inner" data-reveal>
+      <span class="nxt-stl__eyebrow"><i class="nxt-stl__dot"></i>You&rsquo;re In</span>
+      <h1 class="nxt-stl__h1" id="nxtBookingHeadline">Grab a Time.</h1>
+      <p class="nxt-stl__hero-sub">
+        45 minutes, just us. We&rsquo;ll go through your pipeline and your customer journey end to end.
+      </p>
+    </div>
+  </section>
+
+  <section class="nxt-stl__section" style="padding-top:0;background:#141420;">
+    <div class="nxt-stl__wrap nxt-stl__wrap--narrow">
+      <div class="nxt-stl__form-card" data-reveal>
+        <iframe
+          src="https://book.nxtapexai.com/widget/booking/ZQ5Ah96PEGhNYchJzoHV"
+          allow="payment"
+          style="width:100%;border:none;overflow:hidden;height:820px;"
+          scrolling="no"
+          id="nxt-booking-iframe"
+        ></iframe>
+        <script src="https://book.nxtapexai.com/js/form_embed.js"></script>
+      </div>
+    </div>
+  </section>
+
+  <footer class="nxt-stl__footer">
+    <div class="nxt-stl__wrap nxt-stl__footer-inner">
+      <p>&copy; 2026 Nxt Apex AI. New Orleans, LA.</p>
+      <div class="nxt-stl__footer-links">
+        <a href="mailto:sean@nxtapexai.com">sean@nxtapexai.com</a>
+        <a href="https://nxtapexai.com/privacy-policy">Privacy Policy</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<style>
+  .nxt-stl{--gold:#C6A62C;--gold-light:#e8c84a;--ink:#0D0D0F;--panel:#14141a;--panel-2:#0a0a0c;--line:rgba(255,255,255,0.08);--muted:rgba(255,255,255,0.45);--muted-2:rgba(255,255,255,0.25);font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,Arial,sans-serif;color:#fff;background:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .nxt-stl *{box-sizing:border-box;}
+  .nxt-stl img{max-width:100%;display:block;}
+  .nxt-stl__wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  .nxt-stl__wrap--narrow{max-width:760px;}
+
+  .nxt-stl__header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;max-width:1120px;margin:0 auto;}
+  .nxt-stl__brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:800;font-size:15px;}
+  .nxt-stl__brand img{height:26px;width:auto;}
+  .nxt-stl__phone{color:var(--gold);font-weight:600;font-size:13px;text-decoration:none;}
+
+  .nxt-stl__hero{position:relative;overflow:hidden;padding:56px 0 40px;}
+  .nxt-stl__hero-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 700px 420px at 50% 0%, rgba(198,166,44,0.14) 0%, transparent 65%);}
+  .nxt-stl__hero-inner{position:relative;text-align:center;max-width:760px;}
+  .nxt-stl__eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:999px;border:1px solid rgba(198,166,44,0.3);background:rgba(198,166,44,0.08);font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;}
+  .nxt-stl__dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 7px rgba(198,166,44,0.9);}
+  .nxt-stl__h1{font-size:clamp(30px,5vw,48px);font-weight:800;line-height:1.1;letter-spacing:-0.01em;margin:0 0 18px;}
+  .nxt-stl__hero-sub{font-size:clamp(16px,1.8vw,19px);font-weight:500;line-height:1.55;color:rgba(255,255,255,0.7);max-width:560px;margin:0 auto;}
+
+  .nxt-stl__section{padding:76px 0;}
+  .nxt-stl__form-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;}
+  @media(min-width:640px){.nxt-stl__form-card{padding:18px;}}
+
+  .nxt-stl__footer{padding:32px 0;border-top:1px solid var(--line);background:var(--panel-2);}
+  .nxt-stl__footer-inner{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;font-size:12px;color:var(--muted-2);}
+  @media(min-width:560px){.nxt-stl__footer-inner{flex-direction:row;justify-content:space-between;text-align:left;}}
+  .nxt-stl__footer-links{display:flex;gap:18px;}
+  .nxt-stl__footer-links a{color:var(--muted-2);text-decoration:none;}
+  .nxt-stl__footer-links a:hover{color:rgba(255,255,255,0.6);}
+
+  .nxt-stl [data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .6s ease, transform .6s ease;}
+  .nxt-stl [data-reveal].is-visible{opacity:1;transform:translateY(0);}
+  @media(prefers-reduced-motion:reduce){ .nxt-stl [data-reveal]{opacity:1;transform:none;transition:none;} }
+</style>
+
+<script>
+(function(){
+  var scope = document.querySelector('.nxt-stl') || document;
+
+  var revealEls = scope.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  var params = new URLSearchParams(window.location.search);
+  var business = params.get('business');
+  var headline = document.getElementById('nxtBookingHeadline');
+  if (business) {
+    headline.textContent = business + ', You' + '\u2019' + 're In.';
+  }
+})();
+</script>
