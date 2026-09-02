@@ -1,10 +1,10 @@
 <!-- ============================================================
-     NXT APEX AI — "Stop The Leaks" Meta Ads Funnel
+     NXT APEX AI: "Stop The Leaks" Meta Ads Funnel
      Paste this whole block into a GoHighLevel Custom Code / HTML
      element. Self-contained: styles + markup + JS, no build step,
      no framework. Vanilla JS only.
 
-     BEFORE YOU PUBLISH — one required edit:
+     BEFORE YOU PUBLISH, one required edit:
      1. In GHL, create a Workflow with an "Inbound Webhook" trigger.
         Copy that trigger URL and paste it into WEBHOOK_URL below
         (search for "PASTE_YOUR_GHL_WEBHOOK_URL_HERE").
@@ -34,17 +34,11 @@
     <div class="nxt-stl__wrap nxt-stl__hero-inner" data-reveal>
       <span class="nxt-stl__eyebrow"><i class="nxt-stl__dot"></i>Not a Lead Problem</span>
       <h1 class="nxt-stl__h1">You Don&rsquo;t Need More Leads.<br />You Need to Stop Losing Them.</h1>
-      <a href="#leak-form" class="nxt-stl__btn nxt-stl__btn--gold nxt-stl__js-scroll">Find My Leak &rarr;</a>
-    </div>
-  </section>
-
-  <!-- ── Reframe / positioning ──────────────────────────────── -->
-  <section class="nxt-stl__reframe">
-    <div class="nxt-stl__wrap" data-reveal>
-      <p>
-        It&rsquo;s not a lead generation problem. It&rsquo;s a follow-up problem &mdash;
-        <span class="nxt-stl__gold">our end-to-end closed-loop AI system turns the leads you already have into raving customers.</span>
+      <p class="nxt-stl__hero-sub">
+        It&rsquo;s not a lead generation problem. It&rsquo;s a follow-up problem.
+        <span class="nxt-stl__gold">Our end-to-end closed-loop AI system turns the leads you already have into raving customers.</span>
       </p>
+      <a href="#leak-form" class="nxt-stl__btn nxt-stl__btn--gold nxt-stl__js-scroll">Find My Leaks &rarr;</a>
     </div>
   </section>
 
@@ -54,7 +48,7 @@
       <span class="nxt-stl__eyebrow nxt-stl__eyebrow--light">Let&rsquo;s Be Clear</span>
       <h2>This Isn&rsquo;t Another Marketing Pitch.</h2>
       <p>
-        Marketing agencies sell you more traffic. We don&rsquo;t touch your ad spend &mdash; we fix what happens
+        Marketing agencies sell you more traffic. We don&rsquo;t touch your ad spend. We fix what happens
         after someone already raised their hand. If leads are dying in your CRM, going to voicemail, or waiting
         nine minutes for a text back, that&rsquo;s not a leads problem. That&rsquo;s ops, and ops is what we run.
       </p>
@@ -66,7 +60,7 @@
     <div class="nxt-stl__wrap nxt-stl__wrap--narrow">
       <div class="nxt-stl__section-head" data-reveal>
         <h2>Find out exactly where you&rsquo;re leaking.</h2>
-        <p>Answer three quick questions and we&rsquo;ll tell you which loop is costing you the most before you ever book a call.</p>
+        <p>Three quick questions. We&rsquo;ll show you exactly where it&rsquo;s costing you before you ever book a call.</p>
       </div>
 
       <div class="nxt-stl__form-card" data-reveal>
@@ -123,10 +117,10 @@
           <p class="nxt-stl__error" id="nxtFormError" hidden></p>
 
           <button type="submit" class="nxt-stl__btn nxt-stl__btn--gold nxt-stl__btn--block" id="nxtSubmitBtn">
-            <span id="nxtSubmitLabel">Find My Leak &rarr;</span>
+            <span id="nxtSubmitLabel">Find My Leaks &rarr;</span>
           </button>
 
-          <p class="nxt-stl__form-note">No spam, no sales call to get your answer &mdash; just a straight read on where the revenue is going.</p>
+          <p class="nxt-stl__form-note">No spam, no sales call to get your answer. Just a straight read on where the revenue is going.</p>
         </form>
 
         <!-- Qualified success state -->
@@ -135,7 +129,7 @@
           <p class="nxt-stl__success-title">We&rsquo;ve got your answers.</p>
           <p class="nxt-stl__success-body">
             Grab a time on the calendar and we&rsquo;ll walk through exactly where
-            <strong id="nxtSuccessBizName">your business</strong> is leaking revenue &mdash; live, on the call.
+            <strong id="nxtSuccessBizName">your business</strong> is leaking revenue, live on the call.
           </p>
           <script src="https://link.msgsndr.com/js/form_embed.js"></script>
           <iframe
@@ -148,9 +142,9 @@
 
         <!-- Low-volume soft-disqualify state -->
         <div class="nxt-stl__success nxt-stl__success--muted" id="nxtSuccessLowVolume" hidden>
-          <p class="nxt-stl__success-title">Not yet a fit &mdash; and that&rsquo;s fine.</p>
+          <p class="nxt-stl__success-title">Not yet a fit. And that&rsquo;s fine.</p>
           <p class="nxt-stl__success-body">
-            Right now we&rsquo;re built for businesses with more lead flow than that &mdash; closing gaps only moves
+            Right now we&rsquo;re built for businesses with more lead flow than that. Closing gaps only moves
             the needle once there&rsquo;s real volume to work with. We won&rsquo;t waste your time on a call that
             doesn&rsquo;t make sense yet. Come back when that number changes.
           </p>
@@ -244,7 +238,8 @@
   .nxt-stl__hero-inner{position:relative;text-align:center;max-width:760px;}
   .nxt-stl__eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:999px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:28px;}
   .nxt-stl__dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 7px rgba(198,166,44,0.9);}
-  .nxt-stl__h1{font-size:clamp(30px,5vw,54px);font-weight:800;line-height:1.1;letter-spacing:-0.01em;margin:0 0 34px;}
+  .nxt-stl__h1{font-size:clamp(30px,5vw,54px);font-weight:800;line-height:1.1;letter-spacing:-0.01em;margin:0 0 22px;}
+  .nxt-stl__hero-sub{font-size:clamp(17px,2vw,21px);font-weight:500;line-height:1.55;color:rgba(255,255,255,0.7);max-width:620px;margin:0 auto 36px;}
 
   /* Buttons */
   .nxt-stl__btn{display:inline-flex;align-items:center;justify-content:center;padding:15px 30px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;border:none;cursor:pointer;transition:transform .18s ease, box-shadow .18s ease;}
@@ -259,10 +254,7 @@
   .nxt-stl__section-head h2{font-size:clamp(24px,3.2vw,36px);font-weight:800;margin:0 0 12px;line-height:1.2;}
   .nxt-stl__section-head p{color:var(--muted);font-size:15px;max-width:520px;margin:0 auto;}
 
-  /* Reframe */
-  .nxt-stl__reframe{padding:56px 0;text-align:center;background:#101018;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-  .nxt-stl__reframe p{font-size:clamp(19px,2.4vw,26px);font-weight:700;line-height:1.4;max-width:680px;margin:0 auto;}
-  .nxt-stl__gold{color:var(--gold);}
+  .nxt-stl__gold{color:var(--gold);font-weight:700;}
 
   /* Form */
   .nxt-stl__section--form{background:#141420;}
@@ -404,7 +396,7 @@
     var qualified = isQualified(state.lead_volume);
 
     submitBtn.disabled = true;
-    submitLabel.textContent = 'Finding your leak...';
+    submitLabel.textContent = 'Finding your leaks...';
 
     var payload = {
       business_name: businessName,
