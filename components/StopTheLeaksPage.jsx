@@ -181,6 +181,43 @@ export default function StopTheLeaksPage() {
         </FadeUp>
       </section>
 
+      {/* ── Why follow-up breaks down — disconnected systems ────────────── */}
+      <section className="py-24 px-6" style={{ backgroundColor: '#0A0F1F' }}>
+        <div className="max-w-4xl mx-auto">
+          <FadeUp className="text-center mb-14">
+            <h2 className="text-white font-extrabold leading-tight" style={{ fontSize: 'clamp(26px, 3.2vw, 40px)' }}>
+              Your Tools Don&apos;t Talk. Leads Fall Through.
+            </h2>
+          </FadeUp>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+            {[
+              'Your ad platform doesn’t know they already called your office.',
+              'Your CRM doesn’t know they dropped off your website chat five minutes ago.',
+              'Your calendar doesn’t know your team already quoted this lead last month.',
+            ].map((line, i) => (
+              <motion.div
+                key={line}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.55, delay: i * 0.08, ease: EASE }}
+                className="rounded-2xl p-6"
+                style={{ backgroundColor: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)' }}
+              >
+                <p className="text-white/70 text-[15px] leading-relaxed">{line}</p>
+              </motion.div>
+            ))}
+          </div>
+
+          <FadeUp delay={0.15} className="text-center">
+            <p className="text-white/40 text-base max-w-xl mx-auto">
+              Every one of those is a real lead, sitting in the gap between two tools that were never connected.
+            </p>
+          </FadeUp>
+        </div>
+      </section>
+
       {/* ── Qualifier form ───────────────────────────────────────────── */}
       <section className="py-24 px-6" style={{ background: '#060A18' }}>
         <FadeUp className="max-w-2xl mx-auto text-center mb-10">

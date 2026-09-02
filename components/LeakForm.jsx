@@ -3,7 +3,13 @@
 import { useState } from 'react';
 import { useBooking } from '@/contexts/BookingContext';
 
-const REVENUE_OPTIONS = ['Under $10K/mo', '$10K–$50K/mo', '$50K–$100K/mo', '$100K+/mo'];
+const LEAD_SOURCE_OPTIONS = [
+  'Referrals / Word of Mouth',
+  'Paid Ads (Meta, Google)',
+  'Organic / SEO / Content',
+  'Cold Outreach / Sales Team',
+  'A Mix of Everything',
+];
 const LEAD_VOLUME_OPTIONS = ['Under 25/mo', '25–100/mo', '100–500/mo', '500+/mo'];
 const FOLLOWUP_OPTIONS = [
   'We call or text once, then move on',
@@ -55,10 +61,11 @@ export default function LeakForm() {
   const { openModal } = useBooking();
   const [form, setForm] = useState({
     businessName: '', email: '', phone: '',
-    revenueRange: '', leadVolume: '', followUp: '',
+    leadSource: '', leadVolume: '', followUp: '',
   });
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState('');
+  const [qualified, setQualified] = useState(true);
 
   function update(field, val) {
     setForm(prev => ({ ...prev, [field]: val }));
@@ -85,12 +92,29 @@ export default function LeakForm() {
         setErrorMsg(data.error || 'Something went wrong. Try again.');
         setStatus('error');
       } else {
+        setQualified(data.qualified !== false);
         setStatus('success');
       }
     } catch {
       setErrorMsg('Network error. Please try again.');
       setStatus('error');
     }
+  }
+
+  if (status === 'success' && !qualified) {
+    return (
+      <div
+        className="w-full max-w-2xl mx-auto rounded-2xl p-8 md:p-10 text-center"
+        style={{ background: '#0D1629', border: '1px solid rgba(255,255,255,0.1)' }}
+      >
+        <p className="text-white font-bold text-xl mb-3">Not yet a fit — and that&apos;s fine.</p>
+        <p className="text-white/50 text-[15px] leading-relaxed max-w-md mx-auto">
+          Right now we&apos;re built for businesses with more lead flow than that — closing gaps only moves the needle once
+          there&apos;s real volume to work with. We won&apos;t waste your time on a call that doesn&apos;t make sense yet.
+          Come back when that number changes.
+        </p>
+      </div>
+    );
   }
 
   if (status === 'success') {
@@ -137,8 +161,8 @@ export default function LeakForm() {
           <Pills options={FOLLOWUP_OPTIONS} value={form.followUp} onChange={v => update('followUp', v)} />
         </Field>
 
-        <Field label="Monthly revenue">
-          <Pills options={REVENUE_OPTIONS} value={form.revenueRange} onChange={v => update('revenueRange', v)} />
+        <Field label="Where do most of your leads come from?">
+          <Pills options={LEAD_SOURCE_OPTIONS} value={form.leadSource} onChange={v => update('leadSource', v)} />
         </Field>
 
         <Field label="Monthly lead volume">

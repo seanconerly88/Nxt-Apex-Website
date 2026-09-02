@@ -12,7 +12,13 @@ function ghlHeaders(pitKey) {
   };
 }
 
-async function upsertContact(pitKey, locationId, { businessName, email, phone, revenueRange, leadVolume, followUp }) {
+// Qualification is driven by lead volume: below this, closing follow-up gaps
+// isn't enough volume to be worth a paid engagement yet.
+function isQualified(leadVolume) {
+  return leadVolume !== 'Under 25/mo';
+}
+
+async function upsertContact(pitKey, locationId, { businessName, email, phone, leadSource, leadVolume, followUp }, qualified) {
   const nameParts = businessName.trim().split(/\s+/);
   const firstName = nameParts[0];
   const lastName  = nameParts.slice(1).join(' ') || '';
@@ -27,7 +33,10 @@ async function upsertContact(pitKey, locationId, { businessName, email, phone, r
       firstName,
       lastName,
       companyName: businessName,
-      tags: ['leak-audit-lead', 'meta-ads-funnel', 'stop-the-leaks'],
+      tags: [
+        'leak-audit-lead', 'meta-ads-funnel', 'stop-the-leaks',
+        qualified ? 'leak-audit-qualified' : 'leak-audit-low-volume',
+      ],
     }),
   });
 
@@ -40,13 +49,14 @@ async function upsertContact(pitKey, locationId, { businessName, email, phone, r
   return data.contact?.id ?? data.id ?? null;
 }
 
-async function addNote(pitKey, locationId, contactId, { businessName, revenueRange, leadVolume, followUp }) {
+async function addNote(pitKey, locationId, contactId, { businessName, leadSource, leadVolume, followUp }, qualified) {
   const note = [
     `Pipeline Leak Audit qualifier — ${new Date().toLocaleDateString()}`,
     `Business: ${businessName}`,
-    `Monthly revenue: ${revenueRange}`,
+    `Lead source: ${leadSource}`,
     `Monthly lead volume: ${leadVolume}`,
     `What happens after a lead goes quiet: ${followUp}`,
+    `Qualified: ${qualified ? 'Yes' : 'No — low volume'}`,
     '',
     'Source: /stop-the-leaks (Meta ads funnel)',
   ].join('\n');
@@ -88,7 +98,7 @@ async function getOrCreateConversation(pitKey, locationId, contactId) {
   }
 }
 
-async function notifyOwner(pitKey, locationId, contactId, { businessName, email, phone, revenueRange, leadVolume, followUp }) {
+async function notifyOwner(pitKey, locationId, contactId, { businessName, email, phone, leadSource, leadVolume, followUp }, qualified) {
   try {
     const ownerUpsert = await fetch(`${GHL_BASE}/contacts/upsert`, {
       method: 'POST',
@@ -104,15 +114,15 @@ async function notifyOwner(pitKey, locationId, contactId, { businessName, email,
 
     const html = `<!DOCTYPE html><html><body style="margin:0;padding:24px;background:#060A18;font-family:-apple-system,BlinkMacSystemFont,sans-serif;">
       <table width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:0 auto;">
-        <tr><td style="background:#C6A62C;border-radius:10px 10px 0 0;padding:16px 24px;">
-          <p style="margin:0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#000;">New Leak Audit Lead</p>
+        <tr><td style="background:${qualified ? '#C6A62C' : '#4B5563'};border-radius:10px 10px 0 0;padding:16px 24px;">
+          <p style="margin:0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#000;">New Leak Audit Lead${qualified ? '' : ' — Low Volume'}</p>
           <p style="margin:4px 0 0;font-size:20px;font-weight:900;color:#000;">${businessName}</p>
         </td></tr>
         <tr><td style="background:#0D1220;border-radius:0 0 10px 10px;padding:20px 24px;">
           <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:18px;background:#060A18;border-radius:8px;padding:14px 16px;">
             <tr><td style="padding:4px 0;font-size:12px;color:rgba(255,255,255,0.4);width:110px;">Email</td><td style="font-size:12px;color:#fff;font-weight:600;">${email}</td></tr>
             <tr><td style="padding:4px 0;font-size:12px;color:rgba(255,255,255,0.4);">Phone</td><td style="font-size:12px;color:#fff;">${phone}</td></tr>
-            <tr><td style="padding:4px 0;font-size:12px;color:rgba(255,255,255,0.4);">Revenue</td><td style="font-size:12px;color:#fff;">${revenueRange}</td></tr>
+            <tr><td style="padding:4px 0;font-size:12px;color:rgba(255,255,255,0.4);">Lead source</td><td style="font-size:12px;color:#fff;">${leadSource}</td></tr>
             <tr><td style="padding:4px 0;font-size:12px;color:rgba(255,255,255,0.4);">Lead volume</td><td style="font-size:12px;color:#fff;">${leadVolume}</td></tr>
             <tr><td style="padding:4px 0;font-size:12px;color:rgba(255,255,255,0.4);">Follow-up today</td><td style="font-size:12px;color:#fff;">${followUp}</td></tr>
           </table>
@@ -131,7 +141,7 @@ async function notifyOwner(pitKey, locationId, contactId, { businessName, email,
       body: JSON.stringify({
         type: 'Email',
         contactId: ownerContactId,
-        subject: `New Leak Audit Lead: ${businessName}`,
+        subject: `New Leak Audit Lead${qualified ? '' : ' (low volume)'}: ${businessName}`,
         html,
         emailTo: OWNER_EMAIL,
         ...(ownerConvId ? { conversationId: ownerConvId } : {}),
@@ -144,9 +154,9 @@ async function notifyOwner(pitKey, locationId, contactId, { businessName, email,
 
 export async function POST(request) {
   try {
-    const { businessName, email, phone, revenueRange, leadVolume, followUp } = await request.json();
+    const { businessName, email, phone, leadSource, leadVolume, followUp } = await request.json();
 
-    if (!businessName || !email || !phone || !revenueRange || !leadVolume || !followUp) {
+    if (!businessName || !email || !phone || !leadSource || !leadVolume || !followUp) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
@@ -158,17 +168,18 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
     }
 
-    const answers = { businessName, email, phone, revenueRange, leadVolume, followUp };
+    const answers = { businessName, email, phone, leadSource, leadVolume, followUp };
+    const qualified = isQualified(leadVolume);
 
-    const contactId = await upsertContact(pitKey, locationId, answers);
+    const contactId = await upsertContact(pitKey, locationId, answers, qualified);
     if (!contactId) {
       return NextResponse.json({ error: 'Could not create contact' }, { status: 500 });
     }
 
-    await addNote(pitKey, locationId, contactId, answers);
-    notifyOwner(pitKey, locationId, contactId, answers).catch(e => console.warn('Owner notify skipped:', e.message));
+    await addNote(pitKey, locationId, contactId, answers, qualified);
+    notifyOwner(pitKey, locationId, contactId, answers, qualified).catch(e => console.warn('Owner notify skipped:', e.message));
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, qualified });
   } catch (err) {
     console.error('leak-audit fatal:', err.message);
     return NextResponse.json({ error: err.message }, { status: 500 });
