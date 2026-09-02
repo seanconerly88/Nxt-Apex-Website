@@ -4,26 +4,32 @@
      element. Self-contained: styles + markup + JS, no build step,
      no framework. Vanilla JS only.
 
+     Two-phase qualifier: phase 1 (4 diagnostic questions + contact
+     info) determines wrong_fit / low_volume / qualified. Anyone who
+     clears phase 1 sees a "you're almost there" interstitial, then
+     3 yes/no commitment questions (phase 2) describing the actual
+     offer (six AI agents, a 45-minute call, showing up). A "No" on
+     any of those disqualifies too. Only someone who says yes to
+     everything reaches the scheduling page.
+
      WEBHOOK_URL below is already set to the live GHL inbound
      webhook. Use a test submission to map the incoming fields
      (full_name, business_name, email, phone, lead_source,
-     lead_volume, follow_up, intent, qualified, disqualify_reason)
-     in the GHL workflow: upsert/update the contact (split
-     full_name into first/last, or map it to a single Name field
-     depending on how your workflow step handles it), branch on
-     `qualified` (yes/no) to tag "leak-audit-qualified" vs
-     "leak-audit-disqualified", and notify yourself.
-     `disqualify_reason` is "low_volume" or "wrong_fit" when
-     qualified is "no", empty otherwise, use it to route the
-     notification or tag differently if you want to see which
-     gate a disqualified lead hit. Disqualified leads still submit
-     full contact info, same as qualified ones, only the outcome
-     and the panel they see differ, so you can follow up with them
-     later.
+     lead_volume, follow_up, intent, commit_agents, commit_call,
+     commit_showup, qualified, disqualify_reason) in the GHL
+     workflow: upsert/update the contact (split full_name into
+     first/last, or map it to a single Name field depending on how
+     your workflow step handles it), branch on `qualified` (yes/no)
+     to tag "leak-audit-qualified" vs "leak-audit-disqualified", and
+     notify yourself. `disqualify_reason` is "wrong_fit",
+     "low_volume", or "declined_commitment" when qualified is "no",
+     empty otherwise. Everyone who reaches the contact-info step
+     submits full contact info regardless of outcome, so disqualified
+     leads still land in GHL for a later follow-up.
 
      Before you publish, confirm the booking calendar widget ID in
-     the iframe below matches the calendar you want qualified leads
-     booking into.
+     the scheduling page's iframe below matches the calendar you
+     want fully-qualified leads booking into.
    ============================================================ -->
 
 <div class="nxt-stl">
@@ -76,7 +82,7 @@
 
         <form id="nxtLeakForm" novalidate>
 
-          <div class="nxt-stl__progress-track">
+          <div class="nxt-stl__progress-track" id="nxtProgressTrack">
             <div class="nxt-stl__progress-fill" id="nxtProgressFill"></div>
           </div>
           <p class="nxt-stl__step-count" id="nxtStepCount">Question 1 of 5</p>
@@ -94,7 +100,7 @@
 
           <!-- Step 2 -->
           <div class="nxt-stl__step" data-step="1">
-            <button type="button" class="nxt-stl__back" data-back>&larr; Back</button>
+            <button type="button" class="nxt-stl__back" data-back-to="0">&larr; Back</button>
             <p class="nxt-stl__step-question">Where do most of your leads come from?</p>
             <div class="nxt-stl__pills" data-field="lead_source">
               <button type="button" class="nxt-stl__pill">Referrals / Word of Mouth</button>
@@ -107,7 +113,7 @@
 
           <!-- Step 3 -->
           <div class="nxt-stl__step" data-step="2">
-            <button type="button" class="nxt-stl__back" data-back>&larr; Back</button>
+            <button type="button" class="nxt-stl__back" data-back-to="1">&larr; Back</button>
             <p class="nxt-stl__step-question">Monthly lead volume</p>
             <div class="nxt-stl__pills" data-field="lead_volume">
               <button type="button" class="nxt-stl__pill">Under 25/mo</button>
@@ -119,7 +125,7 @@
 
           <!-- Step 4 -->
           <div class="nxt-stl__step" data-step="3">
-            <button type="button" class="nxt-stl__back" data-back>&larr; Back</button>
+            <button type="button" class="nxt-stl__back" data-back-to="2">&larr; Back</button>
             <p class="nxt-stl__step-question">What are you actually trying to fix?</p>
             <div class="nxt-stl__pills" data-field="intent">
               <button type="button" class="nxt-stl__pill">We need more leads coming in</button>
@@ -129,9 +135,9 @@
             </div>
           </div>
 
-          <!-- Step 5: contact info + submit -->
+          <!-- Step 5: contact info -->
           <div class="nxt-stl__step" data-step="4">
-            <button type="button" class="nxt-stl__back" data-back>&larr; Back</button>
+            <button type="button" class="nxt-stl__back" data-back-to="3">&larr; Back</button>
             <p class="nxt-stl__step-question">Last thing, where do we send it?</p>
 
             <div class="nxt-stl__field">
@@ -155,50 +161,88 @@
 
             <p class="nxt-stl__error" id="nxtFormError" hidden></p>
 
-            <button type="submit" class="nxt-stl__btn nxt-stl__btn--gold nxt-stl__btn--block" id="nxtSubmitBtn">
-              <span id="nxtSubmitLabel">Find My Leaks &rarr;</span>
+            <button type="button" class="nxt-stl__btn nxt-stl__btn--gold nxt-stl__btn--block" id="nxtContinueBtn">
+              Continue &rarr;
             </button>
 
             <p class="nxt-stl__form-note">No spam, no sales call to get your answer. Just a straight read on where the revenue is going.</p>
           </div>
 
+          <!-- Phase 1 complete interstitial -->
+          <div class="nxt-stl__step" data-step="interstitial" id="nxtInterstitial">
+            <button type="button" class="nxt-stl__back" data-back-to="4">&larr; Back</button>
+            <div class="nxt-stl__interstitial">
+              <span class="nxt-stl__eyebrow nxt-stl__eyebrow--gold">Phase One Complete</span>
+              <p class="nxt-stl__step-question">You&rsquo;re Almost There.</p>
+              <p class="nxt-stl__interstitial-body">
+                Based on your answers, this might be a strong fit. A few more questions before we open up the calendar.
+              </p>
+              <button type="button" class="nxt-stl__btn nxt-stl__btn--gold" id="nxtInterstitialContinue">Continue &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Phase 2, step 1 -->
+          <div class="nxt-stl__step" data-step="commit1">
+            <button type="button" class="nxt-stl__back" data-back-to="interstitial">&larr; Back</button>
+            <p class="nxt-stl__step-count-alt">Almost there &ndash; question 1 of 3</p>
+            <p class="nxt-stl__step-question">
+              What we do is implement six AI agents into your business to improve your customer journey and stop you from missing revenue.
+              Is that something you&rsquo;re interested in?
+            </p>
+            <div class="nxt-stl__pills" data-field="commit_agents">
+              <button type="button" class="nxt-stl__pill">Yes</button>
+              <button type="button" class="nxt-stl__pill">No</button>
+            </div>
+          </div>
+
+          <!-- Phase 2, step 2 -->
+          <div class="nxt-stl__step" data-step="commit2">
+            <button type="button" class="nxt-stl__back" data-back-to="commit1">&larr; Back</button>
+            <p class="nxt-stl__step-count-alt">Almost there &ndash; question 2 of 3</p>
+            <p class="nxt-stl__step-question">
+              The way we do that is a 45-minute call with me, and an onboarding call after if we&rsquo;re a good fit.
+              Is that something you&rsquo;re interested in?
+            </p>
+            <div class="nxt-stl__pills" data-field="commit_call">
+              <button type="button" class="nxt-stl__pill">Yes</button>
+              <button type="button" class="nxt-stl__pill">No</button>
+            </div>
+          </div>
+
+          <!-- Phase 2, step 3 -->
+          <div class="nxt-stl__step" data-step="commit3">
+            <button type="button" class="nxt-stl__back" data-back-to="commit2">&larr; Back</button>
+            <p class="nxt-stl__step-count-alt">Almost there &ndash; question 3 of 3</p>
+            <p class="nxt-stl__step-question">Last one. When you set a meeting, do you actually show up?</p>
+            <div class="nxt-stl__pills" data-field="commit_showup">
+              <button type="button" class="nxt-stl__pill">Yes</button>
+              <button type="button" class="nxt-stl__pill">No</button>
+            </div>
+          </div>
+
         </form>
 
-        <!-- Qualified success state -->
-        <div class="nxt-stl__success" id="nxtSuccessQualified" hidden>
+        <!-- Scheduling page (fully qualified) -->
+        <div class="nxt-stl__success" id="nxtScheduling" hidden>
           <div class="nxt-stl__success-check">&#10003;</div>
-          <p class="nxt-stl__success-title">We&rsquo;ve got your answers.</p>
+          <p class="nxt-stl__success-title">You&rsquo;re In. Grab a Time.</p>
           <p class="nxt-stl__success-body">
-            Grab a time on the calendar and we&rsquo;ll walk through exactly where
-            <strong id="nxtSuccessBizName">your business</strong> is leaking revenue, live on the call.
+            45 minutes, just us. We&rsquo;ll go through <strong id="nxtSchedulingBizName">your</strong> pipeline and your customer journey end to end.
           </p>
-          <script src="https://link.msgsndr.com/js/form_embed.js"></script>
           <iframe
-            src="https://api.leadconnectorhq.com/widget/booking/skLPTNg3PVxukFM8OQHW"
+            src="https://book.nxtapexai.com/widget/booking/ZQ5Ah96PEGhNYchJzoHV"
+            allow="payment"
             style="width:100%;border:none;overflow:hidden;height:820px;"
             scrolling="no"
             id="nxt-booking-iframe"
           ></iframe>
+          <script src="https://book.nxtapexai.com/js/form_embed.js"></script>
         </div>
 
-        <!-- Low-volume soft-disqualify state -->
-        <div class="nxt-stl__success nxt-stl__success--muted" id="nxtSuccessLowVolume" hidden>
-          <p class="nxt-stl__success-title">Not yet a fit. And that&rsquo;s fine.</p>
-          <p class="nxt-stl__success-body">
-            Right now we&rsquo;re built for businesses with more lead flow than that. Closing gaps only moves
-            the needle once there&rsquo;s real volume to work with. We won&rsquo;t waste your time on a call that
-            doesn&rsquo;t make sense yet. Come back when that number changes.
-          </p>
-        </div>
-
-        <!-- Wrong-fit soft-disqualify state (they want lead gen, not conversion/ops) -->
-        <div class="nxt-stl__success nxt-stl__success--muted" id="nxtSuccessWrongFit" hidden>
-          <p class="nxt-stl__success-title">Sounds like you need a lead gen partner. That&rsquo;s not us.</p>
-          <p class="nxt-stl__success-body">
-            We don&rsquo;t run ads or generate new leads. We fix what happens after someone already raised
-            their hand, follow-up, conversion, the leads you already paid for. If more leads is the actual
-            gap, a marketing or ads agency is the better fit for that piece.
-          </p>
+        <!-- Rejection page (any disqualify reason) -->
+        <div class="nxt-stl__success nxt-stl__success--muted" id="nxtRejection" hidden>
+          <p class="nxt-stl__success-title">Thanks for your time. This isn&rsquo;t a fit right now.</p>
+          <p class="nxt-stl__success-body" id="nxtRejectionBody"></p>
         </div>
 
       </div>
@@ -311,7 +355,6 @@
   .nxt-stl__section--form{background:#141420;}
   .nxt-stl__form-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px;}
   @media(min-width:640px){.nxt-stl__form-card{padding:36px;}}
-  .nxt-stl__form-intro{color:var(--muted);font-size:14px;text-align:center;margin:0 0 26px;}
   .nxt-stl__field{margin-bottom:22px;}
   .nxt-stl__field label{display:block;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:10px;}
   .nxt-stl__pills{display:flex;flex-wrap:wrap;gap:8px;}
@@ -332,6 +375,12 @@
   .nxt-stl__step .nxt-stl__pill{width:100%;text-align:left;padding:15px 18px;font-size:14px;}
   .nxt-stl__back{display:block;background:none;border:none;color:var(--muted-2);font-size:12px;font-weight:600;cursor:pointer;padding:0;margin:0 0 16px;}
   .nxt-stl__back:hover{color:rgba(255,255,255,0.6);}
+  .nxt-stl__step-count-alt{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);text-align:center;margin:0 0 14px;}
+
+  /* Interstitial */
+  .nxt-stl__interstitial{text-align:center;padding:12px 0;}
+  .nxt-stl__eyebrow--gold{display:inline-flex;padding:6px 14px;border-radius:999px;border:1px solid rgba(198,166,44,0.3);background:rgba(198,166,44,0.08);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:16px;}
+  .nxt-stl__interstitial-body{color:var(--muted);font-size:15px;line-height:1.6;max-width:420px;margin:0 auto 26px;}
   @media(min-width:560px){.nxt-stl__row{grid-template-columns:1fr 1fr;}}
   .nxt-stl__field input{width:100%;padding:13px 15px;border-radius:11px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:14px;outline:none;transition:border-color .15s ease;}
   .nxt-stl__field input::placeholder{color:rgba(255,255,255,0.28);}
@@ -417,48 +466,62 @@
   var form = document.getElementById('nxtLeakForm');
   if (!form) return;
 
-  var state = { follow_up: '', lead_source: '', lead_volume: '', intent: '' };
+  var state = {
+    follow_up: '', lead_source: '', lead_volume: '', intent: '',
+    commit_agents: '', commit_call: '', commit_showup: ''
+  };
 
   /* ---- Multi-step navigation ---- */
+  // Phase 1 is the diagnostic questions plus contact info (numeric
+  // data-step 0-4). Phase 2 is the three commitment questions
+  // (commit1-3), reached only if phase 1 qualifies. The interstitial
+  // sits between the two phases and isn't counted in either.
+  var PHASE1_STEPS = ['0', '1', '2', '3', '4'];
+
   var steps = Array.prototype.slice.call(form.querySelectorAll('.nxt-stl__step'));
-  var totalSteps = steps.length;
-  var currentStep = 0;
+  var currentStepName = '0';
+  var progressTrack = document.getElementById('nxtProgressTrack');
   var progressFill = document.getElementById('nxtProgressFill');
   var stepCount = document.getElementById('nxtStepCount');
 
-  function showStep(index){
-    currentStep = index;
-    steps.forEach(function(step, i){
-      step.classList.toggle('is-active', i === index);
+  function showStep(name){
+    currentStepName = name;
+    steps.forEach(function(step){
+      step.classList.toggle('is-active', step.getAttribute('data-step') === name);
     });
-    progressFill.style.width = (((index + 1) / totalSteps) * 100) + '%';
-    stepCount.textContent = 'Question ' + (index + 1) + ' of ' + totalSteps;
+    var phase1Index = PHASE1_STEPS.indexOf(name);
+    var inPhase1 = phase1Index !== -1;
+    progressTrack.hidden = !inPhase1;
+    stepCount.hidden = !inPhase1;
+    if (inPhase1) {
+      progressFill.style.width = (((phase1Index + 1) / PHASE1_STEPS.length) * 100) + '%';
+      stepCount.textContent = 'Question ' + (phase1Index + 1) + ' of ' + PHASE1_STEPS.length;
+    }
   }
 
-  form.querySelectorAll('[data-back]').forEach(function(btn){
+  form.querySelectorAll('[data-back-to]').forEach(function(btn){
     btn.addEventListener('click', function(){
-      if (currentStep > 0) showStep(currentStep - 1);
+      showStep(btn.getAttribute('data-back-to'));
     });
   });
 
-  form.querySelectorAll('.nxt-stl__pills').forEach(function(group){
+  // Auto-advance within phase 1 (steps 0-3) on pill select.
+  // Phase 2's pills (commit1-3) are wired separately below since
+  // the last one triggers submission instead of just moving on.
+  form.querySelectorAll('.nxt-stl__pills[data-field="follow_up"], .nxt-stl__pills[data-field="lead_source"], .nxt-stl__pills[data-field="lead_volume"], .nxt-stl__pills[data-field="intent"]').forEach(function(group){
     var field = group.getAttribute('data-field');
+    var order = { follow_up: '1', lead_source: '2', lead_volume: '3', intent: '4' };
     group.querySelectorAll('.nxt-stl__pill').forEach(function(btn){
       btn.addEventListener('click', function(){
         group.querySelectorAll('.nxt-stl__pill').forEach(function(b){ b.classList.remove('is-active'); });
         btn.classList.add('is-active');
         state[field] = btn.textContent.trim();
-        // Auto-advance to the next question a beat after selection.
-        if (currentStep < totalSteps - 1) {
-          setTimeout(function(){ showStep(currentStep + 1); }, 280);
-        }
+        setTimeout(function(){ showStep(order[field]); }, 280);
       });
     });
   });
 
   var errorEl = document.getElementById('nxtFormError');
-  var submitBtn = document.getElementById('nxtSubmitBtn');
-  var submitLabel = document.getElementById('nxtSubmitLabel');
 
   function showError(msg){
     errorEl.textContent = msg;
@@ -469,49 +532,44 @@
   var WRONG_FIT_INTENT = 'We need more leads coming in';
   var LOW_VOLUME = 'Under 25/mo';
 
-  // Two independent gates: volume has to be real, and the intent
-  // has to be conversion/ops, not lead generation (that's not us).
-  function getOutcome(leadVolume, intent){
+  function getPhase1Outcome(leadVolume, intent){
     if (intent === WRONG_FIT_INTENT) return 'wrong_fit';
     if (leadVolume === LOW_VOLUME) return 'low_volume';
     return 'qualified';
   }
 
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    errorEl.hidden = true;
+  // Unicode escape, not a literal curly-quote character, so this
+  // renders correctly even if the host GHL page doesn't declare
+  // UTF-8 in its own <head>.
+  var RQ = '\u2019';
+  var REJECTION_COPY = {
+    wrong_fit: 'Sounds like you need a lead gen partner. That' + RQ + 's not us. We don' + RQ + 't run ads or generate new leads, we fix what happens after someone already raised their hand, the leads you already paid for. If more leads is the actual gap, a marketing or ads agency is the better fit for that piece.',
+    low_volume: 'Right now we' + RQ + 're built for businesses with more lead flow than that. Closing gaps only moves the needle once there' + RQ + 's real volume to work with. Come back when that number changes.',
+    declined_commitment: 'Based on your answers, the timing isn' + RQ + 't right for a call like this right now. No hard feelings. Reach out when it is.'
+  };
 
-    var fullName = document.getElementById('nxtName').value.trim();
-    var businessName = document.getElementById('nxtBusinessName').value.trim();
-    var phone = document.getElementById('nxtPhone').value.trim();
-    var email = document.getElementById('nxtEmail').value.trim();
+  var contactInfo = { fullName: '', businessName: '', phone: '', email: '' };
 
-    if (!state.follow_up || !state.lead_source || !state.lead_volume || !state.intent || !fullName || !businessName || !phone || !email) {
-      showError('Please fill out every question and field before submitting.');
-      return;
-    }
-
-    // Everyone who finishes the form gets sent, qualified or not.
-    // Disqualified leads still land in GHL for a later follow-up.
-    var outcome = getOutcome(state.lead_volume, state.intent);
-
-    submitBtn.disabled = true;
-    submitLabel.textContent = 'Finding your leaks...';
-
-    var payload = {
-      full_name: fullName,
-      business_name: businessName,
-      email: email,
-      phone: phone,
+  function buildPayload(outcome, reason){
+    return {
+      full_name: contactInfo.fullName,
+      business_name: contactInfo.businessName,
+      email: contactInfo.email,
+      phone: contactInfo.phone,
       follow_up: state.follow_up,
       lead_source: state.lead_source,
       lead_volume: state.lead_volume,
       intent: state.intent,
+      commit_agents: state.commit_agents,
+      commit_call: state.commit_call,
+      commit_showup: state.commit_showup,
       qualified: outcome === 'qualified' ? 'yes' : 'no',
-      disqualify_reason: outcome === 'qualified' ? '' : outcome,
+      disqualify_reason: reason || '',
       source: 'stop-the-leaks-ghl'
     };
+  }
 
+  function sendToWebhook(payload){
     // text/plain avoids a CORS preflight the GHL webhook endpoint won't
     // answer (it's built for server-to-server calls, not browser JS).
     // The body is still valid JSON; GHL parses it regardless of the
@@ -521,17 +579,82 @@
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     }).catch(function(err){
-      console.warn('Webhook send failed (lead still shown success):', err);
-    }).finally(function(){
-      form.hidden = true;
-      if (outcome === 'qualified') {
-        document.getElementById('nxtSuccessBizName').textContent = businessName;
-        document.getElementById('nxtSuccessQualified').hidden = false;
-      } else if (outcome === 'wrong_fit') {
-        document.getElementById('nxtSuccessWrongFit').hidden = false;
-      } else {
-        document.getElementById('nxtSuccessLowVolume').hidden = false;
-      }
+      console.warn('Webhook send failed (outcome still shown):', err);
+    });
+  }
+
+  function showRejection(reason){
+    form.hidden = true;
+    document.getElementById('nxtRejectionBody').textContent = REJECTION_COPY[reason] || REJECTION_COPY.declined_commitment;
+    document.getElementById('nxtRejection').hidden = false;
+  }
+
+  function showScheduling(){
+    form.hidden = true;
+    document.getElementById('nxtSchedulingBizName').textContent = contactInfo.businessName;
+    document.getElementById('nxtScheduling').hidden = false;
+  }
+
+  /* ---- Step 4 -> 1) rejection if phase 1 disqualified, 2) interstitial if not ---- */
+  document.getElementById('nxtContinueBtn').addEventListener('click', function(){
+    errorEl.hidden = true;
+
+    contactInfo.fullName = document.getElementById('nxtName').value.trim();
+    contactInfo.businessName = document.getElementById('nxtBusinessName').value.trim();
+    contactInfo.phone = document.getElementById('nxtPhone').value.trim();
+    contactInfo.email = document.getElementById('nxtEmail').value.trim();
+
+    if (!contactInfo.fullName || !contactInfo.businessName || !contactInfo.phone || !contactInfo.email) {
+      showError('Please fill out every field before continuing.');
+      return;
+    }
+
+    var phase1Outcome = getPhase1Outcome(state.lead_volume, state.intent);
+
+    if (phase1Outcome !== 'qualified') {
+      // Disqualified at phase 1: still send everything collected so far, no phase 2 asked.
+      sendToWebhook(buildPayload('no', phase1Outcome));
+      showRejection(phase1Outcome);
+      return;
+    }
+
+    showStep('interstitial');
+  });
+
+  document.getElementById('nxtInterstitialContinue').addEventListener('click', function(){
+    showStep('commit1');
+  });
+
+  /* ---- Phase 2: three yes/no commitment questions ---- */
+  var COMMIT_STEPS = ['commit1', 'commit2', 'commit3'];
+  var COMMIT_NEXT = { commit1: 'commit2', commit2: 'commit3' };
+
+  COMMIT_STEPS.forEach(function(stepName){
+    var group = form.querySelector('.nxt-stl__step[data-step="' + stepName + '"] .nxt-stl__pills');
+    var field = group.getAttribute('data-field');
+
+    group.querySelectorAll('.nxt-stl__pill').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        group.querySelectorAll('.nxt-stl__pill').forEach(function(b){ b.classList.remove('is-active'); });
+        btn.classList.add('is-active');
+        state[field] = btn.textContent.trim();
+
+        setTimeout(function(){
+          if (btn.textContent.trim() === 'No') {
+            sendToWebhook(buildPayload('no', 'declined_commitment'));
+            showRejection('declined_commitment');
+            return;
+          }
+          var next = COMMIT_NEXT[stepName];
+          if (next) {
+            showStep(next);
+          } else {
+            // Last commitment question answered Yes: fully qualified.
+            sendToWebhook(buildPayload('qualified', ''));
+            showScheduling();
+          }
+        }, 280);
+      });
     });
   });
 })();
