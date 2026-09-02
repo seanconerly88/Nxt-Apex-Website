@@ -4,21 +4,21 @@
      element. Self-contained: styles + markup + JS, no build step,
      no framework. Vanilla JS only.
 
-     BEFORE YOU PUBLISH, one required edit:
-     1. In GHL, create a Workflow with an "Inbound Webhook" trigger.
-        Copy that trigger URL and paste it into WEBHOOK_URL below
-        (search for "PASTE_YOUR_GHL_WEBHOOK_URL_HERE").
-        In that workflow: map the incoming fields (business_name,
-        email, phone, lead_source, lead_volume, follow_up, intent,
-        qualified, disqualify_reason), upsert/update the contact,
-        branch on `qualified` (yes/no) to tag "leak-audit-qualified"
-        vs "leak-audit-disqualified", and notify yourself.
-        `disqualify_reason` is "low_volume" or "wrong_fit" when
-        qualified is "no", empty otherwise, use it to route the
-        notification or tag differently if you want to see which
-        gate a disqualified lead hit.
-     2. Confirm the booking calendar widget ID in the iframe below
-        matches the calendar you want qualified leads booking into.
+     WEBHOOK_URL below is already set to the live GHL inbound
+     webhook. A test submission was sent on setup, use it to map
+     the incoming fields (business_name, email, phone, lead_source,
+     lead_volume, follow_up, intent, qualified, disqualify_reason)
+     in the GHL workflow: upsert/update the contact, branch on
+     `qualified` (yes/no) to tag "leak-audit-qualified" vs
+     "leak-audit-disqualified", and notify yourself.
+     `disqualify_reason` is "low_volume" or "wrong_fit" when
+     qualified is "no", empty otherwise, use it to route the
+     notification or tag differently if you want to see which
+     gate a disqualified lead hit.
+
+     Before you publish, confirm the booking calendar widget ID in
+     the iframe below matches the calendar you want qualified leads
+     booking into.
    ============================================================ -->
 
 <div class="nxt-stl">
@@ -70,10 +70,15 @@
       <div class="nxt-stl__form-card" data-reveal>
 
         <form id="nxtLeakForm" novalidate>
-          <p class="nxt-stl__form-intro">Four questions. Two minutes. We&rsquo;ll tell you exactly where you&rsquo;re leaking before we ever get on a call.</p>
 
-          <div class="nxt-stl__field">
-            <label>What happens to a lead once they go quiet?</label>
+          <div class="nxt-stl__progress-track">
+            <div class="nxt-stl__progress-fill" id="nxtProgressFill"></div>
+          </div>
+          <p class="nxt-stl__step-count" id="nxtStepCount">Question 1 of 5</p>
+
+          <!-- Step 1 -->
+          <div class="nxt-stl__step is-active" data-step="0">
+            <p class="nxt-stl__step-question">What happens to a lead once they go quiet?</p>
             <div class="nxt-stl__pills" data-field="follow_up">
               <button type="button" class="nxt-stl__pill">We call or text once, then move on</button>
               <button type="button" class="nxt-stl__pill">We have a sequence, but it&rsquo;s inconsistent</button>
@@ -82,8 +87,10 @@
             </div>
           </div>
 
-          <div class="nxt-stl__field">
-            <label>Where do most of your leads come from?</label>
+          <!-- Step 2 -->
+          <div class="nxt-stl__step" data-step="1">
+            <button type="button" class="nxt-stl__back" data-back>&larr; Back</button>
+            <p class="nxt-stl__step-question">Where do most of your leads come from?</p>
             <div class="nxt-stl__pills" data-field="lead_source">
               <button type="button" class="nxt-stl__pill">Referrals / Word of Mouth</button>
               <button type="button" class="nxt-stl__pill">Paid Ads (Meta, Google)</button>
@@ -93,8 +100,10 @@
             </div>
           </div>
 
-          <div class="nxt-stl__field">
-            <label>Monthly lead volume</label>
+          <!-- Step 3 -->
+          <div class="nxt-stl__step" data-step="2">
+            <button type="button" class="nxt-stl__back" data-back>&larr; Back</button>
+            <p class="nxt-stl__step-question">Monthly lead volume</p>
             <div class="nxt-stl__pills" data-field="lead_volume">
               <button type="button" class="nxt-stl__pill">Under 25/mo</button>
               <button type="button" class="nxt-stl__pill">25&ndash;100/mo</button>
@@ -103,8 +112,10 @@
             </div>
           </div>
 
-          <div class="nxt-stl__field">
-            <label>What are you actually trying to fix?</label>
+          <!-- Step 4 -->
+          <div class="nxt-stl__step" data-step="3">
+            <button type="button" class="nxt-stl__back" data-back>&larr; Back</button>
+            <p class="nxt-stl__step-question">What are you actually trying to fix?</p>
             <div class="nxt-stl__pills" data-field="intent">
               <button type="button" class="nxt-stl__pill">We need more leads coming in</button>
               <button type="button" class="nxt-stl__pill">We need to convert the leads we already have</button>
@@ -113,28 +124,35 @@
             </div>
           </div>
 
-          <div class="nxt-stl__row">
-            <div class="nxt-stl__field">
-              <label>Business name</label>
-              <input type="text" id="nxtBusinessName" placeholder="Acme Home Services" required />
+          <!-- Step 5: contact info + submit -->
+          <div class="nxt-stl__step" data-step="4">
+            <button type="button" class="nxt-stl__back" data-back>&larr; Back</button>
+            <p class="nxt-stl__step-question">Last thing, where do we send it?</p>
+
+            <div class="nxt-stl__row">
+              <div class="nxt-stl__field">
+                <label>Business name</label>
+                <input type="text" id="nxtBusinessName" placeholder="Acme Home Services" required />
+              </div>
+              <div class="nxt-stl__field">
+                <label>Phone</label>
+                <input type="tel" id="nxtPhone" placeholder="(504) 555-0100" required />
+              </div>
             </div>
             <div class="nxt-stl__field">
-              <label>Phone</label>
-              <input type="tel" id="nxtPhone" placeholder="(504) 555-0100" required />
+              <label>Email</label>
+              <input type="email" id="nxtEmail" placeholder="you@yourcompany.com" required />
             </div>
+
+            <p class="nxt-stl__error" id="nxtFormError" hidden></p>
+
+            <button type="submit" class="nxt-stl__btn nxt-stl__btn--gold nxt-stl__btn--block" id="nxtSubmitBtn">
+              <span id="nxtSubmitLabel">Find My Leaks &rarr;</span>
+            </button>
+
+            <p class="nxt-stl__form-note">No spam, no sales call to get your answer. Just a straight read on where the revenue is going.</p>
           </div>
-          <div class="nxt-stl__field">
-            <label>Email</label>
-            <input type="email" id="nxtEmail" placeholder="you@yourcompany.com" required />
-          </div>
 
-          <p class="nxt-stl__error" id="nxtFormError" hidden></p>
-
-          <button type="submit" class="nxt-stl__btn nxt-stl__btn--gold nxt-stl__btn--block" id="nxtSubmitBtn">
-            <span id="nxtSubmitLabel">Find My Leaks &rarr;</span>
-          </button>
-
-          <p class="nxt-stl__form-note">No spam, no sales call to get your answer. Just a straight read on where the revenue is going.</p>
         </form>
 
         <!-- Qualified success state -->
@@ -292,6 +310,19 @@
   .nxt-stl__pill:hover{border-color:rgba(198,166,44,0.4);}
   .nxt-stl__pill.is-active{background:var(--gold);border-color:var(--gold);color:#000;}
   .nxt-stl__row{display:grid;grid-template-columns:1fr;gap:16px;}
+
+  /* Stepper */
+  .nxt-stl__progress-track{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-bottom:14px;}
+  .nxt-stl__progress-fill{height:100%;width:20%;background:var(--gold);border-radius:2px;transition:width .35s ease;}
+  .nxt-stl__step-count{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted-2);text-align:center;margin:0 0 26px;}
+  .nxt-stl__step{display:none;}
+  .nxt-stl__step.is-active{display:block;animation:nxt-stl-stepIn .35s ease;}
+  @keyframes nxt-stl-stepIn{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);}}
+  .nxt-stl__step-question{font-size:19px;font-weight:700;color:#fff;text-align:center;margin:0 0 22px;line-height:1.4;}
+  .nxt-stl__step .nxt-stl__pills{flex-direction:column;}
+  .nxt-stl__step .nxt-stl__pill{width:100%;text-align:left;padding:15px 18px;font-size:14px;}
+  .nxt-stl__back{display:block;background:none;border:none;color:var(--muted-2);font-size:12px;font-weight:600;cursor:pointer;padding:0;margin:0 0 16px;}
+  .nxt-stl__back:hover{color:rgba(255,255,255,0.6);}
   @media(min-width:560px){.nxt-stl__row{grid-template-columns:1fr 1fr;}}
   .nxt-stl__field input{width:100%;padding:13px 15px;border-radius:11px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:14px;outline:none;transition:border-color .15s ease;}
   .nxt-stl__field input::placeholder{color:rgba(255,255,255,0.28);}
@@ -372,12 +403,34 @@
   }
 
   /* ---- Qualifier form ---- */
-  var WEBHOOK_URL = 'PASTE_YOUR_GHL_WEBHOOK_URL_HERE';
+  var WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/zabEZG2rRimaC72Eam1k/webhook-trigger/fe0d359e-1066-484d-8e5f-0109ed6cdb0d';
 
   var form = document.getElementById('nxtLeakForm');
   if (!form) return;
 
   var state = { follow_up: '', lead_source: '', lead_volume: '', intent: '' };
+
+  /* ---- Multi-step navigation ---- */
+  var steps = Array.prototype.slice.call(form.querySelectorAll('.nxt-stl__step'));
+  var totalSteps = steps.length;
+  var currentStep = 0;
+  var progressFill = document.getElementById('nxtProgressFill');
+  var stepCount = document.getElementById('nxtStepCount');
+
+  function showStep(index){
+    currentStep = index;
+    steps.forEach(function(step, i){
+      step.classList.toggle('is-active', i === index);
+    });
+    progressFill.style.width = (((index + 1) / totalSteps) * 100) + '%';
+    stepCount.textContent = 'Question ' + (index + 1) + ' of ' + totalSteps;
+  }
+
+  form.querySelectorAll('[data-back]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if (currentStep > 0) showStep(currentStep - 1);
+    });
+  });
 
   form.querySelectorAll('.nxt-stl__pills').forEach(function(group){
     var field = group.getAttribute('data-field');
@@ -386,6 +439,10 @@
         group.querySelectorAll('.nxt-stl__pill').forEach(function(b){ b.classList.remove('is-active'); });
         btn.classList.add('is-active');
         state[field] = btn.textContent.trim();
+        // Auto-advance to the next question a beat after selection.
+        if (currentStep < totalSteps - 1) {
+          setTimeout(function(){ showStep(currentStep + 1); }, 280);
+        }
       });
     });
   });
