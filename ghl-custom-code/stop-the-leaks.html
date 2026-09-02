@@ -9,10 +9,14 @@
         Copy that trigger URL and paste it into WEBHOOK_URL below
         (search for "PASTE_YOUR_GHL_WEBHOOK_URL_HERE").
         In that workflow: map the incoming fields (business_name,
-        email, phone, lead_source, lead_volume, follow_up,
-        qualified), upsert/update the contact, branch on
-        `qualified` (yes/no) to tag "leak-audit-qualified" vs
-        "leak-audit-low-volume", and notify yourself.
+        email, phone, lead_source, lead_volume, follow_up, intent,
+        qualified, disqualify_reason), upsert/update the contact,
+        branch on `qualified` (yes/no) to tag "leak-audit-qualified"
+        vs "leak-audit-disqualified", and notify yourself.
+        `disqualify_reason` is "low_volume" or "wrong_fit" when
+        qualified is "no", empty otherwise, use it to route the
+        notification or tag differently if you want to see which
+        gate a disqualified lead hit.
      2. Confirm the booking calendar widget ID in the iframe below
         matches the calendar you want qualified leads booking into.
    ============================================================ -->
@@ -36,7 +40,7 @@
       <h1 class="nxt-stl__h1">You Don&rsquo;t Need More Leads.<br />You Need to Stop Losing Them.</h1>
       <p class="nxt-stl__hero-sub">
         It&rsquo;s not a lead generation problem. It&rsquo;s a follow-up problem.
-        <span class="nxt-stl__gold">Our end-to-end closed-loop AI system turns the leads you already have into raving customers.</span>
+        Our end-to-end <span class="nxt-stl__gold">closed-loop AI system</span> turns the leads you already have into raving customers.
       </p>
       <a href="#leak-form" class="nxt-stl__btn nxt-stl__btn--gold nxt-stl__js-scroll">Find My Leaks &rarr;</a>
     </div>
@@ -60,13 +64,13 @@
     <div class="nxt-stl__wrap nxt-stl__wrap--narrow">
       <div class="nxt-stl__section-head" data-reveal>
         <h2>Find out exactly where you&rsquo;re leaking.</h2>
-        <p>Three quick questions. We&rsquo;ll show you exactly where it&rsquo;s costing you before you ever book a call.</p>
+        <p>Four quick questions. We&rsquo;ll show you exactly where it&rsquo;s costing you before you ever book a call.</p>
       </div>
 
       <div class="nxt-stl__form-card" data-reveal>
 
         <form id="nxtLeakForm" novalidate>
-          <p class="nxt-stl__form-intro">Three questions. Two minutes. We&rsquo;ll tell you exactly where you&rsquo;re leaking before we ever get on a call.</p>
+          <p class="nxt-stl__form-intro">Four questions. Two minutes. We&rsquo;ll tell you exactly where you&rsquo;re leaking before we ever get on a call.</p>
 
           <div class="nxt-stl__field">
             <label>What happens to a lead once they go quiet?</label>
@@ -96,6 +100,16 @@
               <button type="button" class="nxt-stl__pill">25&ndash;100/mo</button>
               <button type="button" class="nxt-stl__pill">100&ndash;500/mo</button>
               <button type="button" class="nxt-stl__pill">500+/mo</button>
+            </div>
+          </div>
+
+          <div class="nxt-stl__field">
+            <label>What are you actually trying to fix?</label>
+            <div class="nxt-stl__pills" data-field="intent">
+              <button type="button" class="nxt-stl__pill">We need more leads coming in</button>
+              <button type="button" class="nxt-stl__pill">We need to convert the leads we already have</button>
+              <button type="button" class="nxt-stl__pill">Our follow-up is slow or inconsistent</button>
+              <button type="button" class="nxt-stl__pill">Not sure yet, something&rsquo;s off</button>
             </div>
           </div>
 
@@ -147,6 +161,16 @@
             Right now we&rsquo;re built for businesses with more lead flow than that. Closing gaps only moves
             the needle once there&rsquo;s real volume to work with. We won&rsquo;t waste your time on a call that
             doesn&rsquo;t make sense yet. Come back when that number changes.
+          </p>
+        </div>
+
+        <!-- Wrong-fit soft-disqualify state (they want lead gen, not conversion/ops) -->
+        <div class="nxt-stl__success nxt-stl__success--muted" id="nxtSuccessWrongFit" hidden>
+          <p class="nxt-stl__success-title">Sounds like you need a lead gen partner. That&rsquo;s not us.</p>
+          <p class="nxt-stl__success-body">
+            We don&rsquo;t run ads or generate new leads. We fix what happens after someone already raised
+            their hand, follow-up, conversion, the leads you already paid for. If more leads is the actual
+            gap, a marketing or ads agency is the better fit for that piece.
           </p>
         </div>
 
@@ -353,7 +377,7 @@
   var form = document.getElementById('nxtLeakForm');
   if (!form) return;
 
-  var state = { follow_up: '', lead_source: '', lead_volume: '' };
+  var state = { follow_up: '', lead_source: '', lead_volume: '', intent: '' };
 
   form.querySelectorAll('.nxt-stl__pills').forEach(function(group){
     var field = group.getAttribute('data-field');
@@ -376,8 +400,15 @@
   }
 
   // Anything under 25 leads/mo isn't enough volume for this offer to pay for itself yet.
-  function isQualified(leadVolume){
-    return leadVolume !== 'Under 25/mo';
+  var WRONG_FIT_INTENT = 'We need more leads coming in';
+  var LOW_VOLUME = 'Under 25/mo';
+
+  // Two independent gates: volume has to be real, and the intent
+  // has to be conversion/ops, not lead generation (that's not us).
+  function getOutcome(leadVolume, intent){
+    if (intent === WRONG_FIT_INTENT) return 'wrong_fit';
+    if (leadVolume === LOW_VOLUME) return 'low_volume';
+    return 'qualified';
   }
 
   form.addEventListener('submit', function(e){
@@ -388,12 +419,12 @@
     var phone = document.getElementById('nxtPhone').value.trim();
     var email = document.getElementById('nxtEmail').value.trim();
 
-    if (!state.follow_up || !state.lead_source || !state.lead_volume || !businessName || !phone || !email) {
+    if (!state.follow_up || !state.lead_source || !state.lead_volume || !state.intent || !businessName || !phone || !email) {
       showError('Please fill out every question and field before submitting.');
       return;
     }
 
-    var qualified = isQualified(state.lead_volume);
+    var outcome = getOutcome(state.lead_volume, state.intent);
 
     submitBtn.disabled = true;
     submitLabel.textContent = 'Finding your leaks...';
@@ -405,7 +436,9 @@
       follow_up: state.follow_up,
       lead_source: state.lead_source,
       lead_volume: state.lead_volume,
-      qualified: qualified ? 'yes' : 'no',
+      intent: state.intent,
+      qualified: outcome === 'qualified' ? 'yes' : 'no',
+      disqualify_reason: outcome === 'qualified' ? '' : outcome,
       source: 'stop-the-leaks-ghl'
     };
 
@@ -417,9 +450,11 @@
       console.warn('Webhook send failed (lead still shown success):', err);
     }).finally(function(){
       form.hidden = true;
-      if (qualified) {
+      if (outcome === 'qualified') {
         document.getElementById('nxtSuccessBizName').textContent = businessName;
         document.getElementById('nxtSuccessQualified').hidden = false;
+      } else if (outcome === 'wrong_fit') {
+        document.getElementById('nxtSuccessWrongFit').hidden = false;
       } else {
         document.getElementById('nxtSuccessLowVolume').hidden = false;
       }
