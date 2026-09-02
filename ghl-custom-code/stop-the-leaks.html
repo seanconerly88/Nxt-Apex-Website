@@ -512,9 +512,13 @@
       source: 'stop-the-leaks-ghl'
     };
 
+    // text/plain avoids a CORS preflight the GHL webhook endpoint won't
+    // answer (it's built for server-to-server calls, not browser JS).
+    // The body is still valid JSON; GHL parses it regardless of the
+    // declared content type.
     fetch(WEBHOOK_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     }).catch(function(err){
       console.warn('Webhook send failed (lead still shown success):', err);
