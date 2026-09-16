@@ -79,7 +79,7 @@ export const metadata = {
     'Nxt Apex AI',
   ],
   openGraph: {
-    title: 'The work your team hates doing? It stops next week.',
+    title: "You don't need more leads. You need to stop losing the ones you already paid for.",
     description: 'Six AI agents. Six ways revenue leaves your business, closed. Answer 5 questions and find which loop is widest open.',
     url: SITE_URL,
     type: 'website',

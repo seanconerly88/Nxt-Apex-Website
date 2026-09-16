@@ -237,14 +237,14 @@ export default function HomeHero() {
 
           <h1
             className="text-white font-extrabold leading-[1.08] mb-5"
-            style={{ fontSize: 'clamp(30px, 4.6vw, 58px)', textWrap: 'balance' }}
+            style={{ fontSize: 'clamp(28px, 4.2vw, 52px)', textWrap: 'balance' }}
           >
-            The work your team hates doing?{' '}
-            <span style={{ color: '#C6A62C' }}>It stops next week.</span>
+            You don&apos;t need more leads.{' '}
+            <span style={{ color: '#C6A62C' }}>You need to stop losing the ones you already paid for.</span>
           </h1>
 
           <p className="text-white/50 text-base sm:text-lg leading-relaxed mb-8 sm:mb-10 max-w-lg font-light">
-            Answer 5 questions. We find which loops are open in your pipeline and close the first one in four days.
+            One client went from 13 hours to 90 seconds on first contact. Answer 5 questions and we&apos;ll show you where your leads go cold.
           </p>
 
           <div className="hidden lg:block">
