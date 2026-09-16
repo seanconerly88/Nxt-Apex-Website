@@ -10,6 +10,7 @@ import {
   useReducedMotion,
 } from 'framer-motion';
 import { useBooking } from '@/contexts/BookingContext';
+import GoldShimmerLine from '@/components/GoldShimmerLine';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -235,12 +236,18 @@ export default function HomeHero() {
             The Closed Loop System
           </div>
 
-          <h1
-            className="text-white font-extrabold leading-[1.08] mb-5"
-            style={{ fontSize: 'clamp(28px, 4.2vw, 52px)', textWrap: 'balance' }}
-          >
-            You don&apos;t need more leads.{' '}
-            <span style={{ color: '#C6A62C' }}>You need to stop losing the ones you already paid for.</span>
+          <h1 className="font-extrabold mb-6">
+            <span
+              className="block text-white leading-[1.05] lg:whitespace-nowrap"
+              style={{ fontSize: 'clamp(30px, 3vw, 40px)', letterSpacing: '-0.025em' }}
+            >
+              You don&apos;t need more leads.
+            </span>
+            <GoldShimmerLine
+              text="You need to stop losing the ones you already paid for."
+              className="mt-3 leading-[1.3] cursor-default"
+              style={{ fontSize: 'clamp(19px, 1.9vw, 26px)', letterSpacing: '-0.012em', textWrap: 'balance' }}
+            />
           </h1>
 
           <p className="text-white/50 text-base sm:text-lg leading-relaxed mb-8 sm:mb-10 max-w-lg font-light">

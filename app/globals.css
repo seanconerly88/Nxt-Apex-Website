@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hero gold line: idle shimmer wave, staggered per word (GoldShimmerLine) */
+@keyframes gsl-wave {
+  0%, 16%, 100% { color: #C6A62C; text-shadow: none; transform: translateY(0); }
+  8% { color: #F2D66F; text-shadow: 0 0 14px rgba(232, 200, 74, 0.45); transform: translateY(-3px); }
+}
+
 *,
 *::before,
 *::after {
