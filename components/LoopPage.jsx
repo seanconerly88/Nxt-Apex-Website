@@ -379,9 +379,16 @@ export default function LoopPage({ loop, schema }) {
                 <h2 className="text-white font-extrabold mb-3" style={{ fontSize: 'clamp(26px, 3vw, 38px)', letterSpacing: '-0.02em' }}>
                   {name} is one of six.
                 </h2>
-                <p className="text-white/40 text-[15px] max-w-lg mx-auto">
+                <p className="text-white/40 text-[15px] max-w-lg mx-auto mb-6">
                   Each one closes a different place revenue leaves. Most businesses are leaking from more than one.
                 </p>
+                <Link
+                  href="/closed-loop-system"
+                  className="text-[13px] font-bold transition-opacity hover:opacity-70"
+                  style={{ color: '#C6A62C' }}
+                >
+                  How the whole system works →
+                </Link>
               </motion.div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">

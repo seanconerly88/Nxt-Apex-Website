@@ -11,6 +11,7 @@ const VERTICALS = [
 ];
 
 const LOOP_LINKS = [
+  { label: 'The Closed Loop System', href: '/closed-loop-system' },
   { label: 'Speed to Lead', href: '/speed-to-lead' },
   { label: 'AI Receptionist', href: '/ai-receptionist' },
   { label: 'Database Reactivation', href: '/database-reactivation' },
