@@ -7,6 +7,7 @@ const SITE_URL = 'https://nxtapexai.com';
 export default function sitemap() {
   return [
     { url: SITE_URL,                              lastModified: new Date(), changeFrequency: 'weekly',  priority: 1.0 },
+    { url: `${SITE_URL}/closed-loop-system`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.95 },
     ...LOOP_ORDER.map(key => ({
       url: `${SITE_URL}/${LOOPS[key].slug}`,
       lastModified: new Date(),

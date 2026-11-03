@@ -18,6 +18,7 @@ export default function Navbar({ ctaLabel, ctaHref }) {
 
   const links = [
     { label: 'Assessment', href: '/' },
+    { label: 'The System', href: '/closed-loop-system' },
     { label: 'Case Studies', href: '/case-studies' },
     { label: 'AEO Services', href: '/aeo-services' },
     { label: 'Field Notes', href: '/blog' },
