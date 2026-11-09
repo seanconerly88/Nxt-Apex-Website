@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useCallback, useEffect, useState } from 'react';
+import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ClientLayout from '@/components/ClientLayout';
@@ -113,9 +113,76 @@ function ProgressBar({ done, total, dark = false }) {
   );
 }
 
+function IntroCallModal({ open, onClose }) {
+  useEffect(() => {
+    if (!open) return undefined;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [open, onClose]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          key="intro-backdrop"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-[200] flex items-center justify-center p-3 md:p-8"
+          style={{ backgroundColor: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
+          onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Book a 10-minute intro call"
+        >
+          <motion.div
+            key="intro-modal"
+            initial={{ opacity: 0, scale: 0.96, y: 24 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 24 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white"
+          >
+            <div className="sticky top-0 z-10 flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-white">
+              <div>
+                <p className="font-bold text-gray-900">10-minute intro call</p>
+                <p className="text-[13px] text-gray-500">Bring the problem that's in your way.</p>
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="w-11 h-11 flex items-center justify-center rounded-xl text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              </button>
+            </div>
+            <iframe
+              src={INTRO_CALL_URL}
+              title="Book a 10-minute intro call with Sean"
+              style={{ width: '100%', height: '820px', border: 'none', display: 'block' }}
+            />
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function ThreeWaysPage({ schema }) {
   const reduceMotion = useReducedMotion();
   const [done, setDone] = useState({});
+  const [callOpen, setCallOpen] = useState(false);
+  const openCall = () => setCallOpen(true);
+  const closeCall = useCallback(() => setCallOpen(false), []);
 
   useEffect(() => {
     setDone(loadProgress());
@@ -285,9 +352,14 @@ export default function ThreeWaysPage({ schema }) {
 
                   <p className="mt-5 text-[14px] text-gray-500">
                     Stuck on a step?{' '}
-                    <a href="#call" className="font-bold underline underline-offset-2" style={{ color: NAVY }}>
+                    <button
+                      type="button"
+                      onClick={openCall}
+                      className="font-bold underline underline-offset-2"
+                      style={{ color: NAVY }}
+                    >
                       Grab 10 minutes with me
-                    </a>
+                    </button>
                     .
                   </p>
                 </div>
@@ -325,23 +397,27 @@ export default function ThreeWaysPage({ schema }) {
                 </div>
               </div>
 
-              <div className="rounded-2xl overflow-hidden bg-white">
-                <iframe
-                  src={INTRO_CALL_URL}
-                  title="Book a 10-minute intro call with Sean"
-                  style={{ width: '100%', height: '900px', border: 'none', display: 'block' }}
-                  scrolling="yes"
-                  loading="lazy"
-                />
+              <div className="text-center">
+                <motion.button
+                  type="button"
+                  onClick={openCall}
+                  whileHover={reduceMotion ? {} : { scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-block px-9 py-4 rounded-xl font-bold text-black text-[16px]"
+                  style={{ backgroundColor: GOLD, boxShadow: '0 6px 32px rgba(198,166,44,0.38)' }}
+                >
+                  Pick a 10-Minute Time →
+                </motion.button>
+                <p className="mt-5 text-white/40 text-sm">
+                  No pitch. Bring the problem, and we'll figure out the fastest way through it.
+                </p>
               </div>
-              <p className="mt-5 text-center text-white/40 text-sm">
-                No pitch. Bring the problem, and we'll figure out the fastest way through it.
-              </p>
             </div>
           </section>
 
           <Footer />
         </main>
+        <IntroCallModal open={callOpen} onClose={closeCall} />
       </ClientLayout>
     </>
   );
