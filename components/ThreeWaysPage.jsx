@@ -10,7 +10,7 @@ import { WAYS, NEEDS, ALL_STEP_IDS, INTRO_CALL_URL } from '@/lib/threeWays';
 const EASE = [0.22, 1, 0.36, 1];
 const GOLD = '#C6A62C';
 const NAVY = '#060A18';
-const STORAGE_KEY = 'nxt-3-ways-progress-v1';
+const STORAGE_KEY = 'nxt-3-ways-progress-v2';
 
 function loadProgress() {
   try {
@@ -19,6 +19,24 @@ function loadProgress() {
   } catch {
     return {};
   }
+}
+
+// Progress can also travel in the URL (#p=id.id.id) so a visitor can bookmark it
+// or open it on another device. No signup, nothing stored on our side.
+function progressFromHash() {
+  try {
+    const m = window.location.hash.match(/p=([\w.-]+)/);
+    if (!m) return {};
+    const valid = new Set(ALL_STEP_IDS);
+    return Object.fromEntries(m[1].split('.').filter(id => valid.has(id)).map(id => [id, true]));
+  } catch {
+    return {};
+  }
+}
+
+function progressLink(done) {
+  const ids = ALL_STEP_IDS.filter(id => done[id]).join('.');
+  return `${window.location.origin}${window.location.pathname}${ids ? `#p=${ids}` : ''}`;
 }
 
 function saveProgress(done) {
@@ -185,8 +203,22 @@ export default function ThreeWaysPage({ schema }) {
   const closeCall = useCallback(() => setCallOpen(false), []);
 
   useEffect(() => {
-    setDone(loadProgress());
+    const merged = { ...loadProgress(), ...progressFromHash() };
+    setDone(merged);
+    saveProgress(merged);
   }, []);
+
+  const [linkCopied, setLinkCopied] = useState(false);
+  const copyProgressLink = async () => {
+    const url = progressLink(done);
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      window.prompt('Copy your progress link:', url);
+    }
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2500);
+  };
 
   const toggle = (id) => {
     setDone(prev => {
@@ -249,14 +281,14 @@ export default function ThreeWaysPage({ schema }) {
                 className="text-white/60 leading-relaxed mb-10 max-w-2xl mx-auto"
                 style={{ fontSize: 'clamp(16px, 1.2vw, 19px)' }}
               >
-                Not 31. Three. Each one is a checklist. Work down it, check the boxes, and have all three running by the end of the week with Claude and GoHighLevel.
+                Not 31. Three. Connect Claude to your GoHighLevel once, then tell it what to build. Work down each checklist and have all three running by the end of the week.
               </motion.p>
 
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
-                className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left"
               >
                 {WAYS.map(w => (
                   <a
@@ -299,6 +331,18 @@ export default function ThreeWaysPage({ schema }) {
                 )}
               </div>
               <ProgressBar done={totalDone} total={ALL_STEP_IDS.length} />
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={copyProgressLink}
+                  className="text-[13px] font-bold px-4 py-2.5 rounded-lg border border-gray-300 text-gray-800 hover:border-gray-500 transition-colors duration-200"
+                >
+                  {linkCopied ? 'Link copied ✓' : 'Save my progress link'}
+                </button>
+                <span className="text-[13px] text-gray-500">
+                  Bookmark it or text it to yourself to pick up on any device.
+                </span>
+              </div>
             </div>
           </section>
 
@@ -332,7 +376,7 @@ export default function ThreeWaysPage({ schema }) {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     <div className="rounded-xl bg-white border border-gray-200 p-5">
-                      <span className="block text-[11px] font-bold tracking-[0.12em] uppercase text-red-700 mb-2">The leak</span>
+                      <span className="block text-[11px] font-bold tracking-[0.12em] uppercase text-red-700 mb-2">{way.problemLabel || 'The leak'}</span>
                       <p className="text-gray-700 text-[15px] leading-relaxed">{way.problem}</p>
                     </div>
                     <div className="rounded-xl bg-white border border-gray-200 p-5">

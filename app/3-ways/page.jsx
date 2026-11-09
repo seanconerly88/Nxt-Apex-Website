@@ -7,7 +7,7 @@ const PAGE_URL = `${SITE_URL}/3-ways`;
 export const metadata = {
   title: '3 Ways Claude Makes Your Service Business More Money | Free Checklist | Nxt Apex AI',
   description:
-    'A free step-by-step checklist: answer every after-hours lead, win back the cold leads in your CRM, and get a morning briefing on your business, using Claude and GoHighLevel.',
+    'A free step-by-step checklist: connect Claude to GoHighLevel, then have it answer every after-hours lead, win back the cold leads in your CRM, and brief you on your business every morning.',
   keywords: ['Claude for business', 'Claude GoHighLevel', 'AI for service business', 'after-hours leads', 'database reactivation', 'GoHighLevel AI', 'Nxt Apex AI'],
   alternates: { canonical: PAGE_URL },
   openGraph: {
