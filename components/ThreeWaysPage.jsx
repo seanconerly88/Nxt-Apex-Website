@@ -208,16 +208,16 @@ export default function ThreeWaysPage({ schema }) {
     saveProgress(merged);
   }, []);
 
-  const [linkCopied, setLinkCopied] = useState(false);
-  const copyProgressLink = async () => {
+  const [copiedKey, setCopiedKey] = useState(null);
+  const copyProgressLink = async (key) => {
     const url = progressLink(done);
     try {
       await navigator.clipboard.writeText(url);
     } catch {
       window.prompt('Copy your progress link:', url);
     }
-    setLinkCopied(true);
-    setTimeout(() => setLinkCopied(false), 2500);
+    setCopiedKey(key);
+    setTimeout(() => setCopiedKey(k => (k === key ? null : k)), 2500);
   };
 
   const toggle = (id) => {
@@ -334,10 +334,10 @@ export default function ThreeWaysPage({ schema }) {
               <div className="mt-4 flex flex-wrap items-center gap-3">
                 <button
                   type="button"
-                  onClick={copyProgressLink}
+                  onClick={() => copyProgressLink('top')}
                   className="text-[13px] font-bold px-4 py-2.5 rounded-lg border border-gray-300 text-gray-800 hover:border-gray-500 transition-colors duration-200"
                 >
-                  {linkCopied ? 'Link copied ✓' : 'Save my progress link'}
+                  {copiedKey === 'top' ? 'Link copied ✓' : 'Save my progress link'}
                 </button>
                 <span className="text-[13px] text-gray-500">
                   Bookmark it or text it to yourself to pick up on any device.
@@ -406,6 +406,22 @@ export default function ThreeWaysPage({ schema }) {
                     </button>
                     .
                   </p>
+
+                  <div className="mt-4 flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => copyProgressLink(way.key)}
+                      className="text-[13px] font-bold px-4 py-2.5 rounded-lg transition-colors duration-200"
+                      style={{ backgroundColor: copiedKey === way.key ? '#16a34a' : NAVY, color: '#fff', minHeight: 44 }}
+                    >
+                      {copiedKey === way.key ? 'Link copied ✓' : 'Save my progress link'}
+                    </button>
+                    <span className="text-[13px] text-gray-500">
+                      {copiedKey === way.key
+                        ? 'Now paste it in a text to yourself. It reopens this page with your boxes checked.'
+                        : 'Not done yet? Copy your link and text it to yourself to pick up later, on any device.'}
+                    </span>
+                  </div>
                 </div>
               </section>
             );
