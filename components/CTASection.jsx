@@ -51,7 +51,7 @@ export default function CTASection() {
           </div>
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tight leading-[1.05]">
-            Stop learning about AI.
+            You already paid for the traffic.
             <br />
             <span
               style={{
@@ -61,12 +61,12 @@ export default function CTASection() {
                 backgroundClip: 'text',
               }}
             >
-              Start using it.
+              Your system decides what it's worth.
             </span>
           </h2>
 
           <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
-            One call. Every open loop named. Forty eight hours to your list.
+            One call. Every gap in your follow up named. Forty eight hours to your list.
           </p>
 
           <button

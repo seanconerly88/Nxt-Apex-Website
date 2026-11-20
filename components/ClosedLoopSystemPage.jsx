@@ -156,7 +156,7 @@ export default function ClosedLoopSystemPage({ schema }) {
                 className="font-extrabold text-white leading-[1.06] tracking-tight mb-6"
                 style={{ fontSize: 'clamp(32px, 4vw, 56px)', textWrap: 'balance' }}
               >
-                Six Ways Revenue Leaves. Six Ways We Close It.
+                Traffic Is What You Buy. Profit Is What Your Systems Keep.
               </motion.h1>
 
               <motion.p
@@ -166,7 +166,7 @@ export default function ClosedLoopSystemPage({ schema }) {
                 className="text-white/60 leading-relaxed mb-4 max-w-2xl mx-auto"
                 style={{ fontSize: 'clamp(16px, 1.2vw, 19px)' }}
               >
-                Revenue does not usually leave through the front door. It leaves in the gap between someone raising their hand and someone answering — and that gap has exactly six shapes.
+                You already paid for the traffic. What happens between someone raising their hand and someone answering is what decides whether it becomes revenue, and that gap has exactly six shapes.
               </motion.p>
 
               <motion.p
@@ -175,7 +175,7 @@ export default function ClosedLoopSystemPage({ schema }) {
                 transition={{ duration: 0.65, delay: 0.3, ease: EASE }}
                 className="text-white/55 text-base leading-relaxed mb-10 max-w-2xl mx-auto"
               >
-                Each one is a named loop, each one is measurable, and each one is a role you would otherwise have to hire for.
+                Each one is a named system, each one is measurable, and each one decides whether a person you paid to reach ever hears back.
               </motion.p>
 
               <motion.div
@@ -228,7 +228,7 @@ export default function ClosedLoopSystemPage({ schema }) {
                   The Premise
                 </div>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
-                  You don&apos;t have a lead problem. You have a leak.
+                  You don&apos;t have a traffic problem. You have a follow through problem.
                 </h2>
               </motion.div>
 
@@ -373,7 +373,7 @@ export default function ClosedLoopSystemPage({ schema }) {
                   Six separate tools do not know about each other. The receptionist books an appointment the follow-up sequence never hears about. A review request fires at a customer whose job got rescheduled. Each tool works and the experience still falls apart at the seams, because the seams are where nobody owns the handoff.
                 </p>
                 <p className="text-gray-600 text-[17px] leading-[1.8] mb-5">
-                  The loops share one view of the customer, which is what makes the sixth one possible at all. Pipeline Manager can watch the other five because they report into the same place — you cannot monitor a pipeline assembled from tools that each believe they are the whole pipeline.
+                  The loops share one view of the customer, which is what makes the sixth one possible at all. Pipeline Manager can watch the other five because they report into the same place. You cannot monitor a pipeline assembled from tools that each believe they are the whole pipeline.
                 </p>
                 <p className="text-gray-600 text-[17px] leading-[1.8]">
                   It also means you do not have to start with all six. Most businesses are leaking badly from one or two, and closing those produces most of the available gain. The rest can wait until they are the biggest remaining leak.
@@ -394,7 +394,7 @@ export default function ClosedLoopSystemPage({ schema }) {
                 <div className="inline-block px-4 py-1.5 rounded-full bg-white border border-gray-200 text-[11px] font-bold text-gray-500 tracking-[0.14em] uppercase mb-5">
                   Common Questions
                 </div>
-                <h2 className="text-3xl font-extrabold text-gray-900">The Closed Loop System — Frequently Asked Questions</h2>
+                <h2 className="text-3xl font-extrabold text-gray-900">The Closed Loop System, Frequently Asked Questions</h2>
               </motion.div>
 
               <motion.div

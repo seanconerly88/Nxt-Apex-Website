@@ -54,7 +54,7 @@ function Step({ step, index, reduceMotion }) {
       transition={{ duration: 0.55, delay: index * 0.06, ease: EASE }}
       className="relative grid grid-cols-[auto_1fr] sm:grid-cols-[84px_auto_1fr] gap-x-4 sm:gap-x-6 items-start"
     >
-      {/* Day label — desktop */}
+      {/* Day label, desktop */}
       <motion.p
         className="hidden sm:block text-[13px] font-bold text-right pt-0.5 tabular-nums"
         animate={{ color: active || step.highlight ? '#C6A62C' : 'rgba(255,255,255,0.3)' }}

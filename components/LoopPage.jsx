@@ -228,7 +228,7 @@ export default function LoopPage({ loop, schema }) {
             </motion.div>
           </section>
 
-          {/* ── Problem — light bg, dark hover-reveal cards ──────────────── */}
+          {/* ── Problem, light bg, dark hover-reveal cards ──────────────── */}
           <section ref={problemRef} className="py-28 bg-[#FAFAF8] px-6">
             <div className="max-w-5xl mx-auto">
               <motion.div
@@ -441,7 +441,7 @@ export default function LoopPage({ loop, schema }) {
                 <div className="inline-block px-4 py-1.5 rounded-full bg-white border border-gray-200 text-[11px] font-bold text-gray-500 tracking-[0.14em] uppercase mb-5">
                   Common Questions
                 </div>
-                <h2 className="text-3xl font-extrabold text-gray-900">{name} — Frequently Asked Questions</h2>
+                <h2 className="text-3xl font-extrabold text-gray-900">{name}, Frequently Asked Questions</h2>
               </motion.div>
 
               <motion.div

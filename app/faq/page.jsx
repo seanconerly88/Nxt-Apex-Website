@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 const SITE_URL = 'https://nxtapexai.com';
 
 export const metadata = {
-  title: 'FAQ | Nxt Apex AI — AI Consulting & Implementation',
+  title: 'FAQ | Nxt Apex AI, AI Consulting & Implementation',
   description: 'Answers to common questions about Nxt Apex AI, AI readiness assessments, the CILAS framework, pricing, and how Sean Conerly helps businesses implement AI.',
   alternates: { canonical: `${SITE_URL}/faq` },
 };
@@ -21,7 +21,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What is the CILAS framework?',
-    a: 'The CILAS framework is a proprietary AI infrastructure methodology developed by Nxt Apex AI. CILAS stands for Context, Inputs, Logic, Automation, and System — the five layers that every AI-powered business operation requires. It provides a structured approach to connecting existing tools, automating repetitive workflows, and generating measurable business outcomes without requiring new software purchases.',
+    a: 'The CILAS framework is a proprietary AI infrastructure methodology developed by Nxt Apex AI. CILAS stands for Context, Inputs, Logic, Automation, and System, the five layers that every AI-powered business operation requires. It provides a structured approach to connecting existing tools, automating repetitive workflows, and generating measurable business outcomes without requiring new software purchases.',
   },
   {
     q: 'What is an AI readiness assessment?',

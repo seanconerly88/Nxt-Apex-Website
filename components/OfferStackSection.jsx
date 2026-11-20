@@ -71,7 +71,7 @@ const OFFERS = [
     tag: 'CILAS framework',
     tagColor: 'rgba(198,166,44,0.08)',
     tagText: 'rgba(198,166,44,0.7)',
-    description: 'The full CILAS system — Context, Inputs, Logic, Automation, System — deployed and maintained monthly. For serious operators.',
+    description: 'The full CILAS system, Context, Inputs, Logic, Automation, System, deployed and maintained monthly. For serious operators.',
     features: ['Full CILAS deployment', 'Monthly optimization cycle', 'Agent team management', 'Custom reporting dashboard', 'Priority support'],
     cta: 'Book your free Assessment',
     ctaStyle: 'outline',
@@ -106,7 +106,7 @@ export default function OfferStackSection() {
             Implementation, not education.
           </h2>
           <p className="text-white/40 text-lg max-w-xl mx-auto">
-            Most AI agencies teach you what is possible. We build what is necessary.
+            Most AI agencies teach you what is possible. We get in and build it with you.
           </p>
         </motion.div>
 

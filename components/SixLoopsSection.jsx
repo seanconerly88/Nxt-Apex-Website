@@ -61,10 +61,10 @@ export default function SixLoopsSection() {
             className="text-white font-extrabold mb-4"
             style={{ fontSize: 'clamp(28px, 3.6vw, 48px)', letterSpacing: '-0.02em', textWrap: 'balance' }}
           >
-            Six ways revenue leaves. Six ways we close it.
+            Six moments your customer is waiting on you.
           </h2>
           <p className="text-white/40 text-lg max-w-xl mx-auto">
-            Every one of these is a role you would otherwise have to hire for.
+            Each one is a place where traffic you paid for quietly stops being revenue.
           </p>
         </motion.div>
 

@@ -42,7 +42,7 @@ export default function Footer() {
               <span className="text-white font-extrabold tracking-tight">Nxt Apex AI</span>
             </Link>
             <p className="text-white/35 text-[13px] leading-relaxed mb-5">
-              AI consulting and implementation for service businesses. We find where you leak revenue and fix it.
+              We help service businesses build the systems that turn the traffic they already have into booked work.
             </p>
             <a
               href="tel:+15042904780"

@@ -214,7 +214,7 @@ export default function ReviewsPage() {
                       value={form.reviewText}
                       onChange={handleChange}
                       rows={5}
-                      placeholder="Tell other business owners what it was like working with Nxt Apex — what changed, what you built, what you'd tell someone on the fence."
+                      placeholder="Tell other business owners what it was like working with Nxt Apex, what changed, what you built, what you'd tell someone on the fence."
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C6A62C]/40 focus:border-[#C6A62C] transition-colors resize-none leading-relaxed"
                     />
                     <p className="text-xs text-gray-400 mt-1.5">{form.reviewText.length} characters</p>

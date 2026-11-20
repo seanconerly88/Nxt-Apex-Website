@@ -66,8 +66,8 @@ const faqSchema = {
 };
 
 export const metadata = {
-  title: 'The Closed Loop System | Six AI Agents That Stop Revenue Leaks | Nxt Apex AI',
-  description: 'You do not need more leads. You need to stop losing the ones you have. Six AI agents close the six ways revenue leaves your business. First two live in six days.',
+  title: 'Lead Gen Creates Traffic. Systems Create Profit. | Nxt Apex AI',
+  description: 'Lead gen creates traffic. Systems create profit. Six systems that make sure every person who reaches out is answered, followed up, and booked. First two live in six days.',
   keywords: [
     'AI receptionist',
     'speed to lead automation',
@@ -79,8 +79,8 @@ export const metadata = {
     'Nxt Apex AI',
   ],
   openGraph: {
-    title: "You don't need more leads. You need to stop losing the ones you already paid for.",
-    description: 'Six AI agents. Six ways revenue leaves your business, closed. Answer 5 questions and find which loop is widest open.',
+    title: "Lead gen creates traffic. Systems create profit.",
+    description: 'Six systems that make sure nobody who reaches out gets forgotten. Answer 5 questions and find which one is costing you the most.',
     url: SITE_URL,
     type: 'website',
   },

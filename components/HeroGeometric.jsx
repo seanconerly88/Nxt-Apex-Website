@@ -58,7 +58,7 @@ export default function HeroGeometric() {
         }}
       />
 
-      {/* Capsule 1 — large, top-right, primary gold */}
+      {/* Capsule 1, large, top-right, primary gold */}
       <FloatingCapsule
         width="660px"
         height="190px"
@@ -71,7 +71,7 @@ export default function HeroGeometric() {
         glow="0 0 120px rgba(198,166,44,0.18)"
       />
 
-      {/* Capsule 2 — very large, bottom-left, faint */}
+      {/* Capsule 2, very large, bottom-left, faint */}
       <FloatingCapsule
         width="860px"
         height="230px"
@@ -83,7 +83,7 @@ export default function HeroGeometric() {
         blur="3px"
       />
 
-      {/* Capsule 3 — small accent, mid-right */}
+      {/* Capsule 3, small accent, mid-right */}
       <FloatingCapsule
         width="310px"
         height="90px"
@@ -156,8 +156,7 @@ export default function HeroGeometric() {
           team on{' '}
           <strong className="text-gray-800 font-semibold">Claude</strong>{' '}
           and{' '}
-          <strong className="text-gray-800 font-semibold">OpenAI for Business</strong>{' '}
-          — so everyone stops managing tools and starts driving revenue.
+          <strong className="text-gray-800 font-semibold">OpenAI for Business</strong>{' '}, so everyone stops managing tools and starts driving revenue.
         </motion.p>
 
         {/* CTAs */}

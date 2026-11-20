@@ -269,7 +269,7 @@ export default function VerticalPage({ vertical, schema }) {
         <main>
           <Navbar />
 
-          {/* ── Hero — two-column ──────────────────────────────────────────── */}
+          {/* ── Hero, two-column ──────────────────────────────────────────── */}
           <section className="relative overflow-hidden pt-28 pb-20 px-6" style={{ background: '#060A18' }}>
             {/* Dot grid */}
             <div
@@ -397,7 +397,7 @@ export default function VerticalPage({ vertical, schema }) {
             </div>
           </section>
 
-          {/* ── Why — LIGHT with ProblemSection hover reveal ───────────────── */}
+          {/* ── Why, LIGHT with ProblemSection hover reveal ───────────────── */}
           <section ref={whyRef} className="py-28 bg-[#FAFAF8] px-6">
             <div className="max-w-5xl mx-auto">
               <motion.div
@@ -470,7 +470,7 @@ export default function VerticalPage({ vertical, schema }) {
                           </h3>
                         </div>
 
-                        {/* Gold reveal panel — slides up on hover */}
+                        {/* Gold reveal panel, slides up on hover */}
                         <div
                           className="absolute bottom-0 left-0 right-0 z-20 p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-[300ms] ease-out"
                           style={{ backgroundColor: '#C6A62C' }}
@@ -500,7 +500,7 @@ export default function VerticalPage({ vertical, schema }) {
             </div>
           </section>
 
-          {/* ── What We Measure — white bg, dark cards ────────────────────── */}
+          {/* ── What We Measure, white bg, dark cards ────────────────────── */}
           <section ref={measRef} className="py-28 bg-white px-6">
             <div className="max-w-5xl mx-auto">
               <motion.div
@@ -559,7 +559,7 @@ export default function VerticalPage({ vertical, schema }) {
             </div>
           </section>
 
-          {/* ── Second Scan CTA — dark ────────────────────────────────────── */}
+          {/* ── Second Scan CTA, dark ────────────────────────────────────── */}
           <section
             className="py-20 px-6"
             style={{ background: '#060A18', borderTop: '1px solid rgba(255,255,255,0.05)' }}
@@ -575,7 +575,7 @@ export default function VerticalPage({ vertical, schema }) {
             <AEOScanWidget industry={industry} />
           </section>
 
-          {/* ── FAQ — light ───────────────────────────────────────────────── */}
+          {/* ── FAQ, light ───────────────────────────────────────────────── */}
           <section ref={faqRef} className="py-28 bg-[#FAFAF8] px-6">
             <div className="max-w-3xl mx-auto">
               <motion.div
@@ -609,7 +609,7 @@ export default function VerticalPage({ vertical, schema }) {
             </div>
           </section>
 
-          {/* ── Final CTA — dark ─────────────────────────────────────────── */}
+          {/* ── Final CTA, dark ─────────────────────────────────────────── */}
           <section
             ref={ctaRef}
             className="py-24 px-6 text-center"

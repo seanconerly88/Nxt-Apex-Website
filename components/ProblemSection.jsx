@@ -8,7 +8,7 @@ const problems = [
     hint: 'Tools paid for. Value: zero.',
     title: 'Subscribed but Underutilized',
     reveal:
-      "You're paying for Claude, ChatGPT, Copilot — but your team treats them like search engines. The ROI isn't there because the strategy isn't there.",
+      "You're paying for Claude, ChatGPT, Copilot, but your team treats them like search engines. The ROI isn't there because the strategy isn't there.",
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75}
@@ -137,7 +137,7 @@ export default function ProblemSection() {
                   <h3 className="text-xl font-bold text-white leading-snug">{p.title}</h3>
                 </div>
 
-                {/* Gold reveal panel — slides up from bottom */}
+                {/* Gold reveal panel, slides up from bottom */}
                 <div
                   className="absolute bottom-0 left-0 right-0 z-20 p-8 translate-y-full group-hover:translate-y-0 transition-transform duration-[300ms] ease-out"
                   style={{ backgroundColor: '#C6A62C' }}

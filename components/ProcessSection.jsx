@@ -131,7 +131,7 @@ function TiltCard({ step, i, inView }) {
           }}
         />
 
-        {/* Content — lifted in 3D */}
+        {/* Content, lifted in 3D */}
         <div style={{ transform: 'translateZ(20px)', transformStyle: 'preserve-3d' }}>
           {/* Icon */}
           <div
