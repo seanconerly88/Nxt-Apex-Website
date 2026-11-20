@@ -58,7 +58,7 @@ export const metadata = {
     apple: '/og-logo.png',
   },
   openGraph: {
-    title: 'Lead gen creates traffic. Systems create profit.',
+    title: 'Lead gen creates traffic. Systems create experiences and profit.',
     description: 'Traffic is what you buy. Profit is what your systems keep. We help service businesses build the systems that turn the traffic they already have into booked work.',
     siteName: 'Nxt Apex AI',
     url: SITE_URL,
