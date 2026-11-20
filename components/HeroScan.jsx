@@ -254,7 +254,7 @@ function buildSolutions(tools, aiTools, painPoint) {
     solutions.push({
       title:      `${aiName} becomes the connective layer across your entire stack.`,
       connection: `${aiName} × Your Stack`,
-      body:       `Your tools operate in silos. ${aiName} changes that — every process requiring a person to move information between systems gets automated, and your team gets back the focus they need for work that actually moves the needle.`,
+      body:       `Your tools operate in silos. ${aiName} changes that, every process requiring a person to move information between systems gets automated, and your team gets back the focus they need for work that actually moves the needle.`,
       tags:       [aiName, 'Integration', 'Stack intelligence'],
     });
   }
@@ -469,15 +469,15 @@ export default function HeroScan() {
     setTimeout(() => advance(3), 300);
   };
 
-  // Final step — fire scan from the AI Tool question (last question)
+  // Final step, fire scan from the AI Tool question (last question)
   const startScan = () => {
     if (aiTools.length === 0) return;
     advance(4);
 
-    // Static fallback — always available instantly
+    // Static fallback, always available instantly
     const staticSols = buildSolutions(selectedTools, aiTools, painPoint);
 
-    // Fire Claude during the scan window (Haiku — fast, ~1-2s)
+    // Fire Claude during the scan window (Haiku, fast, ~1-2s)
     const aiCall = fetch('/api/generate-cards', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -500,7 +500,7 @@ export default function HeroScan() {
     if (!email || sending || sent) return;
     setSending(true);
 
-    // Fire API in background — user always sees success after 2s
+    // Fire API in background, user always sees success after 2s
     fetch('/api/send-report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -667,8 +667,7 @@ export default function HeroScan() {
                     className="text-white/45 font-light leading-relaxed max-w-lg mb-9"
                     style={{ fontSize: 'clamp(16px,1.3vw,19px)' }}
                   >
-                    We use agents to upgrade and connect your existing tools to eliminate the work slowing your team down —
-                    see exactly where in 60 seconds.
+                    We use agents to upgrade and connect your existing tools to eliminate the work slowing your team down, see exactly where in 60 seconds.
                   </motion.p>
 
                   <motion.div
@@ -801,7 +800,7 @@ export default function HeroScan() {
                       className="rounded-xl border p-4 mt-1"
                       style={{ backgroundColor: 'rgba(198,166,44,0.07)', borderColor: 'rgba(198,166,44,0.2)' }}
                     >
-                      <p className="text-white/80 text-sm font-semibold mb-1">Get your full AI Readiness Report — free</p>
+                      <p className="text-white/80 text-sm font-semibold mb-1">Get your full AI Readiness Report, free</p>
                       <p className="text-white/38 text-[12px] mb-3 leading-relaxed">
                         A complete breakdown of every opportunity in your stack, ranked by impact.
                       </p>
@@ -814,7 +813,7 @@ export default function HeroScan() {
                             </span>
                           </div>
                           <p className="text-[11px] pl-7" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                            Check your inbox — it should be there in the next minute.
+                            Check your inbox. It should be there in the next minute.
                           </p>
                         </div>
                       ) : (
@@ -852,7 +851,7 @@ export default function HeroScan() {
                           color: 'rgba(255,255,255,0.65)',
                         } : {}}
                       >
-                        <span>Book a call — we'll walk through it live →</span>
+                        <span>Book a call, we'll walk through it live →</span>
                       </button>
                     </motion.div>
                   </motion.div>

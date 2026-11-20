@@ -48,8 +48,8 @@ const personSchema = {
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'Nxt Apex AI | AI Consulting & Implementation for Business',
-  description: 'Nxt Apex AI uses custom AI agents to upgrade and connect your existing business tools — eliminating the work slowing your team down. AI readiness assessments, implementation, and team training built on the CILAS framework.',
+  title: 'Nxt Apex AI | Systems That Make Your Traffic Profitable',
+  description: 'Traffic is not the problem. What happens after someone reaches out is. We help service businesses build the systems that answer every lead, follow up on every conversation, and turn attention into booked work.',
   keywords: ['AI consulting', 'AI implementation', 'business automation', 'AI readiness assessment', 'CILAS framework', 'Sean Conerly', 'AI team training', 'AI strategy'],
   authors: [{ name: 'Sean Conerly', url: SITE_URL }],
   creator: 'Sean Conerly',
@@ -58,8 +58,8 @@ export const metadata = {
     apple: '/og-logo.png',
   },
   openGraph: {
-    title: 'Stop Learning AI. Start Solving With It.',
-    description: 'Nxt Apex AI helps businesses implement AI that drives real revenue. Find where AI fits in your business — then put it to work.',
+    title: 'Lead gen creates traffic. Systems create profit.',
+    description: 'Traffic is what you buy. Profit is what your systems keep. We help service businesses build the systems that turn the traffic they already have into booked work.',
     siteName: 'Nxt Apex AI',
     url: SITE_URL,
     type: 'website',

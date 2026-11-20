@@ -223,7 +223,7 @@ export default function HomeHero() {
 
       <div className="relative max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-        {/* Left — copy */}
+        {/* Left, copy */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
@@ -241,22 +241,22 @@ export default function HomeHero() {
               className="block text-white leading-[1.05] lg:whitespace-nowrap"
               style={{ fontSize: 'clamp(30px, 3vw, 40px)', letterSpacing: '-0.025em' }}
             >
-              You don&apos;t need more leads.
+              Lead gen creates traffic.
             </span>
             <GoldShimmerLine
-              text="You need to stop losing the ones you already paid for."
+              text="Systems create profit."
               className="mt-3 leading-[1.3] cursor-default"
               style={{ fontSize: 'clamp(19px, 1.9vw, 26px)', letterSpacing: '-0.012em', textWrap: 'balance' }}
             />
           </h1>
 
           <p className="text-white/50 text-base sm:text-lg leading-relaxed mb-8 sm:mb-10 max-w-lg font-light">
-            One client went from 13 hours to 90 seconds on first contact. Answer 5 questions and we&apos;ll show you where your leads go cold.
+            One client went from 13 hours to 90 seconds on first contact. Answer 5 questions and we&apos;ll show you which system is costing you the most.
           </p>
 
           <div className="hidden lg:block">
             <p className="text-white/25 text-[11px] font-bold uppercase tracking-widest mb-3.5">
-              Six ways revenue leaves. Six ways we close it.
+              Six moments your customer is waiting on you.
             </p>
             <div className="space-y-2">
               {LOOPS.map((item, i) => (
@@ -279,7 +279,7 @@ export default function HomeHero() {
           </div>
         </motion.div>
 
-        {/* Right — quiz card */}
+        {/* Right, quiz card */}
         <motion.div
           initial={{ opacity: 0, x: 24 }}
           animate={{ opacity: 1, x: 0 }}
@@ -320,7 +320,7 @@ export default function HomeHero() {
                   }}
                 />
               )}
-              {/* Progress bar — questions only */}
+              {/* Progress bar, questions only */}
               {isQuestion && (
                 <div className="px-5 sm:px-8 pt-5 pb-0">
                   <div className="flex items-center gap-1.5 mb-1">

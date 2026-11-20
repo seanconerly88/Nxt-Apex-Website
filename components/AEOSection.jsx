@@ -120,7 +120,7 @@ export default function AEOSection() {
           </h2>
           <p className="text-gray-500 text-lg font-light leading-relaxed">
             ChatGPT, Perplexity, and Google AI Overviews are recommending businesses to buyers right now.
-            We fix how you show up in those answers — then connect that visibility to a pipeline built to close.
+            We fix how you show up in those answers, then connect that visibility to a pipeline built to close.
           </p>
         </motion.div>
 
@@ -185,7 +185,7 @@ export default function AEOSection() {
           transition={{ delay: 0.75, duration: 0.6 }}
           className="text-center text-[12px] text-gray-400 mt-8 tracking-wide"
         >
-          Free AI Visibility Report for every industry above — no credit card, delivered by email.
+          Free AI Visibility Report for every industry above, no credit card, delivered by email.
         </motion.p>
 
       </div>

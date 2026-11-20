@@ -35,7 +35,7 @@ export default function Navbar({ ctaLabel, ctaHref }) {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo — Trans Light on dark hero, Trans Dark on white nav */}
+          {/* Logo, Trans Light on dark hero, Trans Dark on white nav */}
           <a href="/" className="flex items-center gap-2.5">
             <img
               src={scrolled ? '/logo-trans-dark.png' : '/logo-trans-light.png'}

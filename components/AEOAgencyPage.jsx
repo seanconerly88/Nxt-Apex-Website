@@ -10,9 +10,9 @@ import { useBooking } from '@/contexts/BookingContext';
 const EASE = [0.22, 1, 0.36, 1];
 
 const KEY_FINDINGS = [
-  'AI engines — ChatGPT, Perplexity, Google AI Overviews — now recommend businesses directly to buyers before they ever open a search results page.',
+  'AI engines, ChatGPT, Perplexity, Google AI Overviews, now recommend businesses directly to buyers before they ever open a search results page.',
   'Fewer than 1 in 5 small businesses appear in AI-generated recommendations, even when they rank well on Google.',
-  "Buyers who receive an AI recommendation arrive pre-sold. They've already decided to act — they just need to know who to call.",
+  "Buyers who receive an AI recommendation arrive pre-sold. They've already decided to act. They just need to know who to call.",
   'Most AEO agencies stop at visibility. They audit your citations and walk away. Nobody connects AI-referred leads to a pipeline that closes them.',
   "The window to establish AI citation authority is open now. Businesses that act in the next 6–12 months build a durable lead advantage their competitors won't easily displace.",
   'Nxt Apex AI audits your AI search presence, fixes the gaps, and wires new AI-referred inquiries directly into a pipeline built to close.',
@@ -25,12 +25,12 @@ const SECTIONS = [
     heading: 'What Is an AEO Agency?',
     content: (
       <>
-        <p>An AEO agency — Answer Engine Optimization agency — helps businesses appear in the answers that AI engines generate when people ask questions. Not Google's blue links. The actual AI-written responses from ChatGPT, Perplexity, and Google AI Overviews.</p>
+        <p>An AEO agency, Answer Engine Optimization agency, helps businesses appear in the answers that AI engines generate when people ask questions. Not Google's blue links. The actual AI-written responses from ChatGPT, Perplexity, and Google AI Overviews.</p>
         <p>When someone types <em>"best real estate agent in Austin"</em> into ChatGPT, they don't get a list of links. They get a named recommendation with a reason. The business that gets named didn't get there by accident. They got there because the right signals were in place.</p>
         <p>An AEO agency's job is to build and fix those signals: structured data, citation strength, content clarity, crawler accessibility, entity authority. When those are right, AI engines recommend you. When they're wrong or missing, they recommend your competitor.</p>
         <div className="my-8 rounded-xl p-6 border-l-4" style={{ backgroundColor: '#FEFDF8', borderColor: '#C6A62C' }}>
           <p className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2">Sidenote</p>
-          <p className="text-gray-700 leading-relaxed">AEO is different from traditional SEO. SEO targets rankings on Google's search results page. AEO targets the data layer those AI engines pull from when generating recommendations. The overlap is real, but the optimization priorities are different — and so are the results.</p>
+          <p className="text-gray-700 leading-relaxed">AEO is different from traditional SEO. SEO targets rankings on Google's search results page. AEO targets the data layer those AI engines pull from when generating recommendations. The overlap is real, but the optimization priorities are different, and so are the results.</p>
         </div>
       </>
     ),
@@ -43,7 +43,7 @@ const SECTIONS = [
       <>
         <p>The AEO agency market has exploded in the last 18 months. Most of the agencies that entered it come from an SEO background. They know how to audit citation signals, fix schema markup, and improve how your content is indexed by AI crawlers.</p>
         <p>That's valuable. But it's half the job.</p>
-        <p><strong>Visibility without pipeline is a vanity metric.</strong> If an AI engine starts recommending your business and the inbound inquiry hits a dead contact form, a voicemail nobody checks, or a follow-up sequence that fires three days later — you didn't win a lead. You let one walk.</p>
+        <p><strong>Visibility without pipeline is a vanity metric.</strong> If an AI engine starts recommending your business and the inbound inquiry hits a dead contact form, a voicemail nobody checks, or a follow-up sequence that fires three days later. You didn't win a lead. You let one walk.</p>
         <p>The agencies charging $3,000–$10,000/month for AEO programs are optimizing your citations. They are not building the system that captures, qualifies, and closes what those citations generate. That gap is where most of the money gets lost.</p>
         <div className="my-8 rounded-xl p-6" style={{ backgroundColor: '#F8F8FF', border: '1px solid rgba(99,102,241,0.15)' }}>
           <p className="text-sm font-bold uppercase tracking-widest mb-3" style={{ color: '#6366f1' }}>What a standard AEO agency delivers</p>
@@ -74,13 +74,13 @@ const SECTIONS = [
     heading: 'How Nxt Apex Closes the Loop',
     content: (
       <>
-        <p>The CILAS framework — Context, Inputs, Logic, Automation, System — is how Nxt Apex AI builds AI infrastructure for businesses. Applied to AEO, it means we don't just fix how you appear in AI search. We build the full system that converts that appearance into revenue.</p>
+        <p>The CILAS framework, Context, Inputs, Logic, Automation, System, is how Nxt Apex AI builds AI infrastructure for businesses. Applied to AEO, it means we don't just fix how you appear in AI search. We build the full system that converts that appearance into revenue.</p>
         <p>Here's how that plays out in practice:</p>
         <div className="my-8 space-y-4">
           {[
             { step: '1', label: 'Audit', desc: 'We run your domain through a six-category AI Visibility Score: crawler access, structured data, content clarity, citation strength, local authority, and AI readiness. You get a clear picture of exactly where you stand and who is outranking you in AI search.' },
             { step: '2', label: 'Fix', desc: 'We implement the fixes: schema markup, robots.txt corrections, llms.txt, content restructuring, FAQ optimization, citation cleanup. The goal is to make your business the obvious answer when AI engines are asked about your category.' },
-            { step: '3', label: 'Connect', desc: 'We wire AI-referred leads into your pipeline. That means intake forms, CRM connections, follow-up sequences, and response speed — all tuned for the buyer who already trusts you because an AI recommended you. These leads convert differently. The system needs to be built for them.' },
+            { step: '3', label: 'Connect', desc: 'We wire AI-referred leads into your pipeline. That means intake forms, CRM connections, follow-up sequences, and response speed, all tuned for the buyer who already trusts you because an AI recommended you. These leads convert differently. The system needs to be built for them.' },
             { step: '4', label: 'Compound', desc: 'Unlike paid ads, AI visibility compounds. Every piece of structured content, every citation signal, every schema fix you build today keeps paying off. We track citation frequency, monitor competitors, and optimize continuously.' },
           ].map(({ step, label, desc }) => (
             <div key={step} className="flex gap-5 p-6 rounded-xl" style={{ backgroundColor: '#FAFAF8', border: '1px solid rgba(0,0,0,0.06)' }}>
@@ -105,7 +105,7 @@ const SECTIONS = [
         <div className="my-8 grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             { label: 'Crawler Access', desc: 'GPTBot, ClaudeBot, and PerplexityBot need to be able to read your site. Robots.txt misconfigurations and missing llms.txt files block them silently.' },
-            { label: 'Structured Data', desc: 'Schema markup tells AI engines exactly who you are, what you do, where you operate, and how to contact you. Without it, they guess — and guessing produces inconsistent citations.' },
+            { label: 'Structured Data', desc: 'Schema markup tells AI engines exactly who you are, what you do, where you operate, and how to contact you. Without it, they guess, and guessing produces inconsistent citations.' },
             { label: 'Content Clarity', desc: 'AI engines favor content that directly answers questions. Short paragraphs, clear headings, FAQ sections, and answer-first writing all improve citation frequency.' },
             { label: 'Citation Strength', desc: 'How consistently your business name, address, phone number, and service descriptions appear across the web. Inconsistency creates doubt. Doubt means you don\'t get recommended.' },
             { label: 'Local Authority', desc: 'For local businesses, proximity and market-specific signals matter. Review volume, local directory presence, and geographic content all feed into local AI recommendations.' },
@@ -159,12 +159,12 @@ const SECTIONS = [
     heading: 'What You Get Working With Nxt Apex AI',
     content: (
       <>
-        <p>Every engagement starts with a free AI Visibility Report. From there, implementation depends on where your gaps are — but the deliverables are consistent:</p>
+        <p>Every engagement starts with a free AI Visibility Report. From there, implementation depends on where your gaps are, but the deliverables are consistent:</p>
         <div className="my-8 space-y-3">
           {[
             { label: 'AI Visibility Report', desc: 'Six-category audit of your current AI search presence. Delivered by email, no sales call required.' },
             { label: 'Competitor Citation Analysis', desc: 'Who is showing up in AI recommendations in your market, what signals they have that you don\'t, and exactly what it takes to displace them.' },
-            { label: 'Technical Implementation', desc: 'Schema markup, structured data, llms.txt, robots.txt, content restructuring — all done for you. Not a report telling you what to do. Done.' },
+            { label: 'Technical Implementation', desc: 'Schema markup, structured data, llms.txt, robots.txt, content restructuring, all done for you. Not a report telling you what to do. Done.' },
             { label: 'Pipeline Connection', desc: 'Your new AI-referred leads need to land somewhere. We build or connect the intake, CRM, and follow-up so nothing falls through.' },
             { label: 'Ongoing Optimization', desc: 'AI citation patterns shift. We monitor your presence across ChatGPT, Perplexity, and Google AI Overviews monthly and adjust.' },
           ].map(({ label, desc }, i) => (
@@ -183,11 +183,11 @@ const SECTIONS = [
 ];
 
 const FAQS = [
-  { q: 'How is AEO different from SEO?', a: 'SEO targets rankings on Google\'s traditional search results page. AEO targets the data layer that AI engines pull from when generating recommendations. They overlap — good SEO helps AEO — but the optimization priorities are different. AEO focuses on structured data, entity clarity, FAQ content, and citation signals that influence AI-generated answers, not just page rankings.' },
+  { q: 'How is AEO different from SEO?', a: 'SEO targets rankings on Google\'s traditional search results page. AEO targets the data layer that AI engines pull from when generating recommendations. They overlap, since good SEO helps AEO, but the optimization priorities are different. AEO focuses on structured data, entity clarity, FAQ content, and citation signals that influence AI-generated answers, not just page rankings.' },
   { q: 'How long does it take to show up in AI search?', a: 'Structural fixes like schema markup and crawler access corrections typically take effect within a few weeks of a crawler visit. Content and citation improvements compound over 60 to 90 days. Most clients see measurable improvement in AI citation frequency within a quarter.' },
-  { q: 'Do I need to be a large company to benefit from AEO?', a: 'No. Local and regional businesses are the biggest opportunity in AEO right now. Enterprise brands are already fighting for visibility. Most small and mid-size businesses have almost no AI presence at all — which means the gap to close is smaller and the competitive advantage of closing it first is larger.' },
+  { q: 'Do I need to be a large company to benefit from AEO?', a: 'No. Local and regional businesses are the biggest opportunity in AEO right now. Enterprise brands are already fighting for visibility. Most small and mid-size businesses have almost no AI presence at all, which means the gap to close is smaller and the competitive advantage of closing it first is larger.' },
   { q: 'What does the free AI Visibility Report include?', a: 'The report audits your domain across six categories: AI crawler access, structured data completeness, content clarity, citation strength, local authority signals, and overall AI readiness. It shows you your score in each category, who is outranking you in AI search in your market, and the highest-impact fixes.' },
-  { q: 'Does this replace our current marketing?', a: 'No. AI visibility feeds the top of your pipeline alongside your existing channels. We connect AI-referred leads to the same pipeline your other marketing feeds. It works with what you\'re already doing — not instead of it.' },
+  { q: 'Does this replace our current marketing?', a: 'No. AI visibility feeds the top of your pipeline alongside your existing channels. We connect AI-referred leads to the same pipeline your other marketing feeds. It works with what you\'re already doing, not instead of it.' },
 ];
 
 function FadeUp({ children, delay = 0, className = '' }) {
