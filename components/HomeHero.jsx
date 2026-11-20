@@ -230,23 +230,27 @@ export default function HomeHero() {
           transition={{ duration: 0.8, ease: EASE }}
         >
           <div
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5 text-[11px] font-bold tracking-[0.14em] uppercase"
-            style={{ backgroundColor: 'rgba(198,166,44,0.1)', border: '1px solid rgba(198,166,44,0.2)', color: '#C6A62C' }}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 text-[10px] font-bold tracking-[0.16em] uppercase"
+            style={{ backgroundColor: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)', color: 'rgba(255,255,255,0.38)' }}
           >
             The Closed Loop System
           </div>
 
           <h1 className="font-extrabold mb-6">
             <span
-              className="block text-white leading-[1.05] lg:whitespace-nowrap"
-              style={{ fontSize: 'clamp(30px, 3vw, 40px)', letterSpacing: '-0.025em' }}
+              className="block leading-[1.15]"
+              style={{
+                fontSize: 'clamp(19px, 1.75vw, 24px)',
+                letterSpacing: '-0.01em',
+                color: 'rgba(255,255,255,0.45)',
+              }}
             >
               Lead gen creates traffic.
             </span>
             <GoldShimmerLine
-              text="Systems create profit."
-              className="mt-3 leading-[1.3] cursor-default"
-              style={{ fontSize: 'clamp(19px, 1.9vw, 26px)', letterSpacing: '-0.012em', textWrap: 'balance' }}
+              text="Systems create experience and profit."
+              className="mt-2 leading-[1.12] cursor-default"
+              style={{ fontSize: 'clamp(32px, 3.5vw, 48px)', letterSpacing: '-0.028em', textWrap: 'balance' }}
             />
           </h1>
 
