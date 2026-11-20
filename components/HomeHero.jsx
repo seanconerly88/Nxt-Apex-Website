@@ -248,7 +248,7 @@ export default function HomeHero() {
               Lead gen creates traffic.
             </span>
             <GoldShimmerLine
-              text="Systems create experience and profit."
+              text="Systems create experiences and profit."
               className="mt-2 leading-[1.12] cursor-default"
               style={{ fontSize: 'clamp(32px, 3.5vw, 48px)', letterSpacing: '-0.028em', textWrap: 'balance' }}
             />

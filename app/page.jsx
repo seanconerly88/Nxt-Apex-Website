@@ -66,8 +66,8 @@ const faqSchema = {
 };
 
 export const metadata = {
-  title: 'Lead Gen Creates Traffic. Systems Create Profit. | Nxt Apex AI',
-  description: 'Lead gen creates traffic. Systems create profit. Six systems that make sure every person who reaches out is answered, followed up, and booked. First two live in six days.',
+  title: 'Lead Gen Creates Traffic. Systems Create Experiences and Profit.',
+  description: 'Lead gen creates traffic. Systems create experiences and profit. Six systems that make sure every person who reaches out is answered, followed up, and booked. First two live in six days.',
   keywords: [
     'AI receptionist',
     'speed to lead automation',
@@ -79,7 +79,7 @@ export const metadata = {
     'Nxt Apex AI',
   ],
   openGraph: {
-    title: "Lead gen creates traffic. Systems create profit.",
+    title: "Lead gen creates traffic. Systems create experiences and profit.",
     description: 'Six systems that make sure nobody who reaches out gets forgotten. Answer 5 questions and find which one is costing you the most.',
     url: SITE_URL,
     type: 'website',
